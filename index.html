@@ -10,8 +10,23 @@
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
         .video-card { transition: all 0.3s ease; background: #111; border: 1px solid #222; border-radius: 16px; overflow: hidden; }
         .video-card:hover { transform: translateY(-5px); border-color: #f97316; }
-        /* Forza gli angoli arrotondati anche per i nuovi player */
-        .video-container { border-radius: 16px 16px 0 0; overflow: hidden; position: relative; }
+        
+        /* Contenitore con ritaglio forzato */
+        .video-container { 
+            border-radius: 16px 16px 0 0; 
+            overflow: hidden; 
+            position: relative; 
+            background: black;
+        }
+
+        /* Classe per nascondere il banner superiore nei player esterni */
+        .zoom-crop {
+            transform: scale(1.15); /* Ingrandisce per spingere fuori il titolo */
+            transform-origin: bottom; /* Mantiene la base allineata e taglia sopra */
+            width: 100%;
+            height: 100%;
+        }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -43,111 +58,6 @@
         
         const categories = [
             { name: "PRIMA FORMAZIONE NUOVO CONSULENTE", videos: [
-                // ESEMPIO MIXDROP: incolla il link embed intero qui sotto
                 { id: "https://mixdrop.top/e/679nk4dnux7l1d", title: "TEST VIDEO NUOVO PLAYER" },
-                // ESEMPIO YOUTUBE: resta tutto invariato (metti solo l'ID)
                 { id: "oHBCSzediIE", title: "ESEMPIO CHIAMATA per appuntamento" },
-                { id: "9ihs8ZWQADg", title: "I PRIMI PASSI FOLLOW UP CONSULENTE" },
-                { id: "MnKxwS4ThTM", title: "I PRIMI PASSI BENVENUTO" },
-                { id: "jhwXQhcjdE4", title: "PRIMA FORMAZIONE NUOVO CONSULENTE" }
-            ]},
-            { name: "90 DAYS RUN", videos: [
-				{ id: "I_DjIWbe8bg", title: "90 DAYS RUN LA CORSA DEI 90 GIORNI" },
-                { id: "YKwshIk0i4g", title: "PREP KICK OFF MONACO" }
-			] },
-            { name: "ATTIVARE IL CONSULENTE", videos: [
-				{ id: "1MxvAIcLOw8", title: "ATTIVARE IL CONSULENTE" },
-                { id: "MUfaEG2lwJU", title: "IL CICLO DI VITA DEL CONSULENTE" }
-			] },
-            { name: "04 - MINDSET E CRESCITA", videos: [] },
-            { name: "05 - PIANO MARKETING", videos: [] },
-            { name: "06 - GESTIONE TEAM", videos: [] },
-            { name: "07 - DUPLICAZIONE", videos: [] },
-            { name: "08 - EVENTI E ZOOM", videos: [] },
-            { name: "09 - PRODOTTI FOCUS", videos: [] },
-            { name: "10 - WORKSHOP PRATICO", videos: [] },
-            { name: "11 - LEADERSHIP", videos: [] },
-            { name: "12 - OBIETTIVI MENSILI", videos: [] },
-            { name: "13 - SETTIMANA 1", videos: [] },
-            { name: "14 - SETTIMANA 2", videos: [] },
-            { name: "15 - SETTIMANA 3", videos: [] },
-            { name: "16 - SETTIMANA 4", videos: [] },
-            { name: "17 - STORYTELLING", videos: [] },
-            { name: "18 - CHIUSURA CLIENTI", videos: [] },
-            { name: "19 - FOLLOW UP AVANZATO", videos: [] },
-            { name: "20 - RECLUTAMENTO", videos: [] },
-            { name: "21 - PERSONAL BRANDING", videos: [] },
-            { name: "22 - STRUMENTI DIGITALI", videos: [] },
-            { name: "23 - CALL DI SQUADRA", videos: [] },
-            { name: "24 - TESTIMONIANZE", videos: [] },
-            { name: "25 - DOMANDE FREQUENTI", videos: [] },
-            { name: "26 - ARCHIVIO 2024", videos: [] },
-            { name: "27 - ARCHIVIO 2025", videos: [] },
-            { name: "28 - LANCI SPECIALI", videos: [] },
-            { name: "29 - BONUS TRACKS", videos: [] },
-            { name: "30 - AREA ADMIN", videos: [] }
-        ];
-
-        function checkPassword() {
-            if (document.getElementById('passwordInput').value === THE_PASSWORD) {
-                localStorage.setItem('tribe_access', 'granted');
-                showContent();
-            } else { document.getElementById('errorMessage').classList.remove('hidden'); }
-        }
-
-        function showContent() {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
-            renderVideos();
-        }
-
-        function logout() { localStorage.removeItem('tribe_access'); location.reload(); }
-        if (localStorage.getItem('tribe_access') === 'granted') showContent();
-
-        function renderVideos(filter = "") {
-            const container = document.getElementById('categoriesContainer');
-            container.innerHTML = "";
-            
-            categories.forEach(cat => {
-                const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
-                
-                if (filteredVideos.length > 0) {
-                    const section = document.createElement('div');
-                    section.className = "mb-16";
-                    
-                    let videoGridHTML = `<h2 class="text-xl font-bold text-zinc-400 mb-8 flex items-center gap-3">
-                                            <span class="w-1 h-6 bg-orange-500 rounded-full"></span> ${cat.name}
-                                         </h2>
-                                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">`;
-                    
-                    filteredVideos.forEach(v => {
-                        // LOGICA INTELLIGENTE: se l'ID contiene "http" è un link esterno, altrimenti è YouTube
-                        let finalUrl = v.id.includes('http') ? v.id : `https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=1`;
-                        
-                        videoGridHTML += `
-                            <div class="video-card shadow-2xl">
-                                <div class="video-container aspect-video bg-black">
-                                    <iframe class="w-full h-full" src="${finalUrl}" frameborder="0" allowfullscreen scrolling="no"></iframe>
-                                </div>
-                                <div class="p-5">
-                                    <h3 class="font-bold text-sm text-zinc-100 leading-snug h-10 overflow-hidden">${v.title}</h3>
-                                    <div class="mt-3 flex justify-between items-center text-[9px] font-black uppercase tracking-widest text-orange-500">
-                                        <span>ACADEMY</span>
-                                        <span class="text-zinc-600">DIRECT STREAM</span>
-                                    </div>
-                                </div>
-                            </div>`;
-                    });
-
-                    videoGridHTML += `</div>`;
-                    section.innerHTML = videoGridHTML;
-                    container.appendChild(section);
-                }
-            });
-        }
-
-        document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
-        document.getElementById('passwordInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') checkPassword() });
-    </script>
-</body>
-</html>
+                { id: "9ihs8ZWQADg", title: "
