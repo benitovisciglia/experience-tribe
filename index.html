@@ -10,7 +10,8 @@
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
         .video-card { transition: all 0.3s ease; background: #111; border: 1px solid #222; border-radius: 16px; overflow: hidden; }
         .video-card:hover { transform: translateY(-5px); border-color: #f97316; }
-        iframe { border-radius: 16px 16px 0 0; }
+        /* Forza gli angoli arrotondati anche per i nuovi player */
+        .video-container { border-radius: 16px 16px 0 0; overflow: hidden; position: relative; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -40,10 +41,11 @@
     <script>
         const THE_PASSWORD = "ET2026IR";
         
-        // DATABASE CATEGORIE (30 Totali)
-        // Per aggiungere un video, basta inserire { id: "ID_YOUTUBE", title: "TITOLO" } tra le parentesi quadre della categoria
         const categories = [
             { name: "PRIMA FORMAZIONE NUOVO CONSULENTE", videos: [
+                // ESEMPIO MIXDROP: incolla il link embed intero qui sotto
+                { id: "https://mixdrop.top/e/679nk4dnux7l1d", title: "TEST VIDEO NUOVO PLAYER" },
+                // ESEMPIO YOUTUBE: resta tutto invariato (metti solo l'ID)
                 { id: "oHBCSzediIE", title: "ESEMPIO CHIAMATA per appuntamento" },
                 { id: "9ihs8ZWQADg", title: "I PRIMI PASSI FOLLOW UP CONSULENTE" },
                 { id: "MnKxwS4ThTM", title: "I PRIMI PASSI BENVENUTO" },
@@ -54,7 +56,7 @@
                 { id: "YKwshIk0i4g", title: "PREP KICK OFF MONACO" }
 			] },
             { name: "ATTIVARE IL CONSULENTE", videos: [
-				{ id: "https://mixdrop.top/e/679nk4dnux7l1d", title: "ATTIVARE IL CONSULENTE" },
+				{ id: "1MxvAIcLOw8", title: "ATTIVARE IL CONSULENTE" },
                 { id: "MUfaEG2lwJU", title: "IL CICLO DI VITA DEL CONSULENTE" }
 			] },
             { name: "04 - MINDSET E CRESCITA", videos: [] },
@@ -102,7 +104,7 @@
         function logout() { localStorage.removeItem('tribe_access'); location.reload(); }
         if (localStorage.getItem('tribe_access') === 'granted') showContent();
 
-function renderVideos(filter = "") {
+        function renderVideos(filter = "") {
             const container = document.getElementById('categoriesContainer');
             container.innerHTML = "";
             
@@ -119,22 +121,19 @@ function renderVideos(filter = "") {
                                          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">`;
                     
                     filteredVideos.forEach(v => {
-                        // QUESTA È LA RIGA DA MODIFICARE:
+                        // LOGICA INTELLIGENTE: se l'ID contiene "http" è un link esterno, altrimenti è YouTube
+                        let finalUrl = v.id.includes('http') ? v.id : `https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=1`;
+                        
                         videoGridHTML += `
-                            <div class="video-card">
-        <div class="aspect-video">
-            <iframe 
-                src="https://mixdrop.co/e/CODICE_VIDEO" 
-                class="w-full h-full" 
-                frameborder="0" 
-                allowfullscreen>
-            </iframe>
-        </div>
+                            <div class="video-card shadow-2xl">
+                                <div class="video-container aspect-video bg-black">
+                                    <iframe class="w-full h-full" src="${finalUrl}" frameborder="0" allowfullscreen scrolling="no"></iframe>
+                                </div>
                                 <div class="p-5">
                                     <h3 class="font-bold text-sm text-zinc-100 leading-snug h-10 overflow-hidden">${v.title}</h3>
                                     <div class="mt-3 flex justify-between items-center text-[9px] font-black uppercase tracking-widest text-orange-500">
                                         <span>ACADEMY</span>
-                                        <span class="text-zinc-600">HD 1080P</span>
+                                        <span class="text-zinc-600">DIRECT STREAM</span>
                                     </div>
                                 </div>
                             </div>`;
