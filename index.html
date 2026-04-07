@@ -9,19 +9,59 @@
     <link rel="apple-touch-icon" href="favicon.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
+<style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
-        .video-card { transition: all 0.3s ease; background: #111; border: 1px solid #222; border-radius: 16px; overflow: hidden; }
+        
+        /* Contenitore dello slider */
+        .video-row {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 1.5rem;
+            padding-bottom: 1.5rem;
+            padding-top: 0.5rem;
+            /* Nasconde la scrollbar su Firefox e IE */
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+        
+        /* Nasconde la scrollbar su Chrome, Safari e Opera */
+        .video-row::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Card del video adattata allo slider */
+        .video-card { 
+            flex: 0 0 300px; /* Ogni card ha una larghezza fissa di 300px */
+            transition: all 0.3s ease; 
+            background: #111; 
+            border: 1px solid #222; 
+            border-radius: 16px; 
+            overflow: hidden; 
+        }
+        
         .video-card:hover { transform: translateY(-5px); border-color: #f97316; }
         
         .video-container { border-radius: 16px 16px 0 0; overflow: hidden; position: relative; background: black; }
         .zoom-crop { transform: scale(1.15); transform-origin: bottom; width: 100%; height: 100%; }
-        video { outline: none; width: 100%; height: 100%; background: black; }
+        
+        video { outline: none; width: 100%; height: 100%; background: black; object-fit: cover; }
+        
         .hidden { display: none !important; }
 
         /* Stile speciale per il video in primo piano */
         .hero-gradient { background: linear-gradient(to bottom, transparent, #050505); }
+
+        /* Bottoni delle frecce (opzionale: un piccolo effetto al passaggio) */
+        .nav-btn {
+            background: rgba(24, 24, 27, 0.8);
+            backdrop-filter: blur(4px);
+        }
+        .nav-btn:hover {
+            background: #f97316;
+            color: white;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -169,25 +209,52 @@
             }
         }
 
+        // Funzione per far scorrere lo slider
+        function scrollRow(id, distance) {
+            const row = document.getElementById(id);
+            row.scrollBy({ left: distance, behavior: 'smooth' });
+        }
+
         function renderVideos(filter = "") {
             const container = document.getElementById('categoriesContainer');
             container.innerHTML = "";
             
-            categories.forEach(cat => {
+            categories.forEach((cat, index) => {
                 const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
+                
                 if (filteredVideos.length > 0) {
                     const section = document.createElement('div');
-                    section.className = "mb-16";
-                    let videoGridHTML = `<h2 class="text-xl font-bold text-zinc-400 mb-8 flex items-center gap-3">
-                                            <span class="w-1 h-6 bg-orange-500 rounded-full"></span> ${cat.name}
-                                         </h2>
-                                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">`;
+                    section.className = "mb-16 relative";
+                    
+                    // ID unico per ogni riga per permettere lo scorrimento
+                    const rowId = `row-${index}`;
+                    
+                    let videoGridHTML = `
+                        <div class="flex justify-between items-end mb-6">
+                            <h2 class="text-xl font-bold text-zinc-400 flex items-center gap-3">
+                                <span class="w-1 h-6 bg-orange-500 rounded-full"></span> ${cat.name}
+                            </h2>
+                            <div class="flex gap-2">
+                                <button onclick="scrollRow('${rowId}', -320)" class="nav-btn p-2 rounded-full border border-zinc-800 text-zinc-400 transition-all hover:text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </button>
+                                <button onclick="scrollRow('${rowId}', 320)" class="nav-btn p-2 rounded-full border border-zinc-800 text-zinc-400 transition-all hover:text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="${rowId}" class="video-row">`;
                     
                     filteredVideos.forEach(v => {
                         let content = "";
                         let lbl = "DIRECT STREAM";
+                        
                         if (v.id.includes('dropbox.com')) {
-                            content = `<video controls disablePictureInPicture controlsList="nodownload" class="w-full h-full"><source src="${v.id.replace('dl=0', 'raw=1')}" type="video/mp4"></video>`;
+                            // Inserito preload="metadata" e poster per le miniature
+                            content = `<video controls preload="metadata" poster="${v.poster || ''}" disablePictureInPicture controlsList="nodownload" class="w-full h-full">
+                                          <source src="${v.id.replace('dl=0', 'raw=1')}" type="video/mp4">
+                                       </video>`;
                             lbl = "CLOUD STREAM";
                         } else if (v.id.includes('http')) {
                             content = `<iframe class="zoom-crop" src="${v.id}" frameborder="0" allowfullscreen scrolling="no"></iframe>`;
@@ -195,6 +262,7 @@
                             content = `<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
                             lbl = "YT ACADEMY";
                         }
+                        
                         videoGridHTML += `
                             <div class="video-card shadow-2xl">
                                 <div class="video-container aspect-video">${content}</div>
@@ -207,6 +275,7 @@
                                 </div>
                             </div>`;
                     });
+                    
                     videoGridHTML += `</div>`;
                     section.innerHTML = videoGridHTML;
                     container.appendChild(section);
