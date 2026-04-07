@@ -53,7 +53,10 @@
 				{ id: "I_DjIWbe8bg", title: "90 DAYS RUN LA CORSA DEI 90 GIORNI" },
                 { id: "YKwshIk0i4g", title: "PREP KICK OFF MONACO" }
 			] },
-            { name: "03 - VENDITA E CONTATTO", videos: [] },
+            { name: "ATTIVARE IL CONSULENTE", videos: [
+				{ id: "1MxvAIcLOw8", title: "ATTIVARE IL CONSULENTE" },
+                { id: "MUfaEG2lwJU", title: "IL CICLO DI VITA DEL CONSULENTE" }
+			] },
             { name: "04 - MINDSET E CRESCITA", videos: [] },
             { name: "05 - PIANO MARKETING", videos: [] },
             { name: "06 - GESTIONE TEAM", videos: [] },
@@ -99,14 +102,13 @@
         function logout() { localStorage.removeItem('tribe_access'); location.reload(); }
         if (localStorage.getItem('tribe_access') === 'granted') showContent();
 
-        function renderVideos(filter = "") {
+function renderVideos(filter = "") {
             const container = document.getElementById('categoriesContainer');
             container.innerHTML = "";
             
             categories.forEach(cat => {
                 const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
                 
-                // Mostra la categoria solo se contiene video che corrispondono alla ricerca
                 if (filteredVideos.length > 0) {
                     const section = document.createElement('div');
                     section.className = "mb-16";
@@ -117,10 +119,11 @@
                                          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">`;
                     
                     filteredVideos.forEach(v => {
+                        // QUESTA È LA RIGA DA MODIFICARE:
                         videoGridHTML += `
                             <div class="video-card shadow-2xl">
                                 <div class="aspect-video bg-black">
-                                    <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0" frameborder="0" allowfullscreen></iframe>
+                                    <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=1" frameborder="0" allowfullscreen></iframe>
                                 </div>
                                 <div class="p-5">
                                     <h3 class="font-bold text-sm text-zinc-100 leading-snug h-10 overflow-hidden">${v.title}</h3>
