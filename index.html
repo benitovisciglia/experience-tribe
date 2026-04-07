@@ -135,25 +135,7 @@ function renderVideos(filter = "") {
                             </div>`;
                     });
 
-                    // VERSIONE AGGRESSIVA (Rischio errore 153 ma più pulita)
-videoGridHTML += `
-    <div class="video-card shadow-2xl">
-        <div class="aspect-video bg-black">
-            <iframe 
-                class="w-full h-full" 
-                src="https://www.youtube.com/embed/${v.id}?controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&fs=0&disablekb=1" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-            </iframe>
-        </div>
-        <div class="p-5">
-            <h3 class="font-bold text-sm text-zinc-100 leading-snug h-10 overflow-hidden">${v.title}</h3>
-            <div class="mt-3 flex justify-between items-center text-[9px] font-black uppercase tracking-widest text-orange-500">
-                <span>ACADEMY</span>
-                <span class="text-zinc-600">PREMIUM MODE</span>
-            </div>
-        </div>
-    </div>`;`;
+                    videoGridHTML += `</div>`;
                     section.innerHTML = videoGridHTML;
                     container.appendChild(section);
                 }
