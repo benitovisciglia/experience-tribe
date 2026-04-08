@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Experience Tribe | Academy</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -11,6 +15,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
+        /* Slider video */
         .video-row {
             display: flex;
             overflow-x: auto;
@@ -18,6 +23,7 @@
             gap: 1.5rem;
             padding: 1rem 0;
             scrollbar-width: none; 
+            -ms-overflow-style: none;
         }
         .video-row::-webkit-scrollbar { display: none; }
 
@@ -26,147 +32,234 @@
             background: #111; 
             border: 1px solid #222; 
             border-radius: 12px; 
+            overflow: hidden;
             transition: all 0.3s ease;
         }
 
-        /* Container della riga per posizionare le frecce */
-        .category-container { position: relative; }
+        @media (min-width: 768px) {
+            .video-card:hover { 
+                transform: translateY(-5px); 
+                border-color: #3b82f6; 
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); 
+            }
+        }
+
+        /* Container per posizionare le frecce */
+        .category-container { position: relative; margin-bottom: 3rem; }
 
         /* Stile Frecce */
         .nav-arrow {
             position: absolute;
-            top: 50%;
+            top: 60%;
             transform: translateY(-50%);
-            width: 45px;
-            height: 45px;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid #333;
+            width: 40px;
+            height: 40px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid #444;
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 10;
+            z-index: 20;
             transition: all 0.2s;
-            opacity: 0; /* Nascoste di default */
+            opacity: 0;
+            backdrop-filter: blur(4px);
         }
 
-        /* Mostra le frecce quando passi sopra la categoria (solo desktop) */
         .category-container:hover .nav-arrow { opacity: 1; }
         .nav-arrow:hover { background: #3b82f6; border-color: #3b82f6; transform: translateY(-50%) scale(1.1); }
-
-        .arrow-left { left: -20px; }
-        .arrow-right { right: -20px; }
+        .arrow-left { left: -15px; }
+        .arrow-right { right: -15px; }
 
         @media (max-width: 768px) {
-            .nav-arrow { display: none; } /* Su mobile si usa lo swipe naturale */
-            .video-card { flex: 0 0 250px; }
+            .nav-arrow { display: none; }
+            .video-card { flex: 0 0 260px; }
         }
 
-        .hero-gradient { background: linear-gradient(to bottom, transparent, rgba(5,5,5,1)); }
+        .aspect-video { position: relative; width: 100%; aspect-ratio: 16 / 9; background: black; }
+        video { width: 100%; height: 100%; object-fit: cover; }
+        .hero-gradient { background: linear-gradient(to bottom, transparent 20%, rgba(5,5,5,0.95) 100%); }
         .hidden { display: none !important; }
     </style>
 </head>
-<body>
+<body class="min-h-screen">
 
-    <div id="loginPage" class="fixed inset-0 z-50 flex items-center justify-center bg-black">
-        <div class="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 w-80 text-center">
-            <input type="password" id="passwordInput" placeholder="Password" class="w-full p-3 rounded bg-black border border-zinc-700 mb-4 text-center text-white">
-            <button onclick="checkPassword()" class="w-full p-3 bg-blue-600 font-bold rounded">ENTRA</button>
+    <div id="loginPage" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black text-white">
+        <div class="bg-zinc-900 p-10 rounded-3xl border border-zinc-800 w-full max-w-md text-center shadow-2xl">
+            <h1 class="text-3xl font-black text-blue-500 mb-6 uppercase tracking-tighter">Experience Tribe</h1>
+            <input type="password" id="passwordInput" autofocus placeholder="Password d'Accesso" 
+                   class="w-full p-4 rounded-xl bg-black border border-zinc-700 text-white mb-4 text-center text-lg outline-none focus:border-blue-500">
+            <button onclick="checkPassword()" class="w-full p-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all uppercase tracking-widest text-sm">Entra</button>
+            <p id="errorMessage" class="text-red-500 text-xs mt-3 hidden">Password errata.</p>
         </div>
     </div>
 
     <div id="mainContent" class="hidden">
-        <header class="p-6 md:p-12 flex justify-between items-center">
-            <h1 class="text-xl font-black text-blue-500 tracking-tighter">EXPERIENCE TRIBE</h1>
-            <input type="text" id="searchInput" placeholder="Cerca..." class="bg-zinc-900 border border-zinc-800 p-2 px-4 rounded-full text-sm outline-none focus:border-blue-500">
+        <header class="p-6 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <img src="ET Monogram bianco.png" alt="Logo" class="w-10 h-10 md:w-20 md:h-20 object-contain transition-transform group-hover:scale-105">
+                <div class="flex flex-col">
+                    <h1 class="text-[20px] md:text-3xl font-black text-blue-500 tracking-tighter leading-tight uppercase">Experience Tribe</h1>
+                    <span class="text-zinc-500 text-[9px] md:text-xs uppercase tracking-[0.3em] font-bold">Training Academy</span>
+                </div>
+            </a>
+
+            <div class="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+                <input type="text" id="searchInput" placeholder="Cerca formazione..." 
+                       class="bg-zinc-900 border border-zinc-800 p-3 px-6 rounded-full w-full md:w-64 text-sm text-white outline-none focus:border-blue-500 transition-all">
+                <button onclick="logout()" class="text-zinc-600 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors">Esci</button>
+            </div>
         </header>
 
-        <div id="categoriesContainer" class="p-6 md:p-12"></div>
+        <section id="heroSection" class="mb-10 md:mb-16 px-4 md:px-12">
+            <div class="relative w-full max-w-6xl mx-auto overflow-hidden rounded-3xl border border-zinc-800 bg-black shadow-2xl">
+                <div class="aspect-video">
+                    <div id="heroPlayerContainer" class="w-full h-full"></div>
+                </div>
+                <div class="absolute bottom-0 left-0 w-full p-6 md:p-10 hero-gradient pointer-events-none">
+                    <span class="bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded uppercase tracking-wider">In evidenza</span>
+                    <h2 id="heroTitle" class="text-xl md:text-3xl font-black mt-3 uppercase tracking-tighter text-white"></h2>
+                    <p id="heroDesc" class="text-zinc-400 text-xs md:text-base mt-2 max-w-2xl line-clamp-2 italic"></p>
+                </div>
+            </div>
+        </section>
+
+        <div id="categoriesContainer" class="p-6 md:p-12 pt-0"></div>
     </div>
 
     <script>
         const THE_PASSWORD = "ET2026IR";
-        
-        // Dati abbreviati per l'esempio (usa i tuoi link completi qui)
+
+        const HERO_VIDEO = {
+            id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&st=cczcesmz&raw=1",
+            title: "I 7 LADRI DEL TEMPO - COME AVERE PIU' TEMPO",
+            desc: "Smetti di rincorrere le ore. Scopri i 7 errori invisibili che prosciugano la tua energia e impara il sistema definitivo per dominare la tua agenda.",
+        };
+
         const categories = [
-            { 
-                name: "PRIMA FORMAZIONE NUOVO CONSULENTE", 
-                videos: [
-                    { id: "https://www.dropbox.com/scl/fi/a0lswxi350isedvhqvds5/ESEMPIO-CHIAMATA-per-appuntamento-consigli-vari.mp4?rlkey=5jy4isxa0enbpv8mqwei08m1q&st=nvskybgz&dl=0", title: "ESEMPIO CHIAMATA" },
-                    { id: "https://www.dropbox.com/scl/fi/4fp5xqoyvnbv8j3is1t4s/I-PRIIMI-PASSI-FOLLOW-UP-CONSULENTE.mp4?rlkey=px2tsn949ee0z3m6tr80vjl9y&st=jqcjvfgi&dl=0", title: "I PRIMI PASSI" },
-                    { id: "https://www.dropbox.com/scl/fi/0kmg63wtf8eax3n3sxbag/I-PRIMI-PASSI-BENVENUTO.mp4?rlkey=x9zf0f4w1yr436fvw4s7m7pzc&st=ldls1rp6&dl=0", title: "BENVENUTO" },
-                    { id: "https://www.dropbox.com/scl/fi/pu07lqfkqoqxyhbeky6ou/PRIMA-FORMAZIONE-NUOVO-CONSULENTE.mp4?rlkey=9rxdp0i2h6umivr464zl3s2zi&st=5136ln4b&dl=0", title: "FORMAZIONE" },
-                    { id: "https://www.dropbox.com/scl/fi/7r2mtsn8x7jepuwf829fc/90-DAYS-RUN-LA-CORSA-DEI-90-GIORNI.mp4?rlkey=znj2hr4a31dg1ykafv5l1p6xq&st=3vz7uccn&dl=0", title: "90 DAYS RUN" }
-                ]
-            },
-            {
-                name: "FORMAZIONE 2026",
-                videos: [
-                    { id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&st=7givwfa7&dl=0", title: "I 7 LADRI DEL TEMPO" },
-                    { id: "https://www.dropbox.com/scl/fi/q4iyap1gnnj2bpsjm7ll0/END-OF-MONTH-CALL.mp4?rlkey=dzk5wrkm65kxflgecjwrfsvm9&st=siu4s76m&dl=0", title: "END OF MONTH" }
-                ]
-            }
+            { name: "PRIMA FORMAZIONE NUOVO CONSULENTE", videos: [
+                { id: "https://www.dropbox.com/scl/fi/a0lswxi350isedvhqvds5/ESEMPIO-CHIAMATA-per-appuntamento-consigli-vari.mp4?rlkey=5jy4isxa0enbpv8mqwei08m1q&st=nvskybgz&dl=0", title: "ESEMPIO CHIAMATA per appuntamento" },
+                { id: "https://www.dropbox.com/scl/fi/4fp5xqoyvnbv8j3is1t4s/I-PRIIMI-PASSI-FOLLOW-UP-CONSULENTE.mp4?rlkey=px2tsn949ee0z3m6tr80vjl9y&st=jqcjvfgi&dl=0", title: "I PRIMI PASSI FOLLOW UP CONSULENTE" },
+                { id: "https://www.dropbox.com/scl/fi/0kmg63wtf8eax3n3sxbag/I-PRIMI-PASSI-BENVENUTO.mp4?rlkey=x9zf0f4w1yr436fvw4s7m7pzc&st=ldls1rp6&dl=0", title: "I PRIMI PASSI BENVENUTO" },
+                { id: "https://www.dropbox.com/scl/fi/pu07lqfkqoqxyhbeky6ou/PRIMA-FORMAZIONE-NUOVO-CONSULENTE.mp4?rlkey=9rxdp0i2h6umivr464zl3s2zi&st=5136ln4b&dl=0", title: "PRIMA FORMAZIONE NUOVO CONSULENTE" }
+            ]},
+            { name: "90 DAYS RUN", videos: [
+                { id: "https://www.dropbox.com/scl/fi/7r2mtsn8x7jepuwf829fc/90-DAYS-RUN-LA-CORSA-DEI-90-GIORNI.mp4?rlkey=znj2hr4a31dg1ykafv5l1p6xq&st=3vz7uccn&dl=0", title: "90 DAYS RUN LA CORSA DEI 90 GIORNI" },
+                { id: "https://www.dropbox.com/scl/fi/itdtev5mdn0wuq8uzxbfn/PREP-KICK-OFF-MONACO.mp4?rlkey=cb58bxfzo6k8ylorgkrf781od&st=53ed14af&dl=0", title: "PREP KICK OFF MONACO" }
+            ]},
+            { name: "ATTIVARE IL CONSULENTE", videos: [
+                { id: "https://www.dropbox.com/scl/fi/qzvthm70uq7j9wf87nrwt/ATTIVARE-IL-CONSULENTE.mp4?rlkey=48jxercszh19v1zr883wvyd88&st=1t8ve0co&dl=0", title: "ATTIVARE IL CONSULENTE" },
+                { id: "https://www.dropbox.com/scl/fi/zvbz9iyjvk5glbp1g59of/IL-CICLO-DI-VITA-DEL-CONSULENTE.mp4?rlkey=ovtutmyv7evndgh43akjtzzaj&st=nvplwbtw&dl=0", title: "IL CICLO DI VITA DEL CONSULENTE" }
+            ]},
+            { name: "FORMAZIONE 2026", videos: [
+                { id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&st=7givwfa7&dl=0", title: "I 7 LADRI DEL TEMPO - COME AVERE PIU' TEMPO" },
+                { id: "https://www.dropbox.com/scl/fi/q4iyap1gnnj2bpsjm7ll0/END-OF-MONTH-CALL.mp4?rlkey=dzk5wrkm65kxflgecjwrfsvm9&st=siu4s76m&dl=0", title: "END OF MONTH CALL" },
+                { id: "https://www.dropbox.com/scl/fi/8v6nuv2dx506p4wsy1543/VINCENZO-AMATULLI-FORMAZIONE-E-TESTIMONIANZA.mp4?rlkey=4zay3d0fx62zywyot48v1qywf&st=x2igpfki&dl=0", title: "VINCENZO AMATULLI FORMAZIONE E TESTIMONIANZA" },
+                { id: "https://www.dropbox.com/scl/fi/h4hgjbggp4lsa99husd2c/NOVITA-CHOGAN-MARZO-2026.mp4?rlkey=n5golm2h0ciu2j4s3uctok7wc&st=jevemisw&dl=0", title: "NOVITA' CHOGAN MARZO 2026" },
+                { id: "https://www.dropbox.com/scl/fi/080dq5char3anks58euex/STRATEGIE-DI-COMUNICAZIONE.mp4?rlkey=gzlq63bsu114qbah8hhfndj71&st=ef705fw4&dl=0", title: "STRATEGIE DI COMUNICAZIONE" },
+                { id: "https://www.dropbox.com/scl/fi/re7t2onn4pe16h0zjd49e/LASCIA-IL-TUO-LAVORO-IN-90-GIORNI-2026.mp4?rlkey=cqbcg3ib4yje2lkjh0jbsoagi&st=9zc1uux4&dl=0", title: "LASCIA IL TUO LAVORO IN 90 GIORNI 2026" }
+            ]},
+            { name: "FORMAZIONE DI BASE", videos: [
+                { id: "https://www.dropbox.com/scl/fi/0pbktidktqcgyg4a72p78/I-PRIMI-PASSI.mp4?rlkey=56trbs2davw5160ujbo7dnlwa&st=i9rtpyml&dl=0", title: "I PRIMI PASSI" },
+                { id: "https://www.dropbox.com/scl/fi/n41760d6k5n0yza9e5il7/formazione-importante-NUOVO-CONSULENTE.mp4?rlkey=pqk53jg77j58dtc8v2e2ya3k1&st=xs5y78y9&dl=0", title: "formazione importante NUOVO CONSULENTE" },
+                { id: "https://www.dropbox.com/scl/fi/424p52ak47vevrksyxkdl/Gestione-del-tempo-TIME-MANAGEMENT2024.mp4?rlkey=emof54utt9dzvj6idussk6pn6&st=rqpfl76i&dl=0", title: "Gestione del tempo TIME MANAGEMENT 2024" },
+                { id: "https://www.dropbox.com/scl/fi/fii3pms27ddgu91nlczno/HOME-PARTY-Come-svolgerlo.mp4?rlkey=hv0h1rrh92mnxb12xf0kux6gc&st=9j8veigk&dl=0", title: "HOME PARTY - Come svolgerlo!" },
+                { id: "https://www.dropbox.com/scl/fi/vlw1k6lzzyf0pnh2ew0au/IL-PRINCIPIO-DEL-MLM.mp4?rlkey=mbr4t4c4ycxygns3tg1f65kbd&st=ou40lhvo&dl=0", title: "IL PRINCIPIO DEL MLM" }
+            ]},
+            { name: "FORMAZIONE SOCIAL", videos: [
+                { id: "https://www.dropbox.com/scl/fi/n2xv3i9junwmna1o3qjr1/Sponsorizzare-sui-social.mp4?rlkey=v5gwcjv8t3l27ohh9rii77iv4&st=zmdnle4z&dl=0", title: "Sponsorizzare sui social" },
+                { id: "https://www.dropbox.com/scl/fi/75c1zc8rhqnfn4btgajbh/COME-FARE-LE-LIVE.mp4?rlkey=ix6tphfruazj8dio74y4uoh9j&st=o82o0i5z&dl=0", title: "COME FARE LE LIVE" },
+                { id: "https://www.dropbox.com/scl/fi/n77p37quj4llpw1qm400s/whatsapp-party.mp4?rlkey=d84s94znqnhl6epvjzl732nw9&st=95bzr5c6&dl=0", title: "WHATSAPP PARTY" },
+                { id: "https://www.dropbox.com/scl/fi/cgfw9pl8vzrd7c2azu7xj/Social-strategy-tik-tok-1-parte.mp4?rlkey=6e5h0acwjmbamarffryuk642h&st=v5au5iyf&dl=0", title: "SOCIAL STRATEGY TIKTOK - PARTE 1" }
+            ]}
         ];
 
         function checkPassword() {
             if (document.getElementById('passwordInput').value === THE_PASSWORD) {
-                document.getElementById('loginPage').classList.add('hidden');
-                document.getElementById('mainContent').classList.remove('hidden');
-                renderVideos();
-            }
+                localStorage.setItem('tribe_access', 'granted');
+                showContent();
+            } else { document.getElementById('errorMessage').classList.remove('hidden'); }
         }
 
-        // Funzione per scorrere la riga
+        function showContent() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            renderHero();
+            renderVideos();
+        }
+
+        function logout() { localStorage.removeItem('tribe_access'); location.reload(); }
+        if (localStorage.getItem('tribe_access') === 'granted') showContent();
+
+        function renderHero() {
+            const container = document.getElementById('heroPlayerContainer');
+            document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
+            document.getElementById('heroDesc').innerText = HERO_VIDEO.desc;
+            const url = HERO_VIDEO.id.replace('dl=0', 'raw=1');
+            container.innerHTML = `<video controls playsinline class="w-full h-full object-cover"><source src="${url}" type="video/mp4"></video>`;
+        }
+
+        // Funzione scorrimento
         window.scrollRow = function(id, direction) {
             const row = document.getElementById(id);
-            const scrollAmount = 600; 
-            row.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+            const amount = 500;
+            row.scrollBy({ left: direction * amount, behavior: 'smooth' });
         };
 
         function renderVideos(filter = "") {
             const container = document.getElementById('categoriesContainer');
+            const hero = document.getElementById('heroSection');
+            const heroVideo = hero.querySelector('video');
+            
             container.innerHTML = "";
+            
+            if (filter.trim() !== "") {
+                hero.classList.add('hidden');
+                if (heroVideo) heroVideo.pause();
+            } else {
+                hero.classList.remove('hidden');
+            }
 
             categories.forEach((cat, idx) => {
-                const filtered = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
-                if (filtered.length === 0) return;
-
-                const rowId = `row-${idx}`;
-                const section = document.createElement('div');
-                section.className = "mb-16 category-container";
-
-                let cardsHtml = filtered.map(v => `
-                    <div class="video-card overflow-hidden">
-                        <div class="aspect-video bg-black">
-                            <video controls class="w-full h-full object-cover">
-                                <source src="${v.id.replace('dl=0', 'raw=1')}" type="video/mp4">
-                            </video>
-                        </div>
-                        <div class="p-4 text-xs font-bold">${v.title}</div>
-                    </div>
-                `).join('');
-
-                section.innerHTML = `
-                    <h2 class="text-sm font-bold text-zinc-500 mb-4 uppercase tracking-widest">${cat.name}</h2>
+                const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
+                if (filteredVideos.length > 0) {
+                    const rowId = `row-${idx}`;
+                    const section = document.createElement('div');
+                    section.className = "category-container";
                     
-                    <div class="nav-arrow arrow-left" onclick="scrollRow('${rowId}', -1)">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <div class="nav-arrow arrow-right" onclick="scrollRow('${rowId}', 1)">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
+                    let cardsHtml = filteredVideos.map(v => `
+                        <div class="video-card">
+                            <div class="aspect-video">
+                                <video controls preload="metadata" playsinline>
+                                    <source src="${v.id.replace('dl=0', 'raw=1')}" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-bold text-xs text-zinc-100 line-clamp-2 h-8">${v.title}</h3>
+                                <p class="text-[8px] mt-2 text-blue-500 font-black tracking-widest uppercase italic">Academy Cloud</p>
+                            </div>
+                        </div>
+                    `).join('');
 
-                    <div id="${rowId}" class="video-row">
-                        ${cardsHtml}
-                    </div>
-                `;
-                container.appendChild(section);
+                    section.innerHTML = `
+                        <h2 class="text-sm font-bold text-zinc-500 mb-2 flex items-center gap-2 uppercase tracking-widest">
+                            <span class="w-1 h-4 bg-blue-600 rounded-full"></span> ${cat.name}
+                        </h2>
+                        
+                        <div class="nav-arrow arrow-left" onclick="scrollRow('${rowId}', -1)"><i class="fas fa-chevron-left"></i></div>
+                        <div class="nav-arrow arrow-right" onclick="scrollRow('${rowId}', 1)"><i class="fas fa-chevron-right"></i></div>
+
+                        <div id="${rowId}" class="video-row">${cardsHtml}</div>
+                    `;
+                    container.appendChild(section);
+                }
             });
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
+        document.getElementById('passwordInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') checkPassword() });
     </script>
 </body>
 </html>
