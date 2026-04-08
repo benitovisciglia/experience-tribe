@@ -293,7 +293,17 @@
 
         function renderVideos(search = "") {
             const container = document.getElementById('categoriesContainer');
+            const heroSection = document.getElementById('heroSection');
             container.innerHTML = "";
+
+            // LOGICA: Se scrivo qualcosa, nascondo l'Hero
+            if (search.trim().length > 0) {
+                heroSection.classList.add('hidden');
+                const heroVideo = heroSection.querySelector('video');
+                if (heroVideo) heroVideo.pause(); // Stoppa il video se è in riproduzione
+            } else {
+                heroSection.classList.remove('hidden');
+            }
 
             categories.forEach((cat, idx) => {
                 const filtered = cat.videos.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
@@ -304,7 +314,7 @@
                 
                 let vcards = filtered.map(v => `
                     <div class="video-card">
-                        <div class="aspect-video bg-black">
+                        <div class="aspect-video">
                             <video controls preload="metadata" playsinline class="w-full h-full object-cover">
                                 <source src="${v.id.replace('dl=0', 'raw=1')}" type="video/mp4">
                             </video>
@@ -312,7 +322,7 @@
                         <div class="p-4">
                             <h3 class="font-bold text-[11px] text-zinc-100 uppercase line-clamp-2 h-8 leading-tight">${v.title}</h3>
                             <div class="mt-3 flex items-center justify-between">
-                                <span class="text-[8px] text-blue-500 font-black tracking-widest uppercase">Academy Video</span>
+                                <span class="text-[8px] text-blue-500 font-black tracking-widest uppercase">Academy</span>
                                 <i class="fas fa-bolt text-blue-500 text-[8px]"></i>
                             </div>
                         </div>
@@ -321,10 +331,7 @@
 
                 section.innerHTML = `
                     <div class="category-header">
-                        <h2 class="category-title">
-                            <i class="fas fa-play play-icon"></i>
-                            ${cat.name}
-                        </h2>
+                        <h2 class="category-title"><i class="fas fa-play play-icon"></i> ${cat.name}</h2>
                         <div class="nav-controls">
                             <button class="nav-btn" onclick="scrollRow('${rowId}', -1)"><i class="fas fa-chevron-left"></i></button>
                             <button class="nav-btn" onclick="scrollRow('${rowId}', 1)"><i class="fas fa-chevron-right"></i></button>
