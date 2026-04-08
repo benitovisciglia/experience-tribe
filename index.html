@@ -212,26 +212,33 @@ header .cursor-pointer:hover h1 {
 </div>
 
     <div id="mainContent" class="hidden">
-    <header class="p-6 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="location.reload()">
-            <img src="ET Monogram bianco.png" alt="Logo" class="w-12 h-12 md:w-20 md:h-20 object-contain">
-            <div>
-                <h1 class="text-2xl md:text-4xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">EXPERIENCE TRIBE</h1>
-                <p class="text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold mt-1">Training Academy</p>
-            </div>
+   <header class="p-4 md:p-8 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-zinc-900 mb-6">
+    <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="location.reload()">
+        <img src="ET Monogram bianco.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain">
+        <div class="hidden sm:block">
+            <h1 class="text-lg md:text-xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">EXPERIENCE TRIBE</h1>
         </div>
+    </div>
 
-        <div class="flex items-center gap-6 w-full md:w-auto">
-            <div class="search-container md:w-64">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Cerca..." class="search-input">
-            </div>
-            <button onclick="logout()" class="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
-                <span>Esci</span>
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
+    <div class="flex items-center bg-zinc-950 border border-zinc-800 p-1 rounded-2xl w-full md:w-auto">
+        <button id="tabVideo" onclick="switchSection('video')" class="flex-1 md:flex-none px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all">
+            <i class="fas fa-video mr-2"></i> Video
+        </button>
+        <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="flex-1 md:flex-none px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-white">
+            <i class="fas fa-book mr-2"></i> Cataloghi
+        </button>
+    </div>
+
+    <div class="flex items-center gap-4 w-full md:w-auto">
+        <div class="search-container flex-grow md:w-48">
+            <i class="fas fa-search text-zinc-600"></i>
+            <input type="text" id="searchInput" placeholder="Cerca..." class="search-input w-full bg-zinc-900 border-none">
         </div>
-    </header>
+        <button onclick="logout()" class="nav-btn shrink-0">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+</header>
 
     <div class="flex justify-center gap-4 mb-8">
         <button id="tabVideo" onclick="switchSection('video')" class="px-8 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-widest">Video</button>
@@ -425,19 +432,34 @@ const catalogs = [
     const cSec = document.getElementById('catalogSection');
     const btnV = document.getElementById('tabVideo');
     const btnC = document.getElementById('tabCataloghi');
+    const heroSection = document.getElementById('heroSection');
     const heroVideo = document.querySelector('#heroPlayer video');
 
     if (type === 'video') {
+        // Mostra Video e Hero
         vSec.classList.remove('hidden');
+        heroSection.classList.remove('hidden');
         cSec.classList.add('hidden');
-        // Stile bottoni
-        btnV.classList.replace('bg-zinc-900', 'bg-blue-600');
-        btnV.classList.replace('text-zinc-400', 'text-white');
-        btnC.classList.replace('bg-blue-600', 'bg-zinc-900');
-        btnC.classList.replace('text-white', 'text-zinc-400');
+        
+        // Update Bottoni
+        btnV.className = "px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all";
+        btnC.className = "px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-white";
     } else {
+        // Nasconde Video e soprattutto l'Hero
         vSec.classList.add('hidden');
+        heroSection.classList.add('hidden'); 
         cSec.classList.remove('hidden');
+        
+        // Stop audio video se in riproduzione
+        if (heroVideo) heroVideo.pause();
+
+        // Update Bottoni
+        btnC.className = "px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all";
+        btnV.className = "px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-white";
+        
+        renderCatalogs(); // Avvia il rendering dei cataloghi
+    }
+}
         
         // STOP VIDEO: Mette in pausa il video in evidenza se stai andando sui cataloghi
         if (heroVideo) heroVideo.pause();
@@ -453,17 +475,21 @@ const catalogs = [
 }
 
 function renderCatalogs() {
-    const grid = document.getElementById('catalogGrid');
-    grid.innerHTML = catalogs.map(c => `
-        <a href="${c.link}" target="_blank" class="group bg-zinc-900 p-8 rounded-3xl border border-zinc-800 hover:border-blue-500 transition-all duration-300">
-            <div class="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-colors">
-                <i class="fas fa-file-pdf text-blue-500 group-hover:text-white text-xl"></i>
-            </div>
-            <h3 class="text-lg font-bold text-white mb-2 uppercase">${c.title}</h3>
-            <p class="text-zinc-500 text-xs mb-6">${c.desc}</p>
-            <div class="text-blue-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                Scarica ora <i class="fas fa-arrow-right"></i>
-            </div>
+    const catalogGrid = document.getElementById('catalogGrid');
+    // Se l'array 'catalogs' non esiste ancora, crealo sopra
+    if (!window.catalogs) {
+        window.catalogs = [
+            { title: "Manuale 2026", link: "#", icon: "📚", desc: "Metodo ufficiale" },
+            { title: "Listino Prezzi", link: "#", icon: "🏷️", desc: "Aggiornato Marzo" },
+            { title: "Piano Marketing", link: "#", icon: "📊", desc: "Piano compensi" }
+        ];
+    }
+
+    catalogGrid.innerHTML = window.catalogs.map(c => `
+        <a href="${c.link}" target="_blank" class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl hover:border-blue-500 transition-all group">
+            <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">${c.icon}</div>
+            <h3 class="font-bold text-sm uppercase text-white">${c.title}</h3>
+            <p class="text-zinc-500 text-[10px] mt-1 uppercase">${c.desc}</p>
         </a>
     `).join('');
 }
