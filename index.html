@@ -290,9 +290,20 @@
         }
 
         window.scrollRow = (id, dir) => {
-            const row = document.getElementById(id);
-            row.scrollBy({ left: dir * 600, behavior: 'smooth' });
-        };
+    const row = document.getElementById(id);
+    // Calcola la larghezza di una card inclusa la spaziatura (gap)
+    const firstCard = row.querySelector('.video-card');
+    if (firstCard) {
+        const cardWidth = firstCard.offsetWidth;
+        const gap = parseFloat(window.getComputedStyle(row).gap) || 24;
+        const scrollStep = cardWidth + gap;
+        
+        row.scrollBy({ 
+            left: dir * scrollStep, 
+            behavior: 'smooth' 
+        });
+    }
+};
 
         function renderVideos(search = "") {
             const container = document.getElementById('categoriesContainer');
