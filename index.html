@@ -35,9 +35,9 @@
 			 }
 		
 		/* Rimuove il tasto Play centrale forzato da Android/Chrome */
-video::-webkit-media-controls-start-playback-button {
-    display: none !important;
-    -webkit-appearance: none;
+		video::-webkit-media-controls-start-playback-button {
+   		display: none !important;
+    	-webkit-appearance: none;
 }
 
 /* Rimuove l'evidenziazione azzurra al tocco (tipica di Android) */
@@ -49,6 +49,15 @@ video {
 /* Nasconde i controlli nativi finché il video non è effettivamente in riproduzione */
 video:not(:valid) {
     display: block;
+}
+
+		header .cursor-pointer:hover img {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+header .cursor-pointer:hover h1 {
+    filter: brightness(1.2);
 }
         
         /* Layout Righe Video */
