@@ -86,7 +86,7 @@ function renderVideos(search = "") {
                 <div class="aspect-video bg-black">
                     <video preload="metadata" poster="${v.poster || 'favicon.png'}" playsinline class="w-full h-full object-cover"
                            onclick="this.paused ? (this.play(), this.controls=true) : (this.pause())">
-                        <source src="${v.id.replace('dl=0', 'raw=1')}#t=0.5" type="video/mp4">
+                        <source src="${v.id.replace('dl=0', 'raw=1')}#t=0.1" type="video/mp4">
                     </video>
                 </div>
                 <div class="p-4">
