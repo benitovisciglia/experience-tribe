@@ -247,105 +247,110 @@
             { name: "30 - AREA ADMIN", videos: [] }
         ];
 
-       function checkPassword() {
-            if (document.getElementById('passwordInput').value === THE_PASSWORD) {
-                localStorage.setItem('tribe_access', 'granted');
-                showContent();
-            } else { 
-                document.getElementById('errorMessage').classList.remove('hidden'); 
-            }
-        }
+       const THE_PASSWORD = "ET2026IR";
 
-        function showContent() {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
-            renderHero();
-            renderVideos();
-            if (window.lucide) lucide.createIcons();
-        }
+function checkPassword() {
+    const pass = document.getElementById('passwordInput').value;
+    if (pass === THE_PASSWORD) {
+        localStorage.setItem('tribe_access', 'granted');
+        showContent();
+    } else {
+        document.getElementById('errorMessage').classList.remove('hidden');
+    }
+}
 
-        function logout() { 
-            localStorage.removeItem('tribe_access'); 
-            location.reload(); 
-        }
+function showContent() {
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('mainContent').classList.remove('hidden');
+    renderHero();
+    renderVideos();
+    if (window.lucide) lucide.createIcons();
+}
 
-        // Controllo automatico all'avvio
-        if (localStorage.getItem('tribe_access') === 'granted') {
-            showContent();
-        }
+function logout() {
+    localStorage.removeItem('tribe_access');
+    location.reload();
+}
 
-        function renderHero() {
-            const container = document.getElementById('heroPlayerContainer');
-            document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
-            document.getElementById('heroDesc').innerText = HERO_VIDEO.desc;
+function renderHero() {
+    const container = document.getElementById('heroPlayerContainer');
+    document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
+    document.getElementById('heroDesc').innerText = HERO_VIDEO.desc;
+    let url = HERO_VIDEO.id.replace('dl=0', 'raw=1');
+    container.innerHTML = `<video controls playsinline class="w-full h-full object-cover rounded-2xl"><source src="${url}" type="video/mp4"></video>`;
+}
 
-            if (HERO_VIDEO.id.includes('dropbox.com')) {
-                let url = HERO_VIDEO.id.replace('dl=0', 'raw=1');
-                container.innerHTML = `<video controls playsinline class="w-full h-full object-cover"><source src="${url}" type="video/mp4"></video>`;
-            } else {
-                container.innerHTML = `<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${HERO_VIDEO.id}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
-            }
-        }
+function renderVideos(filter = "") {
+    const container = document.getElementById('categoriesContainer');
+    const hero = document.getElementById('heroSection');
+    const heroVideo = hero ? hero.querySelector('video') : null;
 
-        function renderVideos(filter = "") {
-            const container = document.getElementById('categoriesContainer');
-            const hero = document.getElementById('heroSection');
-            const heroVideo = hero ? hero.querySelector('video') : null;
-            
-            container.innerHTML = "";
-            
-            if (filter.trim() !== "") {
-                if (hero) hero.classList.add('hidden');
-                if (heroVideo) heroVideo.pause();
-            } else {
-                if (hero) hero.classList.remove('hidden');
-            }
+    container.innerHTML = "";
 
-            categories.forEach((cat, index) => {
-                const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
-                if (filteredVideos.length > 0) {
-                    const section = document.createElement('div');
-                    section.className = "mb-12 relative";
-                    const rowId = `row-${index}`;
-                    
-                    let videoCards = "";
-                    filteredVideos.forEach(v => {
-                        let url = v.id.replace('dl=0', 'raw=1');
-                        videoCards += `
-                            <div class="video-card shadow-lg">
-                                <div class="aspect-video">
-                                    <video controls preload="metadata" playsinline><source src="${url}" type="video/mp4"></video>
-                                </div>
-                                <div class="p-4">
-                                    <h3 class="font-bold text-xs text-zinc-100 line-clamp-2 h-8">${v.title}</h3>
-                                    <p class="text-[8px] mt-2 text-blue-500 font-black tracking-widest uppercase italic">Academy Cloud</p>
-                                </div>
-                            </div>`;
-                    });
+    if (filter.trim() !== "") {
+        if (hero) hero.classList.add('hidden');
+        if (heroVideo) heroVideo.pause();
+    } else {
+        if (hero) hero.classList.remove('hidden');
+    }
 
-                    section.innerHTML = `
-                        <div class="flex justify-between items-center mb-5 pr-4">
-                            <h2 class="text-sm md:text-base font-bold text-zinc-400 flex items-center gap-3 uppercase tracking-widest">
-                                <i data-lucide="play-circle" class="w-5 h-5 text-blue-500"></i> 
-                                ${cat.name}
-                            </h2>
-                            <div class="hidden md:flex gap-2">
-                                <button onclick="document.getElementById('${rowId}').scrollBy({left: -400, behavior: 'smooth'})" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
-                                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                                </button>
-                                <button onclick="document.getElementById('${rowId}').scrollBy({left: 400, behavior: 'smooth'})" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
-                                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
-                                </button>
-                            </div>
+    categories.forEach((cat, index) => {
+        const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
+        if (filteredVideos.length > 0) {
+            const section = document.createElement('div');
+            section.className = "mb-12 relative";
+            const rowId = `row-${index}`;
+
+            let videoCards = "";
+            filteredVideos.forEach(v => {
+                let url = v.id.replace('dl=0', 'raw=1');
+                videoCards += `
+                    <div class="video-card flex-none w-[280px] md:w-[320px] bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 shadow-lg">
+                        <div class="aspect-video">
+                            <video controls preload="metadata" playsinline><source src="${url}" type="video/mp4"></video>
                         </div>
-                        <div id="${rowId}" class="video-row">${videoCards}</div>`;
-                    
-                    container.appendChild(section);
-                }
+                        <div class="p-4">
+                            <h3 class="font-bold text-xs text-zinc-100 line-clamp-2 h-8">${v.title}</h3>
+                            <p class="text-[8px] mt-2 text-blue-500 font-black tracking-widest uppercase italic">Experience Tribe Academy</p>
+                        </div>
+                    </div>`;
             });
-            
-            if (window.lucide) lucide.createIcons();
+
+            // TITOLO + FRECCE RIPRISTINATE
+            section.innerHTML = `
+                <div class="flex justify-between items-center mb-5 pr-4">
+                    <h2 class="text-sm md:text-base font-bold text-zinc-400 flex items-center gap-3 uppercase tracking-widest">
+                        <i data-lucide="play-circle" class="w-5 h-5 text-blue-500"></i> ${cat.name}
+                    </h2>
+                    <div class="hidden md:flex gap-2">
+                        <button onclick="document.getElementById('${rowId}').scrollBy({left: -400, behavior: 'smooth'})" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
+                            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                        </button>
+                        <button onclick="document.getElementById('${rowId}').scrollBy({left: 400, behavior: 'smooth'})" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
+                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="${rowId}" class="video-row flex overflow-x-auto gap-4 md:gap-6 pb-4 scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+                    ${videoCards}
+                </div>`;
+
+            container.appendChild(section);
         }
+    });
+    if (window.lucide) lucide.createIcons();
+}
+
+// Inizializzazione
+if (document.getElementById('searchInput')) {
+    document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
+}
+
+if (localStorage.getItem('tribe_access') === 'granted') {
+    showContent();
+} else {
+    if (window.lucide) lucide.createIcons();
+}
 
         // Listener per la ricerca
 
