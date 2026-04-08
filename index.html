@@ -212,40 +212,27 @@ header .cursor-pointer:hover h1 {
 </div>
 
     <div id="mainContent" class="hidden">
-   <header class="p-4 md:p-8 flex flex-col md:flex-row justify-between items-center gap-4 border-b border-zinc-900 mb-6">
-    <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="location.reload()">
-        <img src="ET Monogram bianco.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain">
-        <div class="hidden sm:block">
-            <h1 class="text-lg md:text-xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">EXPERIENCE TRIBE</h1>
-        </div>
-    </div>
+        <header class="p-6 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-4 cursor-pointer" onclick="location.reload()">
+                <img src="ET Monogram bianco.png" alt="Logo" class="w-12 h-12 md:w-20 md:h-20 object-contain">
+                <div>
+                    <h1 class="text-2xl md:text-4xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">EXPERIENCE TRIBE</h1>
+                    <p class="text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold mt-1">Training Academy</p>
+                </div>
+            </div>
 
-    <div class="flex items-center bg-zinc-950 border border-zinc-800 p-1 rounded-2xl w-full md:w-auto">
-        <button id="tabVideo" onclick="switchSection('video')" class="flex-1 md:flex-none px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all">
-            <i class="fas fa-video mr-2"></i> Video
-        </button>
-        <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="flex-1 md:flex-none px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-white">
-            <i class="fas fa-book mr-2"></i> Cataloghi
-        </button>
-    </div>
+            <div class="flex items-center gap-6 w-full md:w-auto">
+                <div class="search-container md:w-64">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cerca un video..." class="search-input">
+                </div>
+                <button onclick="logout()" class="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
+                    <span>Esci</span>
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
 
-    <div class="flex items-center gap-4 w-full md:w-auto">
-        <div class="search-container flex-grow md:w-48">
-            <i class="fas fa-search text-zinc-600"></i>
-            <input type="text" id="searchInput" placeholder="Cerca..." class="search-input w-full bg-zinc-900 border-none">
-        </div>
-        <button onclick="logout()" class="nav-btn shrink-0">
-            <i class="fas fa-sign-out-alt"></i>
-        </button>
-    </div>
-</header>
-
-    <div class="flex justify-center gap-4 mb-8">
-        <button id="tabVideo" onclick="switchSection('video')" class="px-8 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-widest">Video</button>
-        <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-8 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 font-bold text-xs uppercase tracking-widest">Cataloghi</button>
-    </div>
-
-    <div id="videoSection">
         <section id="heroSection" class="px-6 md:px-12 mb-12">
             <div class="relative w-full max-w-6xl mx-auto rounded-3xl overflow-hidden border border-zinc-800 bg-black shadow-2xl">
                 <div class="aspect-video">
@@ -265,27 +252,7 @@ header .cursor-pointer:hover h1 {
         <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
     </div>
 
-    <div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="catalogGrid"></div>
-    </div>
-</div>
-        </header>
-
-        
-        <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
-    </div>
-
     <script>
-
-
-const catalogs = [
-    { title: "Manuale Operativo 2026", link: "LINK_QUI", desc: "Guida completa al metodo" },
-    { title: "Piano Compensi", link: "LINK_QUI", desc: "Tutte le provvigioni" },
-    { title: "Catalogo Prodotti", link: "LINK_QUI", desc: "Sfoglia la gamma completa" }
-];
-
-
-        
 
         // Controlla l'accesso appena la pagina viene caricata
         document.addEventListener('DOMContentLoaded', () => {
@@ -425,76 +392,6 @@ const catalogs = [
             { name: "29 - BONUS TRACKS", videos: [] },
             { name: "30 - AREA ADMIN", videos: [] }
         ];
-
-
-            function switchSection(type) {
-    const vSec = document.getElementById('videoSection');
-    const cSec = document.getElementById('catalogSection');
-    const btnV = document.getElementById('tabVideo');
-    const btnC = document.getElementById('tabCataloghi');
-    const heroSection = document.getElementById('heroSection');
-    const heroVideo = document.querySelector('#heroPlayer video');
-
-    if (type === 'video') {
-        // Mostra Video e Hero
-        vSec.classList.remove('hidden');
-        heroSection.classList.remove('hidden');
-        cSec.classList.add('hidden');
-        
-        // Update Bottoni
-        btnV.className = "px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all";
-        btnC.className = "px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-white";
-    } else {
-        // Nasconde Video e soprattutto l'Hero
-        vSec.classList.add('hidden');
-        heroSection.classList.add('hidden'); 
-        cSec.classList.remove('hidden');
-        
-        // Stop audio video se in riproduzione
-        if (heroVideo) heroVideo.pause();
-
-        // Update Bottoni
-        btnC.className = "px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all";
-        btnV.className = "px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-white";
-        
-        renderCatalogs(); // Avvia il rendering dei cataloghi
-    }
-}
-        
-        // STOP VIDEO: Mette in pausa il video in evidenza se stai andando sui cataloghi
-        if (heroVideo) heroVideo.pause();
-
-        // Stile bottoni
-        btnC.classList.replace('bg-zinc-900', 'bg-blue-600');
-        btnC.classList.replace('text-zinc-400', 'text-white');
-        btnV.classList.replace('bg-blue-600', 'bg-zinc-900');
-        btnV.classList.replace('text-white', 'text-zinc-400');
-        
-        renderCatalogs();
-    }
-}
-
-function renderCatalogs() {
-    const catalogGrid = document.getElementById('catalogGrid');
-    // Se l'array 'catalogs' non esiste ancora, crealo sopra
-    if (!window.catalogs) {
-        window.catalogs = [
-            { title: "Manuale 2026", link: "#", icon: "📚", desc: "Metodo ufficiale" },
-            { title: "Listino Prezzi", link: "#", icon: "🏷️", desc: "Aggiornato Marzo" },
-            { title: "Piano Marketing", link: "#", icon: "📊", desc: "Piano compensi" }
-        ];
-    }
-
-    catalogGrid.innerHTML = window.catalogs.map(c => `
-        <a href="${c.link}" target="_blank" class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl hover:border-blue-500 transition-all group">
-            <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">${c.icon}</div>
-            <h3 class="font-bold text-sm uppercase text-white">${c.title}</h3>
-            <p class="text-zinc-500 text-[10px] mt-1 uppercase">${c.desc}</p>
-        </a>
-    `).join('');
-}
-
-        
 
         function checkPassword() {
             if (document.getElementById('passwordInput').value === THE_PASSWORD) {
