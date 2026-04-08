@@ -210,59 +210,66 @@
             row.scrollBy({ left: distance, behavior: 'smooth' });
         }
 
-        function renderVideos(filter = "") {
-            const container = document.getElementById('categoriesContainer');
-            container.innerHTML = "";
+       function renderVideos(filter = "") {
+    const container = document.getElementById('categoriesContainer');
+    const heroSection = document.getElementById('heroSection'); // Recuperiamo la Hero
+    container.innerHTML = "";
+    
+    // LOGICA NASCONDI HERO: se filter non è vuoto, nascondi la Hero
+    if (filter.trim() !== "") {
+        heroSection.classList.add('hidden');
+    } else {
+        heroSection.classList.remove('hidden');
+    }
+
+    categories.forEach((cat, index) => {
+        const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
+        if (filteredVideos.length > 0) {
+            const section = document.createElement('div');
+            section.className = "mb-12 relative";
+            const rowId = `row-${index}`;
             
-            categories.forEach((cat, index) => {
-                const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
-                if (filteredVideos.length > 0) {
-                    const section = document.createElement('div');
-                    section.className = "mb-12 relative";
-                    const rowId = `row-${index}`;
-                    
-                    let videoGridHTML = `
-                        <div class="flex justify-between items-center mb-5 pr-2">
-                            <h2 class="text-base md:text-xl font-bold text-zinc-400 flex items-center gap-3">
-                                <span class="w-1 h-5 md:h-6 bg-orange-500 rounded-full"></span> ${cat.name}
-                            </h2>
-                            <div class="hidden md:flex gap-2">
-                                <button onclick="scrollRow('${rowId}', -340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                                </button>
-                                <button onclick="scrollRow('${rowId}', 340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </button>
+            let videoGridHTML = `
+                <div class="flex justify-between items-center mb-5 pr-2">
+                    <h2 class="text-base md:text-xl font-bold text-zinc-400 flex items-center gap-3">
+                        <span class="w-1 h-5 md:h-6 bg-orange-500 rounded-full"></span> ${cat.name}
+                    </h2>
+                    <div class="hidden md:flex gap-2">
+                        <button onclick="scrollRow('${rowId}', -340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                        </button>
+                        <button onclick="scrollRow('${rowId}', 340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <div id="${rowId}" class="video-row flex overflow-x-auto scroll-behavior-smooth gap-4 md:gap-6 pb-4">`;
+            
+            filteredVideos.forEach(v => {
+                let dropboxRaw = v.id.replace('dl=0', 'raw=1');
+                videoGridHTML += `
+                    <div class="video-card flex-none w-[80%] md:w-[320px] transition-all bg-zinc-950 md:bg-zinc-900 rounded-2xl border border-zinc-900 md:border-zinc-800 overflow-hidden shadow-lg">
+                        <div class="relative aspect-video rounded-t-2xl overflow-hidden">
+                            <video controls preload="metadata" poster="${v.poster || ''}" class="w-full h-full object-cover">
+                                <source src="${dropboxRaw}" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="p-4 md:p-5">
+                            <h3 class="font-bold text-xs md:text-sm text-zinc-100 leading-snug h-8 overflow-hidden line-clamp-2">${v.title}</h3>
+                            <div class="mt-3 flex justify-between items-center text-[8px] md:text-[9px] font-black uppercase tracking-widest text-orange-500">
+                                <span>ACADEMY</span>
+                                <span class="text-zinc-600">CLOUD STREAM</span>
                             </div>
                         </div>
-                        
-                        <div id="${rowId}" class="video-row flex overflow-x-auto scroll-behavior-smooth gap-4 md:gap-6 pb-4">`;
-                    
-                    filteredVideos.forEach(v => {
-                        let content = "";
-                        let dropboxRaw = v.id.replace('dl=0', 'raw=1');
-                        content = `<video controls preload="metadata" class="w-full h-full object-cover rounded-xl"><source src="${dropboxRaw}" type="video/mp4"></video>`;
-                        
-                        // Card più larga su mobile (flex-basis: 80% della larghezza schermo)
-                        videoGridHTML += `
-                            <div class="video-card flex-none w-[80%] md:w-[320px] transition-all bg-zinc-950 md:bg-zinc-900 rounded-2xl border border-zinc-900 md:border-zinc-800 overflow-hidden shadow-lg">
-                                <div class="relative aspect-video rounded-t-2xl overflow-hidden">${content}</div>
-                                <div class="p-4 md:p-5">
-                                    <h3 class="font-bold text-xs md:text-sm text-zinc-100 leading-snug h-8 overflow-hidden line-clamp-2">${v.title}</h3>
-                                    <div class="mt-3 flex justify-between items-center text-[8px] md:text-[9px] font-black uppercase tracking-widest text-orange-500">
-                                        <span>ACADEMY</span>
-                                        <span class="text-zinc-600">CLOUD STREAM</span>
-                                    </div>
-                                </div>
-                            </div>`;
-                    });
-                    
-                    videoGridHTML += `</div>`;
-                    section.innerHTML = videoGridHTML;
-                    container.appendChild(section);
-                }
+                    </div>`;
             });
+            
+            videoGridHTML += `</div>`;
+            section.innerHTML = videoGridHTML;
+            container.appendChild(section);
         }
+    });
+}
 
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
     </script>
