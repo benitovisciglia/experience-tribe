@@ -32,7 +32,16 @@
           overflow-x: hidden; 
           -webkit-text-size-adjust: 100%;
           touch-action: pan-y; 
+         -webkit-user-select: none; /* Safari */
+         -ms-user-select: none; /* IE 10 e versioni successive */
+         user-select: none; /* Standard */
       }
+
+        
+        input {
+        -webkit-user-select: text;
+        user-select: text;
+    }
 
       .video-card video {
         transition: transform 0.5s ease;
@@ -225,6 +234,27 @@ header .cursor-pointer:hover h1 {
     </div>
 
     <script>
+
+        // Blocca il tasto destro del mouse
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        
+        // Blocca scorciatoie da tastiera comuni per ispezionare il codice
+        document.onkeydown = function(e) {
+            // Blocca F12
+            if(e.keyCode == 123) return false;
+            
+            // Blocca Ctrl+Shift+I (Ispeziona)
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false;
+            
+            // Blocca Ctrl+Shift+C (Seleziona elemento)
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false;
+            
+            // Blocca Ctrl+Shift+J (Console)
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false;
+            
+            // Blocca Ctrl+U (Visualizza sorgente pagina)
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+        }
 
         // --- INIZIO BLOCCO ANTI-ZOOM ---
         document.addEventListener('touchstart', function (event) {
