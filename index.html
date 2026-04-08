@@ -507,6 +507,11 @@ function renderCatalogs() {
             const container = document.getElementById('categoriesContainer');
             const heroSection = document.getElementById('heroSection');
             container.innerHTML = "";
+            const container = document.getElementById('categories-container'); 
+            // L'ID tra parentesi deve essere IDENTICO a quello nell'HTML
+            
+            if (!container) return; // Sicurezza: se non lo trova, non crasha
+            container.innerHTML = '';
 
             // LOGICA: Se scrivo qualcosa, nascondo l'Hero
             if (search.trim().length > 0) {
