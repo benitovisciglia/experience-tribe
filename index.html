@@ -192,6 +192,25 @@ header .cursor-pointer:hover h1 {
         </div>
     </div>
 
+    <div id="auth-container" class="fixed inset-0 bg-black z-[100] flex items-center justify-center p-4">
+    <div class="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 w-full max-auto max-w-md text-center">
+        <img src="ET Monogram bianco.png" class="w-20 h-20 mx-auto mb-6 opacity-50">
+        <h2 class="text-2xl font-bold text-white mb-2">Area Riservata</h2>
+        <p class="text-zinc-500 mb-6 text-sm">Inserisci la password per accedere all'Academy</p>
+        
+        <input type="password" id="password-input" 
+               class="w-full bg-black border border-zinc-700 text-white p-4 rounded-xl mb-4 focus:outline-none focus:border-blue-500 text-center" 
+               placeholder="Password">
+        
+        <button onclick="checkAuth()" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all">
+            ACCEDI ORA
+        </button>
+        
+        <p id="auth-error" class="text-red-500 text-sm mt-4 hidden">Password errata, riprova.</p>
+    </div>
+</div>
+
     <div id="mainContent" class="hidden">
         <header class="p-6 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="flex items-center gap-4 cursor-pointer" onclick="location.reload()">
@@ -376,6 +395,25 @@ header .cursor-pointer:hover h1 {
             renderHero();
             renderVideos();
         }
+
+        function checkAuth() {
+            const pass = document.getElementById('password-input').value;
+            if(pass === 'ET2026IR') { // <--- Metti qui la tua vera password
+                localStorage.setItem('et_auth', 'true');
+                document.getElementById('auth-container').classList.add('hidden');
+            } else {
+                const error = document.getElementById('auth-error');
+                error.classList.remove('hidden');
+                setTimeout(() => error.classList.add('hidden'), 3000);
+            }
+        }
+
+// Supporto tasto "Invio" per il login
+document.getElementById('password-input')?.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        checkAuth();
+    }
+});
 
         function logout() {
             localStorage.removeItem('tribe_auth');
