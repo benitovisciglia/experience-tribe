@@ -40,6 +40,17 @@
         @media (min-width: 768px) {
             .video-card:hover { transform: translateY(-5px); border-color: #f97316; }
         }
+
+		/* Impedisce ai titoli di finire sotto l'header quando si clicca sui video */
+        .category-section {
+            scroll-margin-top: 100px; /* Crea uno spazio sopra la categoria quando ci si scolla sopra */
+            position: relative;
+        }
+
+        /* Migliora la gestione del tocco su mobile */
+        .video-card {
+            -webkit-tap-highlight-color: transparent;
+        }
     </style>
 </head>
 <body class="min-h-screen">
@@ -211,39 +222,41 @@
         }
 
        function renderVideos(filter = "") {
-    const container = document.getElementById('categoriesContainer');
-    const heroSection = document.getElementById('heroSection'); // Recuperiamo la Hero
-    container.innerHTML = "";
-    
-    // LOGICA NASCONDI HERO: se filter non è vuoto, nascondi la Hero
-    if (filter.trim() !== "") {
-        heroSection.classList.add('hidden');
-    } else {
-        heroSection.classList.remove('hidden');
-    }
-
-    categories.forEach((cat, index) => {
-        const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
-        if (filteredVideos.length > 0) {
-            const section = document.createElement('div');
-            section.className = "mb-12 relative";
-            const rowId = `row-${index}`;
+            const container = document.getElementById('categoriesContainer');
+            const heroSection = document.getElementById('heroSection');
+            container.innerHTML = "";
             
-            let videoGridHTML = `
-                <div class="flex justify-between items-center mb-5 pr-2">
-                    <h2 class="text-base md:text-xl font-bold text-zinc-400 flex items-center gap-3">
-                        <span class="w-1 h-5 md:h-6 bg-orange-500 rounded-full"></span> ${cat.name}
-                    </h2>
-                    <div class="hidden md:flex gap-2">
-                        <button onclick="scrollRow('${rowId}', -340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                        </button>
-                        <button onclick="scrollRow('${rowId}', 340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                        </button>
-                    </div>
-                </div>
-                <div id="${rowId}" class="video-row flex overflow-x-auto scroll-behavior-smooth gap-4 md:gap-6 pb-4">`;
+            if (filter.trim() !== "") {
+                heroSection.classList.add('hidden');
+            } else {
+                heroSection.classList.remove('hidden');
+            }
+
+            categories.forEach((cat, index) => {
+                const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
+                if (filteredVideos.length > 0) {
+                    const section = document.createElement('div');
+                    // AGGIUNTA CLASSE category-section qui sotto
+                    section.className = "mb-16 relative category-section"; 
+                    const rowId = `row-${index}`;
+                    
+                    let videoGridHTML = `
+                        <div class="flex justify-between items-center mb-6 pr-2">
+                            <h2 class="text-lg md:text-xl font-bold text-zinc-400 flex items-center gap-3">
+                                <span class="w-1 h-6 bg-orange-500 rounded-full"></span> ${cat.name}
+                            </h2>
+                            <div class="hidden md:flex gap-2">
+                                <button onclick="scrollRow('${rowId}', -340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </button>
+                                <button onclick="scrollRow('${rowId}', 340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="${rowId}" class="video-row flex overflow-x-auto scroll-behavior-smooth gap-4 md:gap-6 pb-4">`;
+                    
+                    // ... il resto del codice dei video rimane uguale ...
             
             filteredVideos.forEach(v => {
                 let dropboxRaw = v.id.replace('dl=0', 'raw=1');
