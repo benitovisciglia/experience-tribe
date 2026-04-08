@@ -3,50 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	
+    
     <title>Experience Tribe | Academy</title>
 
-<link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
 
-<link rel="apple-touch-icon" href="favicon.png">
-<link rel="apple-touch-icon" sizes="152x152" href="favicon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-<link rel="apple-touch-icon" sizes="167x167" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="favicon.png">
 
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="icon" sizes="192x192" href="favicon.png">
-<link rel="icon" sizes="512x512" href="favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="favicon.png">
+    <link rel="icon" sizes="512x512" href="favicon.png">
 
-<meta name="apple-mobile-web-app-title" content="ET Academy">
-<meta name="application-name" content="ET Academy">
-<meta name="theme-color" content="#050505">
-	
+    <meta name="apple-mobile-web-app-title" content="ET Academy">
+    <meta name="application-name" content="ET Academy">
+    <meta name="theme-color" content="#050505">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         body { background-color: #050505; 
-			  color: white; 
-			  font-family: 'Inter', sans-serif; 
-			  overflow-x: hidden; 
-			  -webkit-text-size-adjust: 100%;
-   			  touch-action: pan-y; 
-			 }
+          color: white; 
+          font-family: 'Inter', sans-serif; 
+          overflow-x: hidden; 
+          -webkit-text-size-adjust: 100%;
+          touch-action: pan-y; 
+      }
 
-		.video-card video {
-    transition: transform 0.5s ease;
-}
+      .video-card video {
+        transition: transform 0.5s ease;
+    }
 
-.video-card:hover video {
-    transform: scale(1.05); /* Lo zoom rimane dentro il riquadro della card */
-}
-		
-		/* Rimuove il tasto Play centrale forzato da Android/Chrome */
-		video::-webkit-media-controls-start-playback-button {
-   		display: none !important;
-    	-webkit-appearance: none;
-}
+    .video-card:hover video {
+        transform: scale(1.05); /* Lo zoom rimane dentro il riquadro della card */
+    }
+    
+    /* Rimuove il tasto Play centrale forzato da Android/Chrome */
+    video::-webkit-media-controls-start-playback-button {
+        display: none !important;
+        -webkit-appearance: none;
+    }
 
 /* Rimuove l'evidenziazione azzurra al tocco (tipica di Android) */
 video {
@@ -59,7 +59,7 @@ video:not(:valid) {
     display: block;
 }
 
-		header .cursor-pointer:hover img {
+header .cursor-pointer:hover img {
     transform: scale(1.05);
     transition: transform 0.3s ease;
 }
@@ -67,111 +67,111 @@ video:not(:valid) {
 header .cursor-pointer:hover h1 {
     filter: brightness(1.2);
 }
-        
-        /* Layout Righe Video */
-        .video-row {
-            display: flex;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            gap: 1.5rem;
-            padding: 1rem 0 2rem 0;
-            scrollbar-width: none; 
-        }
-        .video-row::-webkit-scrollbar { display: none; }
 
-        .video-card { 
-            flex: 0 0 280px; 
-            background: #111; 
-            border: 1px solid #222; 
-            border-radius: 12px; 
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
+/* Layout Righe Video */
+.video-row {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 1.5rem;
+    padding: 1rem 0 2rem 0;
+    scrollbar-width: none; 
+}
+.video-row::-webkit-scrollbar { display: none; }
 
-        .video-card:hover { 
-            transform: translateY(-5px); 
-            border-color: #3b82f6; 
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); 
-        }
+.video-card { 
+    flex: 0 0 280px; 
+    background: #111; 
+    border: 1px solid #222; 
+    border-radius: 12px; 
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
 
-        /* Header Categoria con Frecce in stile App */
-        .category-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 2rem;
-        }
+.video-card:hover { 
+    transform: translateY(-5px); 
+    border-color: #3b82f6; 
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); 
+}
 
-        .category-title {
-            font-size: 0.85rem;
-            font-weight: 800;
-            color: #a1a1aa;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+/* Header Categoria con Frecce in stile App */
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+}
 
-        .play-icon {
-            color: #3b82f6;
-            font-size: 0.7rem;
-        }
+.category-title {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #a1a1aa;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-        /* Navigazione Tonda accanto al titolo */
-        .nav-controls {
-            display: flex;
-            gap: 10px;
-        }
+.play-icon {
+    color: #3b82f6;
+    font-size: 0.7rem;
+}
 
-        .nav-btn {
-            width: 36px;
-            height: 36px;
-            background: #18181b;
-            border: 1px solid #27272a;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: white;
-            transition: all 0.2s;
-        }
+/* Navigazione Tonda accanto al titolo */
+.nav-controls {
+    display: flex;
+    gap: 10px;
+}
 
-        .nav-btn:hover {
-            background: #3b82f6;
-            border-color: #3b82f6;
-        }
+.nav-btn {
+    width: 36px;
+    height: 36px;
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s;
+}
 
-        /* Input Ricerca con Icona */
-        .search-container {
-            position: relative;
-            width: 100%;
-        }
-        .search-container i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #52525b;
-            font-size: 0.9rem;
-        }
-        .search-input {
-            width: 100%;
-            background: #111;
-            border: 1px solid #222;
-            padding: 10px 15px 10px 40px;
-            border-radius: 99px;
-            font-size: 0.85rem;
-            color: white;
-            outline: none;
-            transition: all 0.3s;
-        }
-        .search-input:focus { border-color: #3b82f6; background: #18181b; }
+.nav-btn:hover {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
 
-        .hero-gradient { background: linear-gradient(to bottom, transparent, rgba(5,5,5,1)); }
-        .hidden { display: none !important; }
-    </style>
+/* Input Ricerca con Icona */
+.search-container {
+    position: relative;
+    width: 100%;
+}
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #52525b;
+    font-size: 0.9rem;
+}
+.search-input {
+    width: 100%;
+    background: #111;
+    border: 1px solid #222;
+    padding: 10px 15px 10px 40px;
+    border-radius: 99px;
+    font-size: 0.85rem;
+    color: white;
+    outline: none;
+    transition: all 0.3s;
+}
+.search-input:focus { border-color: #3b82f6; background: #18181b; }
+
+.hero-gradient { background: linear-gradient(to bottom, transparent, rgba(5,5,5,1)); }
+.hidden { display: none !important; }
+</style>
 </head>
 <body>
 
@@ -186,12 +186,12 @@ header .cursor-pointer:hover h1 {
     <div id="mainContent" class="hidden">
         <header class="p-6 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8">
             <div class="flex items-center gap-4 cursor-pointer" onclick="location.reload()">
-    <img src="ET Monogram bianco.png" alt="Logo" class="w-12 h-12 md:w-20 md:h-20 object-contain">
-    <div>
-        <h1 class="text-2xl md:text-4xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">EXPERIENCE TRIBE</h1>
-        <p class="text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold mt-1">Training Academy</p>
-    </div>
-</div>
+                <img src="ET Monogram bianco.png" alt="Logo" class="w-12 h-12 md:w-20 md:h-20 object-contain">
+                <div>
+                    <h1 class="text-2xl md:text-4xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">EXPERIENCE TRIBE</h1>
+                    <p class="text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold mt-1">Training Academy</p>
+                </div>
+            </div>
 
             <div class="flex items-center gap-6 w-full md:w-auto">
                 <div class="search-container md:w-64">
@@ -226,24 +226,24 @@ header .cursor-pointer:hover h1 {
 
     <script>
 
-		// --- INIZIO BLOCCO ANTI-ZOOM ---
-    document.addEventListener('touchstart', function (event) {
-        if (event.touches.length > 1) {
-            event.preventDefault(); 
-        }
-    }, { passive: false });
+        // --- INIZIO BLOCCO ANTI-ZOOM ---
+        document.addEventListener('touchstart', function (event) {
+            if (event.touches.length > 1) {
+                event.preventDefault(); 
+            }
+        }, { passive: false });
 
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function (event) {
-        const now = (new Date()).getTime();
-        if (now - lastTouchEnd <= 300) {
-            event.preventDefault(); 
-        }
-        lastTouchEnd = now;
-    }, false);
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault(); 
+            }
+            lastTouchEnd = now;
+        }, false);
     // --- FINE BLOCCO ANTI-ZOOM ---
 
-		
+        
         const THE_PASSWORD = "ET2026IR";
 
         const HERO_VIDEO = {
@@ -270,47 +270,47 @@ header .cursor-pointer:hover h1 {
             ] },
             // ... le altre categorie restano vuote ma pronte
             { name: "COME AVERE RISULTATI CONCRETI NEL NETWORK", videos: [
-            { id: "https://www.dropbox.com/scl/fi/b1wdb95pg7dm9pu0ms8lb/COME-AVERE-RISULTATI-CONCRETI.mp4?rlkey=qe3couw16dnts7kkcajdgy87f&st=h4m1a012&dl=0", title: "COME AVERE RISULTATI CONCRETI" },
+                { id: "https://www.dropbox.com/scl/fi/b1wdb95pg7dm9pu0ms8lb/COME-AVERE-RISULTATI-CONCRETI.mp4?rlkey=qe3couw16dnts7kkcajdgy87f&st=h4m1a012&dl=0", title: "COME AVERE RISULTATI CONCRETI" },
             ] },
             { name: "FORMAZIONE 2026", videos: [
                 { id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&st=7givwfa7&dl=0", title: "I 7 LADRI DEL TEMPO - COME AVERE PIU' TEMPO" },
-				{ id: "https://www.dropbox.com/scl/fi/q4iyap1gnnj2bpsjm7ll0/END-OF-MONTH-CALL.mp4?rlkey=dzk5wrkm65kxflgecjwrfsvm9&st=siu4s76m&dl=0", title: "END OF MONTH CALL" },
-				{ id: "https://www.dropbox.com/scl/fi/8v6nuv2dx506p4wsy1543/VINCENZO-AMATULLI-FORMAZIONE-E-TESTIMONIANZA.mp4?rlkey=4zay3d0fx62zywyot48v1qywf&st=x2igpfki&dl=0", title: "VINCENZO AMATULLI FORMAZIONE E TESTIMONIANZA" },
-				{ id: "https://www.dropbox.com/scl/fi/h4hgjbggp4lsa99husd2c/NOVITA-CHOGAN-MARZO-2026.mp4?rlkey=n5golm2h0ciu2j4s3uctok7wc&st=jevemisw&dl=0", title: "NOVITA' CHOGAN MARZO 2026" },
-				{ id: "https://www.dropbox.com/scl/fi/080dq5char3anks58euex/STRATEGIE-DI-COMUNICAZIONE.mp4?rlkey=gzlq63bsu114qbah8hhfndj71&st=ef705fw4&dl=0", title: "STRATEGIE DI COMUNICAZIONE" },
-				{ id: "https://www.dropbox.com/scl/fi/re7t2onn4pe16h0zjd49e/LASCIA-IL-TUO-LAVORO-IN-90-GIORNI-2026.mp4?rlkey=cqbcg3ib4yje2lkjh0jbsoagi&st=9zc1uux4&dl=0", title: "LASCIA IL TUO LAVORO IN 90 GIORNI 2026" },         
+                { id: "https://www.dropbox.com/scl/fi/q4iyap1gnnj2bpsjm7ll0/END-OF-MONTH-CALL.mp4?rlkey=dzk5wrkm65kxflgecjwrfsvm9&st=siu4s76m&dl=0", title: "END OF MONTH CALL" },
+                { id: "https://www.dropbox.com/scl/fi/8v6nuv2dx506p4wsy1543/VINCENZO-AMATULLI-FORMAZIONE-E-TESTIMONIANZA.mp4?rlkey=4zay3d0fx62zywyot48v1qywf&st=x2igpfki&dl=0", title: "VINCENZO AMATULLI FORMAZIONE E TESTIMONIANZA" },
+                { id: "https://www.dropbox.com/scl/fi/h4hgjbggp4lsa99husd2c/NOVITA-CHOGAN-MARZO-2026.mp4?rlkey=n5golm2h0ciu2j4s3uctok7wc&st=jevemisw&dl=0", title: "NOVITA' CHOGAN MARZO 2026" },
+                { id: "https://www.dropbox.com/scl/fi/080dq5char3anks58euex/STRATEGIE-DI-COMUNICAZIONE.mp4?rlkey=gzlq63bsu114qbah8hhfndj71&st=ef705fw4&dl=0", title: "STRATEGIE DI COMUNICAZIONE" },
+                { id: "https://www.dropbox.com/scl/fi/re7t2onn4pe16h0zjd49e/LASCIA-IL-TUO-LAVORO-IN-90-GIORNI-2026.mp4?rlkey=cqbcg3ib4yje2lkjh0jbsoagi&st=9zc1uux4&dl=0", title: "LASCIA IL TUO LAVORO IN 90 GIORNI 2026" },         
             ] },
             { name: "FORMAZIONE DI BASE", videos: [
-				{ id: "https://www.dropbox.com/scl/fi/0pbktidktqcgyg4a72p78/I-PRIMI-PASSI.mp4?rlkey=56trbs2davw5160ujbo7dnlwa&st=i9rtpyml&dl=0", title: "I PRIMI PASSI" },
-				{ id: "https://www.dropbox.com/scl/fi/n41760d6k5n0yza9e5il7/formazione-importante-NUOVO-CONSULENTE.mp4?rlkey=pqk53jg77j58dtc8v2e2ya3k1&st=xs5y78y9&dl=0", title: "formazione importante NUOVO CONSULENTE" },
-				{ id: "https://www.dropbox.com/scl/fi/424p52ak47vevrksyxkdl/Gestione-del-tempo-TIME-MANAGEMENT2024.mp4?rlkey=emof54utt9dzvj6idussk6pn6&st=rqpfl76i&dl=0", title: "Gestione del tempo TIME MANAGEMENT 2024" },
-				{ id: "https://www.dropbox.com/scl/fi/fii3pms27ddgu91nlczno/HOME-PARTY-Come-svolgerlo.mp4?rlkey=hv0h1rrh92mnxb12xf0kux6gc&st=9j8veigk&dl=0", title: "HOME PARTY - Come svolgerlo!" },
-				{ id: "https://www.dropbox.com/scl/fi/vlw1k6lzzyf0pnh2ew0au/IL-PRINCIPIO-DEL-MLM.mp4?rlkey=mbr4t4c4ycxygns3tg1f65kbd&st=ou40lhvo&dl=0", title: "IL PRINCIPIO DEL MLM" },
-			] },
+                { id: "https://www.dropbox.com/scl/fi/0pbktidktqcgyg4a72p78/I-PRIMI-PASSI.mp4?rlkey=56trbs2davw5160ujbo7dnlwa&st=i9rtpyml&dl=0", title: "I PRIMI PASSI" },
+                { id: "https://www.dropbox.com/scl/fi/n41760d6k5n0yza9e5il7/formazione-importante-NUOVO-CONSULENTE.mp4?rlkey=pqk53jg77j58dtc8v2e2ya3k1&st=xs5y78y9&dl=0", title: "formazione importante NUOVO CONSULENTE" },
+                { id: "https://www.dropbox.com/scl/fi/424p52ak47vevrksyxkdl/Gestione-del-tempo-TIME-MANAGEMENT2024.mp4?rlkey=emof54utt9dzvj6idussk6pn6&st=rqpfl76i&dl=0", title: "Gestione del tempo TIME MANAGEMENT 2024" },
+                { id: "https://www.dropbox.com/scl/fi/fii3pms27ddgu91nlczno/HOME-PARTY-Come-svolgerlo.mp4?rlkey=hv0h1rrh92mnxb12xf0kux6gc&st=9j8veigk&dl=0", title: "HOME PARTY - Come svolgerlo!" },
+                { id: "https://www.dropbox.com/scl/fi/vlw1k6lzzyf0pnh2ew0au/IL-PRINCIPIO-DEL-MLM.mp4?rlkey=mbr4t4c4ycxygns3tg1f65kbd&st=ou40lhvo&dl=0", title: "IL PRINCIPIO DEL MLM" },
+            ] },
             { name: "FORMAZIONE PRODOTTI", videos: [
-				{ id: "https://www.dropbox.com/scl/fi/z9roorws9stwyfg22updr/BENESSERE-con-i-nostri-prodotti-Marco-Casciaro.mp4?rlkey=y2i6ihm8n7bbpfrm8qitqge4c&st=g63hfmhw&dl=0", title: "BENESSERE con i nostri prodotti (Marco Casciaro)" },
-				{ id: "https://www.dropbox.com/scl/fi/93fb23jjreu8qma8g5j1c/PRODOTTI-Problema-SOLUZIONE.mp4?rlkey=ki1n0xx3gzkoorvlvi0ov60ml&st=fuobhcz5&dl=0", title: "PRODOTTI Problema - SOLUZIONE!" },
-				{ id: "https://www.dropbox.com/scl/fi/5iz22r6mpa4ggs872yi4r/E-STATE-al-TOP-prodotti-per-l-estate.mp4?rlkey=kjgn16pcx8t46o1c8a6htdpek&st=svfhuhul&dl=0", title: "E-STATE al TOP prodotti per l'estate" },
-			] },
+                { id: "https://www.dropbox.com/scl/fi/z9roorws9stwyfg22updr/BENESSERE-con-i-nostri-prodotti-Marco-Casciaro.mp4?rlkey=y2i6ihm8n7bbpfrm8qitqge4c&st=g63hfmhw&dl=0", title: "BENESSERE con i nostri prodotti (Marco Casciaro)" },
+                { id: "https://www.dropbox.com/scl/fi/93fb23jjreu8qma8g5j1c/PRODOTTI-Problema-SOLUZIONE.mp4?rlkey=ki1n0xx3gzkoorvlvi0ov60ml&st=fuobhcz5&dl=0", title: "PRODOTTI Problema - SOLUZIONE!" },
+                { id: "https://www.dropbox.com/scl/fi/5iz22r6mpa4ggs872yi4r/E-STATE-al-TOP-prodotti-per-l-estate.mp4?rlkey=kjgn16pcx8t46o1c8a6htdpek&st=svfhuhul&dl=0", title: "E-STATE al TOP prodotti per l'estate" },
+            ] },
             { name: "FORMAZIONE SOCIAL", videos: [
-				{ id: "https://www.dropbox.com/scl/fi/n2xv3i9junwmna1o3qjr1/Sponsorizzare-sui-social.mp4?rlkey=v5gwcjv8t3l27ohh9rii77iv4&st=zmdnle4z&dl=0", title: "Sponsorizzare sui social" },
-				{ id: "https://www.dropbox.com/scl/fi/75c1zc8rhqnfn4btgajbh/COME-FARE-LE-LIVE.mp4?rlkey=ix6tphfruazj8dio74y4uoh9j&st=o82o0i5z&dl=0", title: "COME FARE LE LIVE" },
-				{ id: "https://www.dropbox.com/scl/fi/n77p37quj4llpw1qm400s/whatsapp-party.mp4?rlkey=d84s94znqnhl6epvjzl732nw9&st=95bzr5c6&dl=0", title: "WHATSAPP PARTY" },
-				{ id: "https://www.dropbox.com/scl/fi/cgfw9pl8vzrd7c2azu7xj/Social-strategy-tik-tok-1-parte.mp4?rlkey=6e5h0acwjmbamarffryuk642h&st=v5au5iyf&dl=0", title: "SOCIAL STRATEGY TIKTOK - PARTE 1" },
-				{ id: "https://www.dropbox.com/scl/fi/xtgv69j92ybjv9sz3np0r/Social-strategy-tik-tok-2-piano-compensi.mp4?rlkey=0wb71kgkm6261exekwfdc3o99&st=zjip2srq&dl=0", title: "SOCIAL STRATEGY TIKTOK - PARTE 1 + PIANO COMPENSI" },
-				{ id: "https://www.dropbox.com/scl/fi/w9nx4oa1b7gleunyoacny/REALIZZARE-VIDEO-PER-TIK-TOK.mp4?rlkey=g8j04g64fccqfxc2khmbvb6sj&st=fmbjxpwe&dl=0", title: "REALIZZARE VIDEO PER TIKTOK" },
-			] },
+                { id: "https://www.dropbox.com/scl/fi/n2xv3i9junwmna1o3qjr1/Sponsorizzare-sui-social.mp4?rlkey=v5gwcjv8t3l27ohh9rii77iv4&st=zmdnle4z&dl=0", title: "Sponsorizzare sui social" },
+                { id: "https://www.dropbox.com/scl/fi/75c1zc8rhqnfn4btgajbh/COME-FARE-LE-LIVE.mp4?rlkey=ix6tphfruazj8dio74y4uoh9j&st=o82o0i5z&dl=0", title: "COME FARE LE LIVE" },
+                { id: "https://www.dropbox.com/scl/fi/n77p37quj4llpw1qm400s/whatsapp-party.mp4?rlkey=d84s94znqnhl6epvjzl732nw9&st=95bzr5c6&dl=0", title: "WHATSAPP PARTY" },
+                { id: "https://www.dropbox.com/scl/fi/cgfw9pl8vzrd7c2azu7xj/Social-strategy-tik-tok-1-parte.mp4?rlkey=6e5h0acwjmbamarffryuk642h&st=v5au5iyf&dl=0", title: "SOCIAL STRATEGY TIKTOK - PARTE 1" },
+                { id: "https://www.dropbox.com/scl/fi/xtgv69j92ybjv9sz3np0r/Social-strategy-tik-tok-2-piano-compensi.mp4?rlkey=0wb71kgkm6261exekwfdc3o99&st=zjip2srq&dl=0", title: "SOCIAL STRATEGY TIKTOK - PARTE 1 + PIANO COMPENSI" },
+                { id: "https://www.dropbox.com/scl/fi/w9nx4oa1b7gleunyoacny/REALIZZARE-VIDEO-PER-TIK-TOK.mp4?rlkey=g8j04g64fccqfxc2khmbvb6sj&st=fmbjxpwe&dl=0", title: "REALIZZARE VIDEO PER TIKTOK" },
+            ] },
             { name: "FORMAZIONE SPONSOR", videos: [
-				{ id: "https://www.dropbox.com/scl/fi/ho5qlbz7xcydmzvmjqr4m/I-COMPITI-E-LE-FUNZIONI-DELLO-SPONSOR.mp4?rlkey=harpk85lacqzwnyxmjf9uogi0&st=0tox6cq8&dl=0", title: "I COMPITI E LE FUNZIONI DELLO SPONSOR" },
-				{ id: "https://www.dropbox.com/scl/fi/q5nr677i35qjrrn73ping/PRESENTARE-IL-BUSINESS.mp4?rlkey=tl2s6g8fnazpcpwhk15pyv182&st=8e2z3cfs&dl=0", title: "PRESENTARE IL BUSINESS" },
-				{ id: "https://www.dropbox.com/scl/fi/wcz95dqvys8sqpigud5v9/ESEMPIO-CHIAMATA-per-appuntamento-consigli-vari.mp4?rlkey=fuiij4satkqgbz72q8iyteqs0&st=obozzguy&dl=0", title: "ESEMPIO CHIAMATA PER APPUNTAMENTO & CONSIGLI VARI" },
-				{ id: "https://www.dropbox.com/scl/fi/mxw2ix7u1zhv5xttgn9mc/MINDSET-GRATITUDINE-.VALORI-NEL-NM.mp4?rlkey=n917f0ohuz5xuffiplkbrzm1b&st=2w8q4z4w&dl=0", title: "MINDSET & GRATITUDINE - VALORI NEL NETWORK MARKETING" },
-			] },
+                { id: "https://www.dropbox.com/scl/fi/ho5qlbz7xcydmzvmjqr4m/I-COMPITI-E-LE-FUNZIONI-DELLO-SPONSOR.mp4?rlkey=harpk85lacqzwnyxmjf9uogi0&st=0tox6cq8&dl=0", title: "I COMPITI E LE FUNZIONI DELLO SPONSOR" },
+                { id: "https://www.dropbox.com/scl/fi/q5nr677i35qjrrn73ping/PRESENTARE-IL-BUSINESS.mp4?rlkey=tl2s6g8fnazpcpwhk15pyv182&st=8e2z3cfs&dl=0", title: "PRESENTARE IL BUSINESS" },
+                { id: "https://www.dropbox.com/scl/fi/wcz95dqvys8sqpigud5v9/ESEMPIO-CHIAMATA-per-appuntamento-consigli-vari.mp4?rlkey=fuiij4satkqgbz72q8iyteqs0&st=obozzguy&dl=0", title: "ESEMPIO CHIAMATA PER APPUNTAMENTO & CONSIGLI VARI" },
+                { id: "https://www.dropbox.com/scl/fi/mxw2ix7u1zhv5xttgn9mc/MINDSET-GRATITUDINE-.VALORI-NEL-NM.mp4?rlkey=n917f0ohuz5xuffiplkbrzm1b&st=2w8q4z4w&dl=0", title: "MINDSET & GRATITUDINE - VALORI NEL NETWORK MARKETING" },
+            ] },
             { name: "FUNZIONI AVANZATE", videos: [
-				{ id: "https://www.dropbox.com/scl/fi/l493k4km91fhh3f30zrvl/RIATTIVARE-UN-CONSULENTE-CON-CAMBIO-SPONSOR.mp4?rlkey=ybcqno0nz9vpq0m7a97k64ny5&st=y1tm0c21&dl=0", title: "RIATTIVARE UN CONSULENTE CON CAMBIO SPONSOR" },
-				{ id: "https://www.dropbox.com/scl/fi/doieiugbdz9f4rc6d3xmg/Cambio-mail-e-funzioni-di-convalida-nuovo-consulente.mp4?rlkey=vzclbac0k48b27la49udzaad4&st=z6l0uus1&dl=0", title: "CAMBIO MAIL E FUNZIONI DI CONVALIDA NUOVO CONSULENTE" },
-				{ id: "https://www.dropbox.com/scl/fi/z7njqlo9ht8jfkaug7i6d/FUNZIONE-KPI.mp4?rlkey=700uskzrqt0miabh6ow2klb8s&st=hs9qv28t&dl=0", title: "FUNZIONE KPI" },
-			] },
+                { id: "https://www.dropbox.com/scl/fi/l493k4km91fhh3f30zrvl/RIATTIVARE-UN-CONSULENTE-CON-CAMBIO-SPONSOR.mp4?rlkey=ybcqno0nz9vpq0m7a97k64ny5&st=y1tm0c21&dl=0", title: "RIATTIVARE UN CONSULENTE CON CAMBIO SPONSOR" },
+                { id: "https://www.dropbox.com/scl/fi/doieiugbdz9f4rc6d3xmg/Cambio-mail-e-funzioni-di-convalida-nuovo-consulente.mp4?rlkey=vzclbac0k48b27la49udzaad4&st=z6l0uus1&dl=0", title: "CAMBIO MAIL E FUNZIONI DI CONVALIDA NUOVO CONSULENTE" },
+                { id: "https://www.dropbox.com/scl/fi/z7njqlo9ht8jfkaug7i6d/FUNZIONE-KPI.mp4?rlkey=700uskzrqt0miabh6ow2klb8s&st=hs9qv28t&dl=0", title: "FUNZIONE KPI" },
+            ] },
             { name: "11 - LEADERSHIP", videos: [] },
             { name: "12 - OBIETTIVI MENSILI", videos: [] },
             { name: "13 - SETTIMANA 1", videos: [] },
@@ -358,24 +358,24 @@ header .cursor-pointer:hover h1 {
             document.getElementById('heroPlayer').innerHTML = `
                 <video controls playsinline class="w-full h-full object-cover">
                     <source src="${HERO_VIDEO.id}" type="video/mp4">
-                </video>`;
+            </video>`;
         }
 
         window.scrollRow = (id, dir) => {
-    const row = document.getElementById(id);
+            const row = document.getElementById(id);
     // Calcola la larghezza di una card inclusa la spaziatura (gap)
-    const firstCard = row.querySelector('.video-card');
-    if (firstCard) {
-        const cardWidth = firstCard.offsetWidth;
-        const gap = parseFloat(window.getComputedStyle(row).gap) || 24;
-        const scrollStep = cardWidth + gap;
-        
-        row.scrollBy({ 
-            left: dir * scrollStep, 
-            behavior: 'smooth' 
-        });
-    }
-};
+            const firstCard = row.querySelector('.video-card');
+            if (firstCard) {
+                const cardWidth = firstCard.offsetWidth;
+                const gap = parseFloat(window.getComputedStyle(row).gap) || 24;
+                const scrollStep = cardWidth + gap;
+                
+                row.scrollBy({ 
+                    left: dir * scrollStep, 
+                    behavior: 'smooth' 
+                });
+            }
+        };
 
         function renderVideos(search = "") {
             const container = document.getElementById('categoriesContainer');
@@ -398,12 +398,12 @@ header .cursor-pointer:hover h1 {
                 const rowId = `row-${idx}`;
                 const section = document.createElement('div');
 
-				let vcards = filtered.map(v => `
+                let vcards = filtered.map(v => `
     <div class="video-card">
         <div class="aspect-video bg-black">
             <video 
                 preload="metadata" 
-				poster="${v.poster || 'favicon.png'}"
+                poster="${v.poster || 'favicon.png'}"
                 playsinline 
                 webkit-playsinline
                 class="w-full h-full object-cover"
@@ -420,7 +420,7 @@ header .cursor-pointer:hover h1 {
                             </div>
                         </div>
                     </div>
-`).join('');
+                `).join('');
                 
                 
 
