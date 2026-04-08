@@ -290,26 +290,23 @@
         function renderVideos(filter = "") {
             const container = document.getElementById('categoriesContainer');
             const hero = document.getElementById('heroSection');
-            const heroVideo = hero.querySelector('video'); // Troviamo il video dentro la Hero
+            const heroVideo = hero.querySelector('video');
             
             container.innerHTML = "";
             
             if (filter.trim() !== "") {
-                // Se l'utente sta cercando:
-                hero.classList.add('hidden'); // Nascondi la sezione
-                if (heroVideo) {
-                    heroVideo.pause(); // Metti in pausa il video per fermare l'audio
-                }
+                hero.classList.add('hidden');
+                if (heroVideo) heroVideo.pause();
             } else {
-                // Se la barra di ricerca è vuota:
-                hero.classList.remove('hidden'); // Mostra la sezione
+                hero.classList.remove('hidden');
             }
 
-            categories.forEach((cat) => {
+            categories.forEach((cat, index) => {
                 const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
                 if (filteredVideos.length > 0) {
                     const section = document.createElement('div');
-                    section.className = "mb-10";
+                    section.className = "mb-12 relative";
+                    const rowId = `row-${index}`;
                     
                     let videoCards = "";
                     filteredVideos.forEach(v => {
@@ -325,14 +322,30 @@
                             </div>`;
                     });
 
+                    // QUI RIAGGIUNGIAMO LE FRECCE E L'ICONA
                     section.innerHTML = `
-   					<h2 class="text-sm md:text-base font-bold text-zinc-400 mb-5 flex items-center gap-3 uppercase tracking-widest">
-        			<i data-lucide="play-circle" class="w-5 h-5 text-blue-500"></i> 
-       				${cat.name}
-    				</h2>
-    				<div class="video-row">${videoCards}</div>`;
+                        <div class="flex justify-between items-center mb-5 pr-4">
+                            <h2 class="text-sm md:text-base font-bold text-zinc-400 flex items-center gap-3 uppercase tracking-widest">
+                                <i data-lucide="play-circle" class="w-5 h-5 text-blue-500"></i> 
+                                ${cat.name}
+                            </h2>
+                            <div class="hidden md:flex gap-2">
+                                <button onclick="document.getElementById('${rowId}').scrollBy({left: -400, behavior: 'smooth'})" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
+                                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                                </button>
+                                <button onclick="document.getElementById('${rowId}').scrollBy({left: 400, behavior: 'smooth'})" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
+                                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="${rowId}" class="video-row">${videoCards}</div>`;
+                    
                     container.appendChild(section);
-					lucide.createIcons();
+                }
+            });
+            
+            // INDISPENSABILE: Attiva le icone (incluse le frecce nuove)
+            lucide.createIcons();
                 }
             });
         }
