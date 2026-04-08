@@ -254,6 +254,17 @@ header .cursor-pointer:hover h1 {
 
     <script>
 
+        // Controlla l'accesso appena la pagina viene caricata
+        document.addEventListener('DOMContentLoaded', () => {
+            const isAuth = localStorage.getItem('et_auth');
+            if (isAuth === 'true') {
+                const authContainer = document.getElementById('auth-container');
+                if (authContainer) {
+                    authContainer.classList.add('hidden');
+                }
+            }
+        });
+        
         // Blocca il tasto destro del mouse
         document.addEventListener('contextmenu', event => event.preventDefault());
         
@@ -397,23 +408,18 @@ header .cursor-pointer:hover h1 {
         }
 
         function checkAuth() {
-            const pass = document.getElementById('password-input').value;
-            if(pass === 'ET2026IR') { // <--- Metti qui la tua vera password
-                localStorage.setItem('et_auth', 'true');
-                document.getElementById('auth-container').classList.add('hidden');
-            } else {
-                const error = document.getElementById('auth-error');
-                error.classList.remove('hidden');
-                setTimeout(() => error.classList.add('hidden'), 3000);
-            }
-        }
-
-// Supporto tasto "Invio" per il login
-document.getElementById('password-input')?.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        checkAuth();
+    const pass = document.getElementById('password-input').value;
+    if(pass === 'LATUAPASSWORD') { // Sostituisci con la tua password
+        // SALVA l'accesso nel browser
+        localStorage.setItem('et_auth', 'true'); 
+        
+        document.getElementById('auth-container').classList.add('hidden');
+    } else {
+        const error = document.getElementById('auth-error');
+        error.classList.remove('hidden');
+        setTimeout(() => error.classList.add('hidden'), 3000);
     }
-});
+}
 
         function logout() {
             localStorage.removeItem('tribe_auth');
