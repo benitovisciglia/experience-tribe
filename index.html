@@ -251,8 +251,9 @@
             if (document.getElementById('passwordInput').value === THE_PASSWORD) {
                 localStorage.setItem('tribe_access', 'granted');
                 showContent();
-				lucide.createIcons();
-            } else { document.getElementById('errorMessage').classList.remove('hidden'); }
+            } else { 
+                document.getElementById('errorMessage').classList.remove('hidden'); 
+            }
         }
 
         function showContent() {
@@ -260,11 +261,18 @@
             document.getElementById('mainContent').classList.remove('hidden');
             renderHero();
             renderVideos();
-			lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
-        function logout() { localStorage.removeItem('tribe_access'); location.reload(); }
-        if (localStorage.getItem('tribe_access') === 'granted') showContent();
+        function logout() { 
+            localStorage.removeItem('tribe_access'); 
+            location.reload(); 
+        }
+
+        // Controllo automatico all'avvio
+        if (localStorage.getItem('tribe_access') === 'granted') {
+            showContent();
+        }
 
         function renderHero() {
             const container = document.getElementById('heroPlayerContainer');
@@ -273,32 +281,24 @@
 
             if (HERO_VIDEO.id.includes('dropbox.com')) {
                 let url = HERO_VIDEO.id.replace('dl=0', 'raw=1');
-                container.innerHTML = `<video controls class="w-full h-full object-cover"><source src="${url}" type="video/mp4"></video>`;
-            } else if (HERO_VIDEO.id.includes('http')) {
-                container.innerHTML = `<iframe class="zoom-crop" src="${HERO_VIDEO.id}" frameborder="0" allowfullscreen></iframe>`;
+                container.innerHTML = `<video controls playsinline class="w-full h-full object-cover"><source src="${url}" type="video/mp4"></video>`;
             } else {
                 container.innerHTML = `<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${HERO_VIDEO.id}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
             }
         }
 
-        // Funzione per far scorrere lo slider
-        function scrollRow(id, distance) {
-            const row = document.getElementById(id);
-            row.scrollBy({ left: distance, behavior: 'smooth' });
-        }
-
         function renderVideos(filter = "") {
             const container = document.getElementById('categoriesContainer');
             const hero = document.getElementById('heroSection');
-            const heroVideo = hero.querySelector('video');
+            const heroVideo = hero ? hero.querySelector('video') : null;
             
             container.innerHTML = "";
             
             if (filter.trim() !== "") {
-                hero.classList.add('hidden');
+                if (hero) hero.classList.add('hidden');
                 if (heroVideo) heroVideo.pause();
             } else {
-                hero.classList.remove('hidden');
+                if (hero) hero.classList.remove('hidden');
             }
 
             categories.forEach((cat, index) => {
@@ -310,19 +310,19 @@
                     
                     let videoCards = "";
                     filteredVideos.forEach(v => {
+                        let url = v.id.replace('dl=0', 'raw=1');
                         videoCards += `
                             <div class="video-card shadow-lg">
                                 <div class="aspect-video">
-                                    <video controls preload="metadata" playsinline><source src="${v.id.replace('dl=0', 'raw=1')}" type="video/mp4"></video>
+                                    <video controls preload="metadata" playsinline><source src="${url}" type="video/mp4"></video>
                                 </div>
                                 <div class="p-4">
                                     <h3 class="font-bold text-xs text-zinc-100 line-clamp-2 h-8">${v.title}</h3>
-                                    <p class="text-[8px] mt-2 text-blue-500 font-black tracking-widest uppercase">Academy Cloud</p>
+                                    <p class="text-[8px] mt-2 text-blue-500 font-black tracking-widest uppercase italic">Academy Cloud</p>
                                 </div>
                             </div>`;
                     });
 
-                    // QUI RIAGGIUNGIAMO LE FRECCE E L'ICONA
                     section.innerHTML = `
                         <div class="flex justify-between items-center mb-5 pr-4">
                             <h2 class="text-sm md:text-base font-bold text-zinc-400 flex items-center gap-3 uppercase tracking-widest">
@@ -344,12 +344,10 @@
                 }
             });
             
-            // INDISPENSABILE: Attiva le icone (incluse le frecce nuove)
-            lucide.createIcons();
-		}
-                }
-            });
+            if (window.lucide) lucide.createIcons();
         }
+
+        // Listener per la ricerca
 
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
         document.getElementById('passwordInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') checkPassword() });
