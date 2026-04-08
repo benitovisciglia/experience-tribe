@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="theme-color" content="#050505">
+	<meta name="mobile-web-app-capable" content="yes">
+	
     <title>Experience Tribe | Academy</title>
 
 	<link rel="icon" type="image/png" href="favicon.png">
@@ -20,6 +23,18 @@
 			  -webkit-text-size-adjust: 100%;
    			  touch-action: pan-y; 
 			 }
+
+		/* Rimuove l'evidenziazione blu al tocco tipica di Android */
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+/* Migliora lo scorrimento sulle righe video per Android */
+.video-row {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-horizontal: contain; /* Impedisce di tornare indietro nella cronologia per sbaglio mentre scorri i video */
+}
         
         /* Layout Righe Video */
         .video-row {
@@ -178,6 +193,19 @@
     </div>
 
     <script>
+
+		// Blocco forzato dello zoom per Chrome su Android
+document.addEventListener('wheel', function(event) {
+    if (event.ctrlKey) {
+        event.preventDefault(); // Impedisce lo zoom con tastiera/mouse se collegati
+    }
+}, { passive: false });
+
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && (event.key === '+' || event.key === '-' || event.key === '0')) {
+        event.preventDefault(); // Impedisce zoom da tastiera (CTRL + / -)
+    }
+});
 
 		// --- INIZIO BLOCCO ANTI-ZOOM ---
     document.addEventListener('touchstart', function (event) {
