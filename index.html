@@ -2,124 +2,100 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Experience Tribe | Academy</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
-<style>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; }
         
-        /* Contenitore dello slider */
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        /* Nasconde la scrollbar orizzontale */
         .video-row {
-            display: flex;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            gap: 1.5rem;
-            padding-bottom: 1.5rem;
-            padding-top: 0.5rem;
-            /* Nasconde la scrollbar su Firefox e IE */
-            scrollbar-width: none; 
-            -ms-overflow-style: none; 
+            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;  /* IE/Edge */
         }
-        
-        /* Nasconde la scrollbar su Chrome, Safari e Opera */
         .video-row::-webkit-scrollbar {
-            display: none;
+            display: none;  /* Chrome/Safari */
         }
 
-        /* Card del video adattata allo slider */
-        .video-card { 
-            flex: 0 0 300px; /* Ogni card ha una larghezza fissa di 300px */
-            transition: all 0.3s ease; 
-            background: #111; 
-            border: 1px solid #222; 
-            border-radius: 16px; 
-            overflow: hidden; 
+        /* Player nativo per Dropbox con preload */
+        video {
+            outline: none;
+            width: 100%;
+            height: 100%;
+            background: black;
+            object-fit: cover;
         }
         
-        .video-card:hover { transform: translateY(-5px); border-color: #f97316; }
-        
-        .video-container { border-radius: 16px 16px 0 0; overflow: hidden; position: relative; background: black; }
-        .zoom-crop { transform: scale(1.15); transform-origin: bottom; width: 100%; height: 100%; }
-        
-        video { outline: none; width: 100%; height: 100%; background: black; object-fit: cover; }
-        
+        /* Classi speciali per nascondere elementi */
         .hidden { display: none !important; }
-
-        /* Stile speciale per il video in primo piano */
         .hero-gradient { background: linear-gradient(to bottom, transparent, #050505); }
 
-        /* Bottoni delle frecce (opzionale: un piccolo effetto al passaggio) */
-        .nav-btn {
-            background: rgba(24, 24, 27, 0.8);
-            backdrop-filter: blur(4px);
-        }
-        .nav-btn:hover {
-            background: #f97316;
-            color: white;
+        /* Effetto hover per le card desktop (non su mobile) */
+        @media (min-width: 768px) {
+            .video-card:hover { transform: translateY(-5px); border-color: #f97316; }
         }
     </style>
 </head>
 <body class="min-h-screen">
 
     <div id="loginPage" class="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black text-white">
-        <div class="bg-zinc-900 p-10 rounded-3xl border border-zinc-800 w-full max-w-md text-center shadow-2xl">
+        <div class="bg-zinc-900 p-8 md:p-10 rounded-3xl border border-zinc-800 w-full max-w-md text-center shadow-2xl">
             <h1 class="text-3xl font-black text-orange-500 mb-6 uppercase tracking-tighter">Experience Tribe</h1>
-            <input type="password" id="passwordInput" autofocus placeholder="Password d'Accesso" 
-                   class="w-full p-4 rounded-xl bg-black border border-zinc-700 text-white mb-4 text-center text-lg outline-none focus:border-orange-500"
-                   onkeydown="if(event.key === 'Enter') checkPassword()">
+            <input type="password" id="passwordInput" placeholder="Password d'Accesso" class="w-full p-4 rounded-xl bg-black border border-zinc-700 text-white mb-4 text-center text-lg outline-none focus:border-orange-500" onkeydown="if(event.key === 'Enter') checkPassword()">
             <button onclick="checkPassword()" class="w-full p-4 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-xl transition-all uppercase tracking-widest text-sm">Entra</button>
             <p id="errorMessage" class="text-red-500 text-xs mt-3 hidden">Password errata.</p>
         </div>
     </div>
 
     <div id="mainContent" class="hidden">
-        <header class="p-6 md:p-12 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
+        
+        <header class="p-4 md:p-12 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-6 relative z-10 border-b border-zinc-900 md:border-none">
             
-            <a href="index.html" class="flex items-center gap-4 group transition-all">
+            <a href="index.html" class="flex flex-col md:flex-row items-center gap-2 md:gap-4 group transition-all text-center md:text-left">
+                <img src="ET Monogram bianco.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain group-hover:scale-105 transition-transform">
                 
-                <img src="ET Monogram bianco.png" alt="Logo" class="w-12 h-12 object-contain group-hover:scale-105 transition-transform">
-                
-                <h1 class="text-3xl font-black text-orange-500 tracking-tighter leading-none">
+                <h1 class="text-2xl md:text-3xl font-black text-orange-500 tracking-tighter leading-tight md:leading-none">
                     EXPERIENCE TRIBE<br>
-                    <span class="text-zinc-500 text-xs uppercase tracking-[0.3em]">Training Academy</span>
+                    <span class="text-zinc-600 md:text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.3em]">Training Academy</span>
                 </h1>
             </a>
 
-            <div class="flex items-center gap-4 w-full md:w-auto">
-                <input type="text" id="searchInput" placeholder="Cerca formazione..." class="bg-zinc-900 border border-zinc-800 p-3 px-6 rounded-full w-full md:w-64 text-sm text-white outline-none focus:border-orange-500">
-                <button onclick="logout()" class="text-zinc-500 hover:text-white text-xs font-bold uppercase">Esci</button>
+            <div class="flex items-center gap-3 w-full md:w-auto mt-2 md:mt-0">
+                <input type="text" id="searchInput" placeholder="Cerca..." class="bg-zinc-900 border border-zinc-800 p-3 px-5 rounded-full w-full md:w-64 text-sm text-white outline-none focus:border-orange-500">
+                <button onclick="logout()" class="text-zinc-600 hover:text-white text-xs font-bold uppercase p-3">Esci</button>
             </div>
         </header>
 
-        <section id="heroSection" class="px-6 md:px-12 mb-16">
+        <section id="heroSection" class="px-4 md:px-12 mb-10 md:mb-16">
             <div class="relative w-full max-w-6xl mx-auto rounded-3xl overflow-hidden border border-zinc-800 shadow-2xl bg-zinc-900">
                 <div class="aspect-video w-full">
                     <div id="heroPlayerContainer" class="w-full h-full"></div>
                 </div>
-                <div class="absolute bottom-0 left-0 w-full p-8 hero-gradient pointer-events-none">
-                    <span class="bg-orange-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter">In Evidenza</span>
-                    <h2 id="heroTitle" class="text-2xl md:text-4xl font-black mt-2 uppercase tracking-tighter">BENVENUTI NELLA TRIBE</h2>
-                    <p id="heroDesc" class="text-zinc-400 text-sm md:text-base max-w-xl mt-2 italic">Inizia da qui il tuo percorso verso il successo.</p>
+                <div class="absolute bottom-0 left-0 w-full p-5 md:p-8 hero-gradient pointer-events-none">
+                    <span class="bg-orange-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter">In Evidenza</span>
+                    <h2 id="heroTitle" class="text-xl md:text-4xl font-black mt-1.5 md:mt-2 uppercase tracking-tighter text-zinc-100"></h2>
+                    <p id="heroDesc" class="text-zinc-300 md:text-zinc-400 text-xs md:text-base max-w-xl mt-1 md:mt-2 italic line-clamp-2 md:line-clamp-none"></p>
                 </div>
             </div>
         </section>
 
-        <div id="categoriesContainer" class="p-6 md:p-12 pt-0"></div>
+        <div id="categoriesContainer" class="p-4 md:p-12 pt-0"></div>
     </div>
 
     <script>
         const THE_PASSWORD = "ET2026IR";
 
-        // VIDEO IN PRIMO PIANO (Configuralo qui)
         const HERO_VIDEO = {
-            id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&st=cczcesmz&raw=1", // Metti il link che preferisci
+            id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&st=cczcesmz&dl=0",
             title: "I 7 LADRI DEL TEMPO - COME AVERE PIU' TEMPO",
-            desc: "Smetti di rincorrere le ore. Scopri i 7 errori invisibili che prosciugano la tua energia e impara il sistema definitivo per dominare la tua agenda invece di farti dominare.",
+            desc: "Smetti di rincorrere le ore. Scopri i 7 errori invisibili che prosciugano la tua energia e impara il sistema definitivo per dominare la tua agenda.",
+            poster: "" 
         };
         
         const categories = [
@@ -203,8 +179,9 @@
             { name: "30 - AREA ADMIN", videos: [] }
         ];
 
-       function checkPassword() {
-            if (document.getElementById('passwordInput').value === THE_PASSWORD) {
+        function checkPassword() {
+            const pass = document.getElementById('passwordInput').value;
+            if (pass === THE_PASSWORD) {
                 localStorage.setItem('tribe_access', 'granted');
                 showContent();
             } else { document.getElementById('errorMessage').classList.remove('hidden'); }
@@ -224,18 +201,10 @@
             const container = document.getElementById('heroPlayerContainer');
             document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
             document.getElementById('heroDesc').innerText = HERO_VIDEO.desc;
-
-            if (HERO_VIDEO.id.includes('dropbox.com')) {
-                let url = HERO_VIDEO.id.replace('dl=0', 'raw=1');
-                container.innerHTML = `<video controls class="w-full h-full object-cover"><source src="${url}" type="video/mp4"></video>`;
-            } else if (HERO_VIDEO.id.includes('http')) {
-                container.innerHTML = `<iframe class="zoom-crop" src="${HERO_VIDEO.id}" frameborder="0" allowfullscreen></iframe>`;
-            } else {
-                container.innerHTML = `<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${HERO_VIDEO.id}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
-            }
+            let url = HERO_VIDEO.id.replace('dl=0', 'raw=1');
+            container.innerHTML = `<video controls preload="metadata" class="w-full h-full object-cover"><source src="${url}" type="video/mp4"></video>`;
         }
 
-        // Funzione per far scorrere lo slider
         function scrollRow(id, distance) {
             const row = document.getElementById(id);
             row.scrollBy({ left: distance, behavior: 'smooth' });
@@ -247,56 +216,42 @@
             
             categories.forEach((cat, index) => {
                 const filteredVideos = cat.videos.filter(v => v.title.toLowerCase().includes(filter.toLowerCase()));
-                
                 if (filteredVideos.length > 0) {
                     const section = document.createElement('div');
-                    section.className = "mb-16 relative";
-                    
-                    // ID unico per ogni riga per permettere lo scorrimento
+                    section.className = "mb-12 relative";
                     const rowId = `row-${index}`;
                     
                     let videoGridHTML = `
-                        <div class="flex justify-between items-end mb-6">
-                            <h2 class="text-xl font-bold text-zinc-400 flex items-center gap-3">
-                                <span class="w-1 h-6 bg-orange-500 rounded-full"></span> ${cat.name}
+                        <div class="flex justify-between items-center mb-5 pr-2">
+                            <h2 class="text-base md:text-xl font-bold text-zinc-400 flex items-center gap-3">
+                                <span class="w-1 h-5 md:h-6 bg-orange-500 rounded-full"></span> ${cat.name}
                             </h2>
-                            <div class="flex gap-2">
-                                <button onclick="scrollRow('${rowId}', -320)" class="nav-btn p-2 rounded-full border border-zinc-800 text-zinc-400 transition-all hover:text-white">
+                            <div class="hidden md:flex gap-2">
+                                <button onclick="scrollRow('${rowId}', -340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                                 </button>
-                                <button onclick="scrollRow('${rowId}', 320)" class="nav-btn p-2 rounded-full border border-zinc-800 text-zinc-400 transition-all hover:text-white">
+                                <button onclick="scrollRow('${rowId}', 340)" class="p-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-all">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                                 </button>
                             </div>
                         </div>
                         
-                        <div id="${rowId}" class="video-row">`;
+                        <div id="${rowId}" class="video-row flex overflow-x-auto scroll-behavior-smooth gap-4 md:gap-6 pb-4">`;
                     
                     filteredVideos.forEach(v => {
                         let content = "";
-                        let lbl = "DIRECT STREAM";
+                        let dropboxRaw = v.id.replace('dl=0', 'raw=1');
+                        content = `<video controls preload="metadata" class="w-full h-full object-cover rounded-xl"><source src="${dropboxRaw}" type="video/mp4"></video>`;
                         
-                        if (v.id.includes('dropbox.com')) {
-                            // Inserito preload="metadata" e poster per le miniature
-                            content = `<video controls preload="metadata" poster="${v.poster || ''}" disablePictureInPicture controlsList="nodownload" class="w-full h-full">
-                                          <source src="${v.id.replace('dl=0', 'raw=1')}" type="video/mp4">
-                                       </video>`;
-                            lbl = "CLOUD STREAM";
-                        } else if (v.id.includes('http')) {
-                            content = `<iframe class="zoom-crop" src="${v.id}" frameborder="0" allowfullscreen scrolling="no"></iframe>`;
-                        } else {
-                            content = `<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
-                            lbl = "YT ACADEMY";
-                        }
-                        
+                        // Card più larga su mobile (flex-basis: 80% della larghezza schermo)
                         videoGridHTML += `
-                            <div class="video-card shadow-2xl">
-                                <div class="video-container aspect-video">${content}</div>
-                                <div class="p-5">
-                                    <h3 class="font-bold text-sm text-zinc-100 leading-snug h-10 overflow-hidden">${v.title}</h3>
-                                    <div class="mt-3 flex justify-between items-center text-[9px] font-black uppercase tracking-widest text-orange-500">
+                            <div class="video-card flex-none w-[80%] md:w-[320px] transition-all bg-zinc-950 md:bg-zinc-900 rounded-2xl border border-zinc-900 md:border-zinc-800 overflow-hidden shadow-lg">
+                                <div class="relative aspect-video rounded-t-2xl overflow-hidden">${content}</div>
+                                <div class="p-4 md:p-5">
+                                    <h3 class="font-bold text-xs md:text-sm text-zinc-100 leading-snug h-8 overflow-hidden line-clamp-2">${v.title}</h3>
+                                    <div class="mt-3 flex justify-between items-center text-[8px] md:text-[9px] font-black uppercase tracking-widest text-orange-500">
                                         <span>ACADEMY</span>
-                                        <span class="text-zinc-600">${lbl}</span>
+                                        <span class="text-zinc-600">CLOUD STREAM</span>
                                     </div>
                                 </div>
                             </div>`;
@@ -310,7 +265,6 @@
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
-        document.getElementById('passwordInput').addEventListener('keypress', (e) => { if(e.key === 'Enter') checkPassword() });
     </script>
 </body>
 </html>
