@@ -260,6 +260,7 @@
             document.getElementById('mainContent').classList.remove('hidden');
             renderHero();
             renderVideos();
+			lucide.createIcons();
         }
 
         function logout() { localStorage.removeItem('tribe_access'); location.reload(); }
@@ -302,7 +303,6 @@
             } else {
                 // Se la barra di ricerca è vuota:
                 hero.classList.remove('hidden'); // Mostra la sezione
-				lucide.createIcons();
             }
 
             categories.forEach((cat) => {
@@ -332,6 +332,7 @@
     				</h2>
     				<div class="video-row">${videoCards}</div>`;
                     container.appendChild(section);
+					lucide.createIcons();
                 }
             });
         }
