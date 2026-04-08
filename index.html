@@ -31,14 +31,23 @@
             display: none;
         }
 
-        /* Card del video adattata allo slider */
+        /* Card: Grandi su mobile, normali su desktop */
         .video-card { 
-            flex: 0 0 300px; /* Ogni card ha una larghezza fissa di 300px */
-            transition: all 0.3s ease; 
+            flex: 0 0 280px; 
             background: #111; 
             border: 1px solid #222; 
-            border-radius: 16px; 
-            overflow: hidden; 
+            border-radius: 12px; 
+            overflow: hidden;
+            transition: all 0.3s ease; /* Fondamentale per l'animazione */
+        }
+
+        /* EFFETTO SAGOMA BLU AL PASSAGGIO (Solo su Desktop) */
+        @media (min-width: 768px) {
+            .video-card:hover { 
+                transform: translateY(-5px); 
+                border-color: #3b82f6; /* Blu base */
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); /* Glow blu */
+            }
         }
         
         .video-card:hover { transform: translateY(-5px); border-color: ##3b82f6; }
