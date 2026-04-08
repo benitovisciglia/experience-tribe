@@ -233,6 +233,11 @@ header .cursor-pointer:hover h1 {
             </div>
         </header>
 
+        <div class="flex justify-center gap-4 mb-8">
+    <button onclick="switchTab('videos')" id="btn-videos" class="px-6 py-2 rounded-full bg-blue-600 text-white font-bold transition-all">VIDEO</button>
+    <button onclick="switchTab('catalogs')" id="btn-catalogs" class="px-6 py-2 rounded-full bg-zinc-800 text-zinc-400 font-bold transition-all">CATALOGHI</button>
+        </div>
+
         <section id="heroSection" class="px-6 md:px-12 mb-12">
             <div class="relative w-full max-w-6xl mx-auto rounded-3xl overflow-hidden border border-zinc-800 bg-black shadow-2xl">
                 <div class="aspect-video">
@@ -250,6 +255,9 @@ header .cursor-pointer:hover h1 {
         </section>
 
         <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
+    </div>
+
+    <div id="catalog-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     </div>
 
     <script>
@@ -302,6 +310,12 @@ header .cursor-pointer:hover h1 {
             lastTouchEnd = now;
         }, false);
     // --- FINE BLOCCO ANTI-ZOOM ---
+
+        const catalogs = [
+    { title: "Catalogo Prodotti 2026", icon: "📚", link: "URL_LINK_1" },
+    { title: "Piano Compensi", icon: "💰", link: "URL_LINK_2" },
+    { title: "Guida Rapida Consulente", icon: "🚀", link: "URL_LINK_3" }
+    ];
 
         
         const THE_PASSWORD = "ET2026IR";
@@ -392,6 +406,44 @@ header .cursor-pointer:hover h1 {
             { name: "29 - BONUS TRACKS", videos: [] },
             { name: "30 - AREA ADMIN", videos: [] }
         ];
+
+
+function switchTab(tab) {
+    const videoGrid = document.getElementById('categories-container'); // o il tuo id attuale
+    const catalogGrid = document.getElementById('catalog-grid');
+    const btnV = document.getElementById('btn-videos');
+    const btnC = document.getElementById('btn-catalogs');
+
+    if (tab === 'videos') {
+        videoGrid.classList.remove('hidden');
+        catalogGrid.classList.add('hidden');
+        btnV.classList.replace('bg-zinc-800', 'bg-blue-600');
+        btnC.classList.replace('bg-blue-600', 'bg-zinc-800');
+    } else {
+        videoGrid.classList.add('hidden');
+        catalogGrid.classList.remove('hidden');
+        renderCatalogs();
+        btnC.classList.replace('bg-zinc-800', 'bg-blue-600');
+        btnV.classList.replace('bg-blue-600', 'bg-zinc-800');
+    }
+}
+
+function renderCatalogs() {
+    const container = document.getElementById('catalog-grid');
+    container.innerHTML = catalogs.map(c => `
+        <a href="${c.link}" target="_blank" class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl flex items-center gap-4 hover:border-blue-500 transition-all group">
+            <div class="text-4xl">${c.icon}</div>
+            <div class="flex-1">
+                <h3 class="text-white font-bold group-hover:text-blue-400">${c.title}</h3>
+                <p class="text-zinc-500 text-xs">Clicca per scaricare PDF</p>
+            </div>
+            <i class="fas fa-download text-zinc-600"></i>
+        </a>
+    `).join('');
+}
+
+
+        
 
         function checkPassword() {
             if (document.getElementById('passwordInput').value === THE_PASSWORD) {
