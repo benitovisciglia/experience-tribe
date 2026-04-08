@@ -54,13 +54,29 @@
         
         .video-container { border-radius: 16px 16px 0 0; overflow: hidden; position: relative; background: black; }
         .zoom-crop { transform: scale(1.15); transform-origin: bottom; width: 100%; height: 100%; }
-        
-        video { outline: none; width: 100%; height: 100%; background: black; object-fit: cover; }
-        
-        .hidden { display: none !important; }
 
-        /* Stile speciale per il video in primo piano */
-        .hero-gradient { background: linear-gradient(to bottom, transparent, #050505); }
+
+		.aspect-video {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9; /* Fondamentale per smartphone */
+            background: black;
+        }
+
+        video { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Riempie lo spazio senza bande nere */
+        }
+        
+        /* Gradiente più scuro per far leggere meglio i titoli su mobile */
+        .hero-gradient { 
+            background: linear-gradient(to bottom, transparent 20%, rgba(5,5,5,0.95) 100%); 
+        }
+
+		.hidden { display: none !important; }
+
+
 
         /* Bottoni delle frecce (opzionale: un piccolo effetto al passaggio) */
         .nav-btn {
