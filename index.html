@@ -244,22 +244,6 @@ header .cursor-pointer:hover h1 {
                 <div class="aspect-video">
                     <div id="heroPlayer" class="w-full h-full"></div>
                 </div>
-            </div>
-        </section>
-        <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
-    </div>
-
-    <div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="catalogGrid"></div>
-    </div>
-</div>
-        </header>
-
-        <section id="heroSection" class="px-6 md:px-12 mb-12">
-            <div class="relative w-full max-w-6xl mx-auto rounded-3xl overflow-hidden border border-zinc-800 bg-black shadow-2xl">
-                <div class="aspect-video">
-                    <div id="heroPlayer" class="w-full h-full"></div>
-                </div>
                 <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 hero-gradient pointer-events-none">
                     <div class="flex items-center gap-2 mb-3">
                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
@@ -271,6 +255,16 @@ header .cursor-pointer:hover h1 {
             </div>
         </section>
 
+        <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
+    </div>
+
+    <div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="catalogGrid"></div>
+    </div>
+</div>
+        </header>
+
+        
         <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
     </div>
 
@@ -431,17 +425,29 @@ const catalogs = [
     const cSec = document.getElementById('catalogSection');
     const btnV = document.getElementById('tabVideo');
     const btnC = document.getElementById('tabCataloghi');
+    const heroVideo = document.querySelector('#heroPlayer video');
 
     if (type === 'video') {
         vSec.classList.remove('hidden');
         cSec.classList.add('hidden');
-        btnV.className = "px-8 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-widest";
-        btnC.className = "px-8 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 font-bold text-xs uppercase tracking-widest";
+        // Stile bottoni
+        btnV.classList.replace('bg-zinc-900', 'bg-blue-600');
+        btnV.classList.replace('text-zinc-400', 'text-white');
+        btnC.classList.replace('bg-blue-600', 'bg-zinc-900');
+        btnC.classList.replace('text-white', 'text-zinc-400');
     } else {
         vSec.classList.add('hidden');
         cSec.classList.remove('hidden');
-        btnC.className = "px-8 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-widest";
-        btnV.className = "px-8 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 font-bold text-xs uppercase tracking-widest";
+        
+        // STOP VIDEO: Mette in pausa il video in evidenza se stai andando sui cataloghi
+        if (heroVideo) heroVideo.pause();
+
+        // Stile bottoni
+        btnC.classList.replace('bg-zinc-900', 'bg-blue-600');
+        btnC.classList.replace('text-zinc-400', 'text-white');
+        btnV.classList.replace('bg-blue-600', 'bg-zinc-900');
+        btnV.classList.replace('text-white', 'text-zinc-400');
+        
         renderCatalogs();
     }
 }
