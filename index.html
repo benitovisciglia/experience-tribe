@@ -160,18 +160,6 @@
 <div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="catalogGrid"></div>
 </div>
-        
-    <div class="fixed bottom-6 left-0 w-full px-6 md:px-12 flex justify-between items-center z-[50] pointer-events-none">
-    
-    <div class="flex items-center gap-3 bg-zinc-900/80 backdrop-blur-md border border-zinc-800 px-4 py-2 rounded-2xl pointer-events-auto">
-        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-        <span class="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.2em]">Academy</span>
-    </div>
-
-    <div class="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 p-3 rounded-2xl pointer-events-auto shadow-xl">
-        <i class="fas fa-bolt text-yellow-500 text-lg animate-pulse"></i>
-    </div>
-</div>
 
     <script>
         const THE_PASSWORD = "ET2026IR";
@@ -364,22 +352,29 @@ function renderVideos(search = "") {
             const finalUrl = `${cleanUrl}#t=0.5`;
 
             return `
-                <div class="video-card">
-                    <div class="aspect-video bg-black relative">
-                        <video 
-                            preload="metadata" 
-                            playsinline 
-                            class="w-full h-full object-cover cursor-pointer" 
-                            onclick="this.play(); this.controls=true"
-                            poster="favicon.png">
-                            <source src="${finalUrl}" type="video/mp4">
-                            Il tuo browser non supporta il video.
-                        </video>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-[10px] font-bold uppercase text-zinc-100 line-clamp-2">${v.title}</h3>
-                    </div>
+                <div class="video-card group">
+            <div class="aspect-video bg-black relative overflow-hidden">
+                <div class="absolute bottom-2 left-2 z-10 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md border border-white/5">
+                    <span class="text-[7px] text-zinc-400 uppercase tracking-widest font-bold">Academy</span>
                 </div>
+
+                <div class="absolute bottom-2 right-2 z-10 text-zinc-500/50 group-hover:text-yellow-500 transition-colors">
+                    <i class="fas fa-bolt text-[10px]"></i>
+                </div>
+
+                <video 
+                    preload="metadata" 
+                    playsinline 
+                    class="w-full h-full object-cover cursor-pointer" 
+                    onclick="this.play(); this.controls=true"
+                    poster="favicon.png">
+                    <source src="${finalUrl}" type="video/mp4">
+                </video>
+            </div>
+            <div class="p-4">
+                <h3 class="text-[10px] font-bold uppercase text-zinc-100 line-clamp-2">${v.title}</h3>
+            </div>
+        </div>
             `;
         }).join('');
 
