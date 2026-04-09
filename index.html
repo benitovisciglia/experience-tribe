@@ -5,8 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Experience Tribe | Academy</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#3b82f6', // Il blu del tuo pulsante attuale
+                            dark: '#050505',
+                        }
+                    },
+                    backgroundImage: {
+                        'login-pattern': "linear-gradient(to bottom, rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.95)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop')", // Immagine di team scura da Unsplash
+                    }
+                }
+            }
+        }
+    </script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
@@ -26,6 +44,23 @@
         .hidden { display: none !important; }
         .fa-telegram:hover { filter: drop-shadow(0 0 8px #26A5E4); }
         .fa-instagram:hover { filter: drop-shadow(0 0 8px #E4405F); }
+
+        /* Animazione di comparsa */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        /* Effetto Glassmorphism */
+        .glass {
+            background: rgba(17, 17, 17, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
     </style>
 </head>
 <body>
