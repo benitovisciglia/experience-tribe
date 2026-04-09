@@ -198,23 +198,31 @@
         }
 
         function switchSection(type) {
-            const vSec = document.getElementById('videoSection');
-            const cSec = document.getElementById('catalogSection');
+            const videoSection = document.getElementById('videoSection'); // Il contenitore che include l'Hero
+            const catalogSection = document.getElementById('catalogSection');
             const btnV = document.getElementById('tabVideo');
             const btnC = document.getElementById('tabCataloghi');
             const heroVideo = document.querySelector('#heroPlayer video');
-
+        
             if (type === 'video') {
-                vSec.classList.remove('hidden');
-                cSec.classList.add('hidden');
-                btnV.className = "px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
-                btnC.className = "px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
+                videoSection.classList.remove('hidden');
+                catalogSection.classList.add('hidden');
+                
+                // Stile bottoni header
+                btnV.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
+                btnC.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
             } else {
-                vSec.classList.add('hidden');
-                cSec.classList.remove('hidden');
+                // Nascondiamo TUTTA la sezione video (Hero incluso)
+                videoSection.classList.add('hidden');
+                catalogSection.classList.remove('hidden');
+                
+                // Stoppiamo il video se sta andando
                 if (heroVideo) heroVideo.pause();
-                btnC.className = "px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
-                btnV.className = "px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
+        
+                // Stile bottoni header
+                btnC.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
+                btnV.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
+                
                 renderCatalogs();
             }
         }
@@ -275,15 +283,18 @@
         }
 
         function renderCatalogs() {
-            const grid = document.getElementById('catalogGrid');
-            grid.innerHTML = catalogs.map(c => `
-                <a href="${c.link}" target="_blank" class="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 flex flex-col items-center text-center hover:border-blue-500 transition-all">
-                    <div class="text-4xl mb-4">${c.icon}</div>
-                    <h3 class="font-bold text-sm uppercase">${c.title}</h3>
-                    <p class="text-zinc-500 text-[10px] mt-2">${c.desc}</p>
-                </a>
-            `).join('');
-        }
+    const container = document.getElementById('catalogGrid'); // Assicurati che l'ID sia quello giusto
+    container.innerHTML = catalogs.map(c => `
+        <a href="${c.link}" target="_blank" class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl flex items-center gap-4 hover:border-blue-500 transition-all group">
+            <div class="text-4xl group-hover:scale-110 transition-transform">${c.icon}</div>
+            <div class="flex-1">
+                <h3 class="text-white font-bold group-hover:text-blue-400 uppercase text-xs tracking-tight">${c.title}</h3>
+                <p class="text-zinc-500 text-[10px] uppercase mt-1">Clicca per scaricare PDF</p>
+            </div>
+            <i class="fas fa-download text-zinc-700 group-hover:text-blue-500 transition-colors"></i>
+        </a>
+    `).join('');
+}
 
         window.scrollRow = (id, dir) => {
             const row = document.getElementById(id);
