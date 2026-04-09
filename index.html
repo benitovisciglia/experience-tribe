@@ -275,12 +275,12 @@
                 ];
 
         const catalogs = [
-            { title: "Manuale Operativo 2026", link: "#",},
-            { title: "Piano Provvigioni", link: "#",},
-            { title: "Catalogo Prodotti", link: "#",},
-            { title: "Listino Prezzi", link: "#",},
-            { title: "Presentazione Aziendale", link: "#",},
-            { title: "Codice Etico", link: "#",}
+            { title: "Manuale Operativo 2026", icon: "📚", link: "#", desc: "La guida completa al metodo Tribe" },
+            { title: "Piano Provvigioni", icon: "💰", link: "#", desc: "Piano compensi dettagliato" },
+            { title: "Catalogo Prodotti", icon: "🛍️", link: "#", desc: "Gamma completa aggiornata" },
+            { title: "Listino Prezzi", icon: "🏷️", link: "#", desc: "Aggiornato Marzo 2026" },
+            { title: "Presentazione Aziendale", icon: "📈", link: "#", desc: "Slide ufficiali Experience Tribe" },
+            { title: "Codice Etico", icon: "🤝", link: "#", desc: "Regolamento e comportamento" }
         ];
 
 
@@ -332,9 +332,7 @@
                 btnC.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
                 btnV.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
                 
-                if (type === 'cataloghi') {
-                    renderCatalogs(); // <--- Questa riga deve esserci!
-                }
+                renderCatalogs();
             }
         }
 
@@ -420,45 +418,24 @@ function renderVideos(search = "") {
 }
 
         function renderCatalogs() {
-            const grid = document.getElementById('catalogGrid');
-            if (!grid) return; // Sicurezza: se non trova la griglia, non va in errore
-            
-            grid.innerHTML = "";
-        
-            cataloghi.forEach(cat => {
-                const card = document.createElement('div');
-                // Classi corrette per layout e animazione
-                card.className = "bg-zinc-900/50 border border-zinc-800 p-8 rounded-3xl hover:border-blue-500 transition-all cursor-pointer group relative flex flex-col items-center justify-center min-h-[220px]";
-                card.onclick = () => window.open(cat.link, '_blank');
-                
-                card.innerHTML = `
-                    <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-600 transition-all duration-300 mb-4">
-                        <i class="fas fa-file-pdf text-2xl text-blue-500 group-hover:text-white"></i>
-                    </div>
-                    
-                    <div class="text-center">
-                        <h3 class="text-white font-bold uppercase tracking-widest text-sm mb-1">${cat.title}</h3>
-                        <p class="text-zinc-500 text-[10px] uppercase font-medium italic">Clicca per scaricare</p>
-                    </div>
-        
-                    <div class="absolute bottom-4 w-full text-center">
-                        <span class="text-blue-500 text-[8px] uppercase tracking-[0.2em] font-black italic">
-                            Documento Academy
-                        </span>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+    const container = document.getElementById('catalogGrid'); // Assicurati che l'ID sia quello giusto
+    container.innerHTML = catalogs.map(c => `
+        <a href="${c.link}" target="_blank" class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl flex items-center gap-4 hover:border-blue-500 transition-all group">
+            <div class="text-4xl group-hover:scale-110 transition-transform">${c.icon}</div>
+            <div class="flex-1">
+                <h3 class="text-white font-bold group-hover:text-blue-400 uppercase text-xs tracking-tight">${c.title}</h3>
+                <p class="text-zinc-500 text-[10px] uppercase mt-1">Clicca per scaricare PDF</p>
+            </div>
+            <i class="fas fa-download text-zinc-700 group-hover:text-blue-500 transition-colors"></i>
+        </a>
+    `).join('');
+}
 
-        
         window.scrollRow = (id, dir) => {
             const row = document.getElementById(id);
             row.scrollBy({ left: dir * 300, behavior: 'smooth' });
         };
 
-
-        
         function logout() { localStorage.removeItem('et_auth'); location.reload(); }
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
         if (localStorage.getItem('et_auth') === 'true') loadApp();
