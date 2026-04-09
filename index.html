@@ -181,7 +181,7 @@
 </div>
 
 <div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="catalogGrid"></div>
+    <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 </div>
 
     <script>
@@ -423,17 +423,42 @@ function renderVideos(search = "") {
 }
 
         function renderCatalogs() {
-    const container = document.getElementById('catalogGrid'); // Assicurati che l'ID sia quello giusto
-    container.innerHTML = catalogs.map(c => `
-        <a href="${c.link}" target="_blank" class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl flex items-center gap-4 hover:border-blue-500 transition-all group">
-            <div class="text-4xl group-hover:scale-110 transition-transform">${c.icon}</div>
-            <div class="flex-1">
-                <h3 class="text-white font-bold group-hover:text-blue-400 uppercase text-xs tracking-tight">${c.title}</h3>
-                <p class="text-zinc-500 text-[10px] uppercase mt-1">Clicca per scaricare PDF</p>
+    const grid = document.getElementById('catalogGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = "";
+
+    cataloghi.forEach(cat => {
+        const card = document.createElement('div');
+        // Card pulita, senza icone, focalizzata sul titolo
+        card.className = "bg-zinc-900/40 border border-zinc-800/60 p-6 rounded-3xl hover:border-blue-500/50 transition-all cursor-pointer group relative flex flex-col justify-between min-h-[160px]";
+        card.onclick = () => window.open(cat.link, '_blank');
+        
+        card.innerHTML = `
+            <div class="flex flex-col gap-1">
+                <div class="flex items-center gap-2 mb-1">
+                    <i class="fas fa-file-pdf text-[10px] text-blue-500/70"></i>
+                    <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-medium">Documento PDF</span>
+                </div>
+                <h3 class="text-white font-bold uppercase tracking-tighter text-base group-hover:text-blue-400 transition-colors">${cat.title}</h3>
+                <p class="text-zinc-500 text-[10px] uppercase font-medium italic mt-1">Clicca per visualizzare</p>
             </div>
-            <i class="fas fa-download text-zinc-700 group-hover:text-blue-500 transition-colors"></i>
-        </a>
-    `).join('');
+
+            <div class="flex justify-between items-center pt-3 border-t border-zinc-800/50">
+                
+                <div class="flex items-center gap-1.5">
+                    <div class="w-1 h-1 bg-blue-600 rounded-full shadow-[0_0_5px_rgba(37,99,235,0.5)]"></div>
+                    <span class="text-[8px] text-blue-500 uppercase tracking-[0.2em] font-black italic">Academy</span>
+                </div>
+
+                <div class="text-zinc-600 group-hover:text-yellow-500 transition-colors duration-300">
+                    <i class="fas fa-bolt text-[10px]"></i>
+                </div>
+
+            </div>
+        `;
+        grid.appendChild(card);
+    });
 }
 
         window.scrollRow = (id, dir) => {
