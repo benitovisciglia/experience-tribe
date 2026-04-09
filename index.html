@@ -212,26 +212,48 @@ header .cursor-pointer:hover h1 {
 </div>
 
    <div id="mainContent" class="hidden">
-    <header class="p-6 md:p-12 flex flex-col md:flex-row justify-between items-center gap-8">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="location.reload()">
-            <img src="ET Monogram bianco.png" alt="Logo" class="w-12 h-12 md:w-20 md:h-20 object-contain">
-            <div>
-                <h1 class="text-2xl md:text-4xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">EXPERIENCE TRIBE</h1>
-                <p class="text-zinc-500 text-[10px] md:text-xs uppercase tracking-[0.4em] font-bold mt-1">Training Academy</p>
-            </div>
+<header class="p-6 md:p-10 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="flex items-center gap-4 cursor-pointer shrink-0" onclick="location.reload()">
+        <img src="ET Monogram bianco.png" alt="Logo" class="w-12 h-12 md:w-16 md:h-16 object-contain">
+        <div>
+            <h1 class="text-xl md:text-3xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">EXPERIENCE TRIBE</h1>
+            <p class="text-zinc-500 text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-bold mt-1">Training Academy</p>
         </div>
+    </div>
 
-        <div class="flex items-center gap-6 w-full md:w-auto">
-            <div class="search-container md:w-64">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Cerca..." class="search-input">
-            </div>
-            <button onclick="logout()" class="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
-                <span>Esci</span>
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
+    <div class="flex items-center bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-2xl">
+        <button id="tabVideo" onclick="switchSection('video')" class="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all">
+            VIDEO
+        </button>
+        <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-6 py-2.5 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-zinc-300">
+            CATALOGHI
+        </button>
+    </div>
+
+    <div class="flex items-center gap-4 shrink-0">
+        <div class="search-container w-40 md:w-56">
+            <i class="fas fa-search text-zinc-600"></i>
+            <input type="text" id="searchInput" placeholder="Cerca..." class="search-input bg-zinc-900/50 border-zinc-800">
         </div>
-    </header>
+        <button onclick="logout()" class="text-zinc-500 hover:text-white transition-all">
+            <i class="fas fa-sign-out-alt text-lg"></i>
+        </button>
+    </div>
+</header>
+
+<div id="videoSection">
+    <section id="heroSection" class="px-6 md:px-12 mb-12">
+        <div class="relative w-full max-w-6xl mx-auto rounded-3xl overflow-hidden border border-zinc-800 bg-black">
+            <div class="aspect-video" id="heroPlayer">
+                </div>
+        </div>
+    </section>
+    <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
+</div>
+
+<div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="catalogGrid"></div>
+</div>
 
     <div class="flex justify-center gap-4 mb-8">
         <button id="tabVideo" onclick="switchSection('video')" class="px-8 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-widest">Video</button>
@@ -435,23 +457,35 @@ header .cursor-pointer:hover h1 {
         function switchSection(type) {
             const vSec = document.getElementById('videoSection');
             const cSec = document.getElementById('catalogSection');
+            const heroSec = document.getElementById('heroSection'); // Puntiamo direttamente all'Hero
             const btnV = document.getElementById('tabVideo');
             const btnC = document.getElementById('tabCataloghi');
+            const heroVideo = document.querySelector('#heroPlayer video');
         
             if (type === 'video') {
                 vSec.classList.remove('hidden');
+                heroSec.classList.remove('hidden'); // Mostra l'Hero
                 cSec.classList.add('hidden');
-                btnV.className = "px-8 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-widest";
-                btnC.className = "px-8 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 font-bold text-xs uppercase tracking-widest";
+                
+                // Stile tasti
+                btnV.className = "px-6 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all";
+                btnC.className = "px-6 py-2.5 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-zinc-300";
             } else {
                 vSec.classList.add('hidden');
+                heroSec.classList.add('hidden'); // NASCONDE L'HERO COMPLETAMENTE
                 cSec.classList.remove('hidden');
-                btnC.className = "px-8 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-widest";
-                btnV.className = "px-8 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 font-bold text-xs uppercase tracking-widest";
+                
+                // Spegne il video se stava andando
+                if (heroVideo) heroVideo.pause();
+        
+                // Stile tasti
+                btnC.className = "px-6 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all";
+                btnV.className = "px-6 py-2.5 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-zinc-300";
+                
                 renderCatalogs();
             }
         }
-
+        
         function renderCatalogs() {
             const grid = document.getElementById('catalogGrid');
             grid.innerHTML = catalogs.map(c => `
