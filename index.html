@@ -152,10 +152,26 @@
 
         function renderVideos(search = "") {
             const container = document.getElementById('categoriesContainer');
+            const heroSection = document.getElementById('heroSection'); // Puntiamo all'Hero
             container.innerHTML = "";
+        
+            // LOGICA ANTI-INGOMBRO: Se scrivo qualcosa, nascondo l'Hero
+            if (search.trim().length > 0) {
+                heroSection.classList.add('hidden');
+                const heroVideo = heroSection.querySelector('video');
+                if (heroVideo) heroVideo.pause(); // Stoppa l'audio se cerchi
+            } else {
+                // Se la barra è vuota e siamo nella sezione video, lo mostriamo
+                const catalogSection = document.getElementById('catalogSection');
+                if (catalogSection.classList.contains('hidden')) {
+                    heroSection.classList.remove('hidden');
+                }
+            }
+        
             categories.forEach((cat, idx) => {
                 const filtered = cat.videos.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
                 if (filtered.length === 0) return;
+        
                 const rowId = `row-${idx}`;
                 const section = document.createElement('div');
                 section.innerHTML = `
@@ -168,9 +184,13 @@
                     </div>
                     <div id="${rowId}" class="video-row">${filtered.map(v => `
                         <div class="video-card">
-                            <video preload="metadata" playsinline class="w-full aspect-video object-cover" onclick="this.play(); this.controls=true">
-                                <source src="${v.id}" type="video/mp4">
-                            </video>
+                            <div class="aspect-video bg-black">
+                                <video preload="metadata" playsinline class="w-full h-full object-cover" 
+                                       onclick="this.play(); this.controls=true"
+                                       poster="favicon.png">
+                                    <source src="${v.id.includes('raw=1') ? v.id : v.id.replace('dl=0', 'raw=1')}#t=0.5" type="video/mp4">
+                                </video>
+                            </div>
                             <div class="p-4"><h3 class="text-[10px] font-bold uppercase text-zinc-100">${v.title}</h3></div>
                         </div>
                     `).join('')}</div>
