@@ -275,12 +275,12 @@
                 ];
 
         const catalogs = [
-            { title: "Manuale Operativo 2026", icon: "📚", link: "#", desc: "La guida completa al metodo Tribe" },
-            { title: "Piano Provvigioni", icon: "💰", link: "#", desc: "Piano compensi dettagliato" },
-            { title: "Catalogo Prodotti", icon: "🛍️", link: "#", desc: "Gamma completa aggiornata" },
-            { title: "Listino Prezzi", icon: "🏷️", link: "#", desc: "Aggiornato Marzo 2026" },
-            { title: "Presentazione Aziendale", icon: "📈", link: "#", desc: "Slide ufficiali Experience Tribe" },
-            { title: "Codice Etico", icon: "🤝", link: "#", desc: "Regolamento e comportamento" }
+            { title: "Manuale Operativo 2026", link: "#", desc: "La guida completa al metodo Tribe" },
+            { title: "Piano Provvigioni", link: "#", desc: "Piano compensi dettagliato" },
+            { title: "Catalogo Prodotti", link: "#", desc: "Gamma completa aggiornata" },
+            { title: "Listino Prezzi", link: "#", desc: "Aggiornato Marzo 2026" },
+            { title: "Presentazione Aziendale", link: "#", desc: "Slide ufficiali Experience Tribe" },
+            { title: "Codice Etico", link: "#", desc: "Regolamento e comportamento" }
         ];
 
 
@@ -419,27 +419,27 @@ function renderVideos(search = "") {
 
         function renderCatalogs() {
             const grid = document.getElementById('catalogGrid');
+            if (!grid) return; // Sicurezza: se non trova la griglia, non va in errore
+            
             grid.innerHTML = "";
         
             cataloghi.forEach(cat => {
                 const card = document.createElement('div');
-                // Card con sfondo scuro e hover blu sul bordo
-                card.className = "bg-zinc-900/50 border border-zinc-800 p-6 rounded-3xl hover:border-blue-500 transition-all cursor-pointer group relative overflow-hidden";
+                // Classi corrette per layout e animazione
+                card.className = "bg-zinc-900/50 border border-zinc-800 p-8 rounded-3xl hover:border-blue-500 transition-all cursor-pointer group relative flex flex-col items-center justify-center min-h-[220px]";
                 card.onclick = () => window.open(cat.link, '_blank');
                 
                 card.innerHTML = `
-                    <div class="flex flex-col items-center text-center gap-4 pb-4">
-                        <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-600 transition-all duration-300">
-                            <i class="fas fa-file-pdf text-2xl text-blue-500 group-hover:text-white"></i>
-                        </div>
-                        
-                        <div>
-                            <h3 class="text-white font-bold uppercase tracking-widest text-sm mb-1">${cat.title}</h3>
-                            <p class="text-zinc-500 text-[10px] uppercase font-medium italic">Clicca per scaricare PDF</p>
-                        </div>
+                    <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-600 transition-all duration-300 mb-4">
+                        <i class="fas fa-file-pdf text-2xl text-blue-500 group-hover:text-white"></i>
+                    </div>
+                    
+                    <div class="text-center">
+                        <h3 class="text-white font-bold uppercase tracking-widest text-sm mb-1">${cat.title}</h3>
+                        <p class="text-zinc-500 text-[10px] uppercase font-medium italic">Clicca per scaricare</p>
                     </div>
         
-                    <div class="absolute bottom-3 w-full left-0 text-center">
+                    <div class="absolute bottom-4 w-full text-center">
                         <span class="text-blue-500 text-[8px] uppercase tracking-[0.2em] font-black italic">
                             Documento Academy
                         </span>
@@ -449,11 +449,14 @@ function renderVideos(search = "") {
             });
         }
 
+        
         window.scrollRow = (id, dir) => {
             const row = document.getElementById(id);
             row.scrollBy({ left: dir * 300, behavior: 'smooth' });
         };
 
+
+        
         function logout() { localStorage.removeItem('et_auth'); location.reload(); }
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
         if (localStorage.getItem('et_auth') === 'true') loadApp();
