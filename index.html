@@ -160,6 +160,18 @@
 <div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="catalogGrid"></div>
 </div>
+        
+    <div class="fixed bottom-6 left-0 w-full px-6 md:px-12 flex justify-between items-center z-[50] pointer-events-none">
+    
+    <div class="flex items-center gap-3 bg-zinc-900/80 backdrop-blur-md border border-zinc-800 px-4 py-2 rounded-2xl pointer-events-auto">
+        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+        <span class="text-zinc-400 text-[10px] font-bold uppercase tracking-[0.2em]">Academy</span>
+    </div>
+
+    <div class="bg-zinc-900/80 backdrop-blur-md border border-zinc-800 p-3 rounded-2xl pointer-events-auto shadow-xl">
+        <i class="fas fa-bolt text-yellow-500 text-lg animate-pulse"></i>
+    </div>
+</div>
 
     <script>
         const THE_PASSWORD = "ET2026IR";
@@ -411,13 +423,4 @@ function renderVideos(search = "") {
         if (localStorage.getItem('et_auth') === 'true') loadApp();
     </script>
 </body>
-    <footer class="fixed bottom-0 left-0 w-full p-4 flex justify-between items-center z-[100] pointer-events-none">
-        <div class="px-5 py-2.5 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-500 text-[9px] uppercase tracking-[0.2em] font-bold pointer-events-auto">
-            Academy
-        </div>
-
-        <div class="px-5 py-2.5 rounded-full bg-zinc-900 border border-zinc-800 pointer-events-auto text-yellow-400">
-            <i class="fas fa-bolt text-lg"></i>
-        </div>
-    </footer>
 </html>
