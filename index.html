@@ -275,12 +275,12 @@
                 ];
 
         const catalogs = [
-            { title: "Manuale Operativo 2026", link: "#", desc: "La guida completa al metodo Tribe" },
-            { title: "Piano Provvigioni", link: "#", desc: "Piano compensi dettagliato" },
-            { title: "Catalogo Prodotti", link: "#", desc: "Gamma completa aggiornata" },
-            { title: "Listino Prezzi", link: "#", desc: "Aggiornato Marzo 2026" },
-            { title: "Presentazione Aziendale", link: "#", desc: "Slide ufficiali Experience Tribe" },
-            { title: "Codice Etico", link: "#", desc: "Regolamento e comportamento" }
+            { title: "Manuale Operativo 2026", link: "#",},
+            { title: "Piano Provvigioni", link: "#",},
+            { title: "Catalogo Prodotti", link: "#",},
+            { title: "Listino Prezzi", link: "#",},
+            { title: "Presentazione Aziendale", link: "#",},
+            { title: "Codice Etico", link: "#",}
         ];
 
 
@@ -332,7 +332,9 @@
                 btnC.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
                 btnV.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
                 
-                renderCatalogs();
+                if (type === 'cataloghi') {
+                    renderCatalogs(); // <--- Questa riga deve esserci!
+                }
             }
         }
 
