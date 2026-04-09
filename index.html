@@ -417,18 +417,34 @@ function renderVideos(search = "") {
     });
 }
 
-        function renderCatalogs() {
-    const container = document.getElementById('catalogGrid'); // Assicurati che l'ID sia quello giusto
-    container.innerHTML = catalogs.map(c => `
-        <a href="${c.link}" target="_blank" class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl flex items-center gap-4 hover:border-blue-500 transition-all group">
-            <div class="text-4xl group-hover:scale-110 transition-transform">${c.icon}</div>
-            <div class="flex-1">
-                <h3 class="text-white font-bold group-hover:text-blue-400 uppercase text-xs tracking-tight">${c.title}</h3>
-                <p class="text-zinc-500 text-[10px] uppercase mt-1">Clicca per scaricare PDF</p>
+function renderCatalogs() {
+    const grid = document.getElementById('catalogGrid');
+    grid.innerHTML = "";
+
+    cataloghi.forEach(cat => {
+        const card = document.createElement('div');
+        // Aggiungiamo 'group' per l'animazione al passaggio del mouse
+        card.className = "bg-zinc-900/50 border border-zinc-800 p-6 rounded-3xl hover:border-blue-500 transition-all cursor-pointer group";
+        card.onclick = () => window.open(cat.link, '_blank');
+        
+        card.innerHTML = `
+            <div class="flex flex-col items-center text-center gap-4">
+                <div class="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center border border-blue-500/20 group-hover:bg-blue-600 transition-all">
+                    <i class="fas fa-book-open text-2xl text-blue-500 group-hover:text-white"></i>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-bold uppercase tracking-widest text-sm mb-1">${cat.title}</h3>
+                    <p class="text-zinc-500 text-[10px] uppercase font-medium">Clicca per aprire il PDF</p>
+                </div>
+
+                <div class="mt-2 px-3 py-1 bg-black/30 rounded-full border border-zinc-800">
+                     <span class="text-[8px] text-zinc-500 uppercase tracking-tighter font-bold">Documento Academy</span>
+                </div>
             </div>
-            <i class="fas fa-download text-zinc-700 group-hover:text-blue-500 transition-colors"></i>
-        </a>
-    `).join('');
+        `;
+        grid.appendChild(card);
+    });
 }
 
         window.scrollRow = (id, dir) => {
