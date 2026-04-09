@@ -423,18 +423,38 @@ function renderVideos(search = "") {
 }
 
         function renderCatalogs() {
-    const container = document.getElementById('catalogGrid'); // Assicurati che l'ID sia quello giusto
-    container.innerHTML = catalogs.map(c => `
-        <a href="${c.link}" target="_blank" class="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl flex items-center gap-4 hover:border-blue-500 transition-all group">
-            <div class="text-4xl group-hover:scale-110 transition-transform">${c.icon}</div>
-            <div class="flex-1">
-                <h3 class="text-white font-bold group-hover:text-blue-400 uppercase text-xs tracking-tight">${c.title}</h3>
-                <p class="text-zinc-500 text-[10px] uppercase mt-1">Clicca per scaricare PDF</p>
-            </div>
-            <i class="fas fa-download text-zinc-700 group-hover:text-blue-500 transition-colors"></i>
-        </a>
-    `).join('');
-}
+            const container = document.getElementById('catalogGrid');
+            if (!container) return;
+        
+            // Usiamo 'cataloghi' che è il nome del tuo database (array)
+            container.innerHTML = cataloghi.map(c => `
+                <a href="${c.link}" target="_blank" class="bg-zinc-900/50 border border-zinc-800 p-6 rounded-3xl flex flex-col justify-between min-h-[150px] hover:border-blue-500/50 transition-all group relative overflow-hidden">
+                    
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-file-pdf text-[10px] text-blue-500/70"></i>
+                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-medium">Documento PDF</span>
+                        </div>
+                        <h3 class="text-white font-bold uppercase tracking-tighter text-sm group-hover:text-blue-400 transition-colors leading-tight">
+                            ${c.title}
+                        </h3>
+                    </div>
+        
+                    <div class="flex justify-between items-center pt-3 border-t border-zinc-800/50 mt-4">
+                        
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-1 h-1 bg-blue-600 rounded-full"></div>
+                            <span class="text-[8px] text-blue-500 uppercase tracking-[0.2em] font-black italic">Academy</span>
+                        </div>
+        
+                        <div class="text-zinc-600 group-hover:text-yellow-500 transition-colors duration-300">
+                            <i class="fas fa-bolt text-[10px]"></i>
+                        </div>
+        
+                    </div>
+                </a>
+            `).join('');
+        }
 
         window.scrollRow = (id, dir) => {
             const row = document.getElementById(id);
