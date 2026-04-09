@@ -317,54 +317,73 @@
             document.getElementById('heroPlayer').innerHTML = `<video controls playsinline class="w-full h-full object-cover"><source src="${HERO_VIDEO.id}" type="video/mp4"></video>`;
         }
 
-        function renderVideos(search = "") {
-            const container = document.getElementById('categoriesContainer');
-            const heroSection = document.getElementById('heroSection'); // Puntiamo all'Hero
-            container.innerHTML = "";
-        
-            // LOGICA ANTI-INGOMBRO: Se scrivo qualcosa, nascondo l'Hero
-            if (search.trim().length > 0) {
-                heroSection.classList.add('hidden');
-                const heroVideo = heroSection.querySelector('video');
-                if (heroVideo) heroVideo.pause(); // Stoppa l'audio se cerchi
-            } else {
-                // Se la barra è vuota e siamo nella sezione video, lo mostriamo
-                const catalogSection = document.getElementById('catalogSection');
-                if (catalogSection.classList.contains('hidden')) {
-                    heroSection.classList.remove('hidden');
-                }
-            }
-        
-            categories.forEach((cat, idx) => {
-                const filtered = cat.videos.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
-                if (filtered.length === 0) return;
-        
-                const rowId = `row-${idx}`;
-                const section = document.createElement('div');
-                section.innerHTML = `
-                    <div class="category-header">
-                        <h2 class="category-title"><i class="fas fa-play text-blue-500 text-[8px]"></i> ${cat.name}</h2>
-                        <div class="nav-controls flex gap-2">
-                            <button class="nav-btn" onclick="scrollRow('${rowId}', -1)"><i class="fas fa-chevron-left"></i></button>
-                            <button class="nav-btn" onclick="scrollRow('${rowId}', 1)"><i class="fas fa-chevron-right"></i></button>
-                        </div>
-                    </div>
-                    <div id="${rowId}" class="video-row">${filtered.map(v => `
-                        <div class="video-card">
-                            <div class="aspect-video bg-black">
-                                <video preload="metadata" playsinline class="w-full h-full object-cover" 
-                                       onclick="this.play(); this.controls=true"
-                                       poster="favicon.png">
-                                    <source src="${v.id.includes('raw=1') ? v.id : v.id.replace('dl=0', 'raw=1')}#t=0.5" type="video/mp4">
-                                </video>
-                            </div>
-                            <div class="p-4"><h3 class="text-[10px] font-bold uppercase text-zinc-100">${v.title}</h3></div>
-                        </div>
-                    `).join('')}</div>
-                `;
-                container.appendChild(section);
-            });
+function renderVideos(search = "") {
+    const container = document.getElementById('categoriesContainer');
+    const heroSection = document.getElementById('heroSection');
+    container.innerHTML = "";
+
+    // Gestione visibilità Hero
+    if (search.trim().length > 0) {
+        heroSection.classList.add('hidden');
+        const heroVideo = heroSection.querySelector('video');
+        if (heroVideo) heroVideo.pause();
+    } else {
+        const catalogSection = document.getElementById('catalogSection');
+        if (catalogSection && catalogSection.classList.contains('hidden')) {
+            heroSection.classList.remove('hidden');
         }
+    }
+
+    categories.forEach((cat, idx) => {
+        const filtered = cat.videos.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
+        if (filtered.length === 0) return;
+
+        const rowId = `row-${idx}`;
+        const section = document.createElement('div');
+        
+        // Creiamo le card
+        const videoCardsHTML = filtered.map(v => {
+            // Pulizia link Dropbox per caricamento diretto
+            let cleanUrl = v.id.includes('raw=1') ? v.id : v.id.replace('dl=0', 'raw=1');
+            
+            // Trucco anti-cache: aggiungiamo un timestamp per forzare il caricamento
+            const finalUrl = `${cleanUrl}#t=0.5`;
+
+            return `
+                <div class="video-card">
+                    <div class="aspect-video bg-black relative">
+                        <video 
+                            preload="metadata" 
+                            playsinline 
+                            class="w-full h-full object-cover cursor-pointer" 
+                            onclick="this.play(); this.controls=true"
+                            poster="favicon.png">
+                            <source src="${finalUrl}" type="video/mp4">
+                            Il tuo browser non supporta il video.
+                        </video>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-[10px] font-bold uppercase text-zinc-100 line-clamp-2">${v.title}</h3>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        section.innerHTML = `
+            <div class="category-header">
+                <h2 class="category-title"><i class="fas fa-play text-blue-500 text-[8px]"></i> ${cat.name}</h2>
+                <div class="nav-controls flex gap-2">
+                    <button class="nav-btn" onclick="scrollRow('${rowId}', -1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nav-btn" onclick="scrollRow('${rowId}', 1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div id="${rowId}" class="video-row">
+                ${videoCardsHTML}
+            </div>
+        `;
+        container.appendChild(section);
+    });
+}
 
         function renderCatalogs() {
     const container = document.getElementById('catalogGrid'); // Assicurati che l'ID sia quello giusto
