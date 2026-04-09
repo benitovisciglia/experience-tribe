@@ -439,29 +439,33 @@ function renderVideos(search = "") {
                 // Link al click
                 card.onclick = () => window.open(c.link, '_blank');
                 
-                card.innerHTML = `
-                    <div class="flex flex-col gap-2">
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-file-pdf text-[10px] text-blue-500/70"></i>
-                            <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-medium">Documento PDF</span>
+                container.innerHTML = catalogs.map(c => `
+                    <a href="${c.link}" target="_blank" class="bg-zinc-900/50 border border-zinc-800 p-6 rounded-3xl flex flex-col justify-between min-h-[160px] hover:border-blue-500/50 transition-all group relative overflow-hidden">
+                        
+                        <div class="flex justify-between items-start gap-4">
+                            <div class="flex flex-col gap-1">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <i class="fas fa-file-pdf text-[10px] text-blue-500/70"></i>
+                                    <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-medium">Documento PDF</span>
+                                </div>
+                                <h3 class="text-white font-bold uppercase tracking-tighter text-base group-hover:text-blue-400 transition-colors leading-tight">
+                                    ${c.title}
+                                </h3>
+                            </div>
+                            <div class="mt-6">
+                                <i class="fas fa-arrow-alt-circle-down text-zinc-600 group-hover:text-blue-500 text-xl transition-all transform group-hover:scale-110 shadow-lg"></i>
+                            </div>
                         </div>
-                        <h3 class="text-white font-bold uppercase tracking-tighter text-sm group-hover:text-blue-400 transition-colors leading-tight">
-                            ${c.title}
-                        </h3>
-                    </div>
-        
-                    <div class="flex justify-between items-center pt-3 border-t border-zinc-800/50 mt-4">
-    
-    <div class="flex items-center gap-1.5">
-        <div class="w-1 h-1 bg-blue-600 rounded-full shadow-[0_0_5px_rgba(37,99,235,0.5)]"></div>
-        <span class="text-[8px] text-blue-500 uppercase tracking-[0.2em] font-black italic">Academy</span>
-    </div>
-
-    <div class="flex items-center gap-3">
-        <i class="fas fa-bolt text-[10px] text-zinc-700 group-hover:text-yellow-500 transition-colors"></i>
-        <i class="fas fa-arrow-alt-circle-down text-zinc-500 group-hover:text-blue-500 text-sm transition-all transform group-hover:scale-110"></i>
-    </div>
-</div>
+            
+                        <div class="flex justify-between items-center pt-3 border-t border-zinc-800/50 mt-4">
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-1 h-1 bg-blue-600 rounded-full shadow-[0_0_5px_rgba(37,99,235,0.5)]"></div>
+                                <span class="text-[8px] text-blue-500 uppercase tracking-[0.2em] font-black italic">Academy</span>
+                            </div>
+                            <div class="text-zinc-700 group-hover:text-yellow-500 transition-colors duration-300">
+                                <i class="fas fa-bolt text-[10px]"></i>
+                            </div>
+                        </div>
                 `;
                 container.appendChild(card);
             });
