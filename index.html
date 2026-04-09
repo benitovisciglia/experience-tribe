@@ -24,6 +24,29 @@
                 }
             }
         }
+
+        // 1. Disabilita il tasto destro (Menu contestuale)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        
+        // 2. Disabilita le scorciatoie da tastiera comuni per lo sviluppo
+        document.addEventListener('keydown', function(e) {
+            // F12 (Ispeziona)
+            if (e.key === "F12") {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+I (Ispeziona) o Ctrl+Shift+J (Console) o Ctrl+U (Sorgente pagina)
+            if (e.ctrlKey && (e.shiftKey && (e.key === 'I' || e.key === 'J') || e.key === 'U')) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+S (Salva pagina)
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
     </script>
     
     <style>
