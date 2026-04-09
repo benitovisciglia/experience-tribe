@@ -377,8 +377,9 @@ function renderVideos(search = "") {
                         <video 
                             preload="metadata" 
                             playsinline 
+                            webkit-playsinline
                             class="w-full h-full object-cover cursor-pointer" 
-                            onclick="this.play(); this.controls=true"
+                            onclick="if(this.paused) { this.play(); this.controls=true; } else { this.pause(); }"
                             poster="favicon.png">
                             <source src="${finalUrl}" type="video/mp4">
                         </video>
