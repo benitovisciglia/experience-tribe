@@ -277,8 +277,10 @@
         function loadApp() {
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
+            setTimeout(() => {
             renderHero();
             renderVideos();
+            }, 100);
         }
 
         function switchSection(type) {
