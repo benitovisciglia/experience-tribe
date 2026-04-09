@@ -426,10 +426,20 @@ function renderVideos(search = "") {
             const container = document.getElementById('catalogGrid');
             if (!container) return;
         
-            // Usiamo 'cataloghi' che è il nome del tuo database (array)
-            container.innerHTML = cataloghi.map(c => `
-                <a href="${c.link}" target="_blank" class="bg-zinc-900/50 border border-zinc-800 p-6 rounded-3xl flex flex-col justify-between min-h-[150px] hover:border-blue-500/50 transition-all group relative overflow-hidden">
-                    
+            // Puliamo il contenitore prima di riempirlo
+            container.innerHTML = "";
+        
+            // Usiamo 'catalogs' (il nome della tua costante)
+            catalogs.forEach(c => {
+                const card = document.createElement('div');
+                
+                // Stile: Card scura, bordo sottile, layout verticale
+                card.className = "bg-zinc-900/50 border border-zinc-800 p-6 rounded-3xl flex flex-col justify-between min-h-[160px] hover:border-blue-500/50 transition-all group cursor-pointer relative";
+                
+                // Link al click
+                card.onclick = () => window.open(c.link, '_blank');
+                
+                card.innerHTML = `
                     <div class="flex flex-col gap-2">
                         <div class="flex items-center gap-2">
                             <i class="fas fa-file-pdf text-[10px] text-blue-500/70"></i>
@@ -450,10 +460,10 @@ function renderVideos(search = "") {
                         <div class="text-zinc-600 group-hover:text-yellow-500 transition-colors duration-300">
                             <i class="fas fa-bolt text-[10px]"></i>
                         </div>
-        
                     </div>
-                </a>
-            `).join('');
+                `;
+                container.appendChild(card);
+            });
         }
 
         window.scrollRow = (id, dir) => {
