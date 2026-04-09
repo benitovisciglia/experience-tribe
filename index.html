@@ -241,20 +241,6 @@ header .cursor-pointer:hover h1 {
     </div>
 </header>
 
-<div id="videoSection">
-    <section id="heroSection" class="px-6 md:px-12 mb-12">
-        <div class="relative w-full max-w-6xl mx-auto rounded-3xl overflow-hidden border border-zinc-800 bg-black">
-            <div class="aspect-video" id="heroPlayer">
-                </div>
-        </div>
-    </section>
-    <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
-</div>
-
-<div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="catalogGrid"></div>
-</div>
-
     <div class="flex justify-center gap-4 mb-8">
         <button id="tabVideo" onclick="switchSection('video')" class="px-8 py-2 rounded-full bg-blue-600 text-white font-bold text-xs uppercase tracking-widest">Video</button>
         <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-8 py-2 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 font-bold text-xs uppercase tracking-widest">Cataloghi</button>
@@ -455,34 +441,33 @@ header .cursor-pointer:hover h1 {
         ];
 
         function switchSection(type) {
-            const vSec = document.getElementById('videoSection');
+            const vSec = document.getElementById('videoSection'); // Questo ora contiene anche l'Hero
             const cSec = document.getElementById('catalogSection');
-            const heroSec = document.getElementById('heroSection'); // Puntiamo direttamente all'Hero
             const btnV = document.getElementById('tabVideo');
             const btnC = document.getElementById('tabCataloghi');
+            
+            // Cerchiamo il video per stoppare l'audio
             const heroVideo = document.querySelector('#heroPlayer video');
         
             if (type === 'video') {
                 vSec.classList.remove('hidden');
-                heroSec.classList.remove('hidden'); // Mostra l'Hero
                 cSec.classList.add('hidden');
                 
-                // Stile tasti
-                btnV.className = "px-6 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all";
-                btnC.className = "px-6 py-2.5 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-zinc-300";
+                // Colori tasti (Attiva Video)
+                btnV.className = "px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
+                btnC.className = "px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
             } else {
-                vSec.classList.add('hidden');
-                heroSec.classList.add('hidden'); // NASCONDE L'HERO COMPLETAMENTE
-                cSec.classList.remove('hidden');
+                vSec.classList.add('hidden'); // Nasconde Hero + Liste video
+                cSec.classList.remove('hidden'); // Mostra la griglia cataloghi
                 
-                // Spegne il video se stava andando
+                // Se il video hero stava andando, lo mettiamo in pausa
                 if (heroVideo) heroVideo.pause();
         
-                // Stile tasti
-                btnC.className = "px-6 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all";
-                btnV.className = "px-6 py-2.5 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-zinc-300";
+                // Colori tasti (Attiva Cataloghi)
+                btnC.className = "px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
+                btnV.className = "px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
                 
-                renderCatalogs();
+                renderCatalogs(); // Genera i box dei cataloghi
             }
         }
         
