@@ -204,6 +204,12 @@
             } else { alert("Password Errata"); }
         }
 
+        document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        checkPassword();
+    }
+});
+        
         function loadApp() {
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
