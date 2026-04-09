@@ -24,6 +24,8 @@
         .search-input { width: 100%; background: #111; border: 1px solid #222; padding: 10px 15px 10px 40px; border-radius: 99px; font-size: 0.85rem; color: white; outline: none; }
         .hero-gradient { background: linear-gradient(to bottom, transparent, rgba(5,5,5,1)); }
         .hidden { display: none !important; }
+        .fa-telegram:hover { filter: drop-shadow(0 0 8px #26A5E4); }
+        .fa-instagram:hover { filter: drop-shadow(0 0 8px #E4405F); }
     </style>
 </head>
 <body>
@@ -51,6 +53,18 @@
                 <button id="tabVideo" onclick="switchSection('video')" class="px-6 py-2 rounded-xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all">VIDEO</button>
                 <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-6 py-2 rounded-xl text-zinc-500 font-bold text-[10px] uppercase tracking-widest transition-all hover:text-white">CATALOGHI</button>
             </div>
+
+            <div class="hidden lg:flex items-center gap-3 border-l border-zinc-800 pl-6">
+        <a href="IL_TUO_LINK_TELEGRAM" target="_blank" class="text-zinc-500 hover:text-[#26A5E4] transition-colors text-lg">
+            <i class="fab fa-telegram"></i>
+        </a>
+        <a href="IL_TUO_LINK_INSTAGRAM" target="_blank" class="text-zinc-500 hover:text-[#E4405F] transition-colors text-lg">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="IL_TUO_LINK_SITO" target="_blank" class="text-zinc-500 hover:text-blue-500 transition-colors text-lg">
+            <i class="fas fa-globe"></i>
+        </a>
+    </div>
 
             <div class="flex items-center gap-4">
                 <div class="search-container w-48">
