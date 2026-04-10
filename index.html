@@ -276,6 +276,20 @@
             { title: "Codice Etico", icon: "🤝", link: "#", desc: "Regolamento e comportamento" }
         ];
 
+        function checkAccesso() {
+            const userIn = document.getElementById('userInput').value.trim();
+            const passIn = document.getElementById('passwordInput').value;
+            const trovato = utentiAutorizzati.find(u => u.username === userIn && u.password === passIn);
+        
+            if (trovato) {
+                localStorage.setItem('et_auth', 'true');
+                localStorage.setItem('et_user_nome', trovato.nome);
+                loadApp();
+            } else {
+                alert("Credenziali non valide");
+            }
+        }
+
 
         function checkPassword() {
             if (document.getElementById('passwordInput').value === THE_PASSWORD) {
@@ -293,9 +307,14 @@
         function loadApp() {
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
+            
+            // Mostra il nome
+            const nome = localStorage.getItem('et_user_nome') || "User";
+            document.getElementById('userNameDisplay').innerText = nome;
+        
             setTimeout(() => {
-            renderHero();
-            renderVideos();
+                renderHero();
+                renderVideos();
             }, 100);
         }
 
