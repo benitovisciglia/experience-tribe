@@ -171,21 +171,17 @@
 
         #catalogSection {
             /* Su PC basta uno spazio standard */
-            padding-top: 110px !important; 
+            padding-top: 120px !important; 
         }
         
         /* --- REGOLE SPECIFICHE PER IPHONE / MOBILE (CORRETTE) --- */
         @media (max-width: 767px) {
             #catalogSection {
             /* Su iPhone l'header è più alto, quindi serve più spazio */
-            padding-top: 135px !important; 
+            padding-top: 160px !important; 
         }
 
-            #catalogSection h2 {
-                font-size: 18px !important;
-            }
-        }
-        
+
             #featuredTitle {
             font-size: 24px !important; /* Molto più piccolo rispetto al desktop */
             line-height: 0.9 !important;
@@ -346,8 +342,7 @@
 
 <div id="catalogSection" class="hidden pt-32 md:pt-28 px-6 md:px-12 max-w-6xl mx-auto pb-20">
     <div class="mb-6 border-l-4 border-blue-600 pl-4">
-        <h2 class="text-white text-xl md:text-2xl font-black italic uppercase tracking-tighter">Documentazione</h2>
-        <p class="text-zinc-500 text-[9px] uppercase tracking-[0.3em] font-bold">Cataloghi e schede tecniche</p>
+    
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="catalogGrid"></div>
