@@ -181,6 +181,7 @@
                 margin-top: 12px;
                 display: flex !important;
                 justify-content: center !important; /* Forza la centratura totale */
+                footer {padding-bottom: 40px; /* Più spazio sotto su iPhone */}
             }
         
             #headerSearchContainer .bg-zinc-900\/50 {
@@ -193,6 +194,23 @@
         
             h1 { font-size: 15px !important; } /* Titolo Experience Tribe più piccolo */
         }
+
+        footer a i {
+        /* Crea un leggero riflesso sotto le icone */
+        filter: drop-shadow(0 0 0px rgba(59, 130, 246, 0));
+        transition: all 0.3s ease;
+    }
+    
+    footer a:hover i {
+        /* Effetto neon blu quando passi il mouse */
+        filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
+    }
+    
+    @media (max-width: 767px) {
+        footer {
+            padding-bottom: 40px; /* Più spazio sotto su iPhone */
+        }
+    }
         
     </style>
 </head>
@@ -620,5 +638,34 @@ function renderVideos(search = "") {
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
         if (localStorage.getItem('et_auth') === 'true') loadApp();
     </script>
+
+    <footer class="w-full bg-black border-t border-zinc-900 p-6 mt-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="text-zinc-500 text-[10px] uppercase tracking-widest font-medium order-2 md:order-1">
+                © 2024 <span class="text-blue-500 font-black italic">Experience Tribe</span>. All rights reserved.
+            </div>
+    
+            <div class="flex items-center gap-6 order-1 md:order-2">
+                <a href="#" class="text-zinc-400 hover:text-blue-500 transition-all duration-300 transform hover:scale-110">
+                    <i class="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="#" class="text-zinc-400 hover:text-blue-500 transition-all duration-300 transform hover:scale-110">
+                    <i class="fab fa-facebook-f text-lg"></i>
+                </a>
+                <a href="#" class="text-zinc-400 hover:text-blue-500 transition-all duration-300 transform hover:scale-110">
+                    <i class="fab fa-youtube text-xl"></i>
+                </a>
+                <a href="#" class="text-zinc-400 hover:text-blue-500 transition-all duration-300 transform hover:scale-110">
+                    <i class="fab fa-tiktok text-lg"></i>
+                </a>
+            </div>
+    
+            <div class="hidden md:block text-zinc-600 text-[9px] uppercase tracking-[0.3em] font-bold order-3">
+                Training Academy
+            </div>
+        </div>
+    </footer>
+        
 </body>
 </html>
