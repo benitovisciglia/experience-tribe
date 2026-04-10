@@ -64,6 +64,12 @@
                 });
             }
         });
+
+        window.onload = function() {
+            if (localStorage.getItem('et_auth') === 'true') {
+                loadApp();
+            }
+        };
         
     </script>
     
@@ -357,21 +363,21 @@
         }
         
         function loadApp() {
+            // 1. Nascondi login e mostra contenuto
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
         
-            // Recupera il nome e lo stampa nell'header
-            const nomeSalvato = localStorage.getItem('et_user_nome') || "Membro Tribe";
-            const displayElement = document.getElementById('userNameDisplay');
+            // 2. RECUPERA E MOSTRA IL NOME
+            const nomeSalvato = localStorage.getItem('et_user_nome');
+            const displayNome = document.getElementById('userNameDisplay');
             
-            if (displayElement) {
-                displayElement.innerText = nomeSalvato;
+            if (displayNome && nomeSalvato) {
+                displayNome.innerText = nomeSalvato;
             }
         
-            setTimeout(() => {
-                renderHero();
-                renderVideos();
-            }, 100);
+            // 3. Avvia i video (con il fix degli angoli che abbiamo fatto)
+            renderHero();
+            renderVideos();
         }
 
         function switchSection(type) {
