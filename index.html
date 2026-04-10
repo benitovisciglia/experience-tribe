@@ -136,8 +136,10 @@
         
         /* Limita la barra di ricerca su schermi grandi */
         #headerSearchContainer {
-            max-width: 300px !important; /* Regola questo valore per farla più o meno lunga */
-            transition: all 0.3s ease;
+            max-width: 320px !important; /* Forza la larghezza massima */
+            margin-left: auto !important;
+            margin-right: auto !important;
+            flex-grow: 0 !important; /* Impedisce alla barra di espandersi per riempire i vuoti */
         }
         
         /* Effetto focus: si allarga leggermente quando ci clicchi dentro */
@@ -149,8 +151,9 @@
         /* Ottimizzazione specifica per iPhone */
         @media (max-width: 640px) {
             #headerSearchContainer {
-                max-width: 140px !important; /* Molto compatta su mobile */
-                margin: 0 5px !important;
+            max-width: 160px !important;
+            margin-left: 10px !important;
+            margin-right: 10px !important;
             }
             
             /* Nascondi il testo "Training Academy" su mobile per recuperare spazio */
