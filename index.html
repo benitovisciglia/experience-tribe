@@ -85,6 +85,7 @@
         .hidden { display: none !important; }
         .fa-telegram:hover { filter: drop-shadow(0 0 8px #26A5E4); }
         .fa-instagram:hover { filter: drop-shadow(0 0 8px #E4405F); }
+        #videoSection { padding-top: 2rem; }
 
         /* Animazione di comparsa */
         @keyframes fadeIn {
@@ -320,11 +321,13 @@
         function checkAccesso() {
             const userIn = document.getElementById('userInput').value.trim();
             const passIn = document.getElementById('passwordInput').value;
+                
+            // Cerca l'utente nel database
             const trovato = utentiAutorizzati.find(u => u.username === userIn && u.password === passIn);
-        
+            
             if (trovato) {
                 localStorage.setItem('et_auth', 'true');
-                localStorage.setItem('et_user_nome', trovato.nome);
+                localStorage.setItem('et_user_nome', trovato.nome); // Salviamo il nome reale (es: "Boss")
                 loadApp();
             } else {
                 alert("Credenziali non valide");
@@ -355,6 +358,7 @@
             // Recupera il nome e lo stampa nell'header
             const nomeSalvato = localStorage.getItem('et_user_nome') || "Membro Tribe";
             const displayElement = document.getElementById('userNameDisplay');
+            
             if (displayElement) {
                 displayElement.innerText = nomeSalvato;
             }
