@@ -185,24 +185,15 @@
         
         <div class="glass p-8 md:p-10 rounded-3xl w-full max-w-md shadow-2xl border border-zinc-800 text-center backdrop-blur-md bg-zinc-900/60">
             
-                <div class="glass p-8 md:p-10 rounded-3xl w-full max-w-md shadow-2xl border border-zinc-800 text-center backdrop-blur-md bg-zinc-900/60">
-            
-            <div class="mb-10">
-                <h1 class="text-3xl md:text-4xl font-black text-blue-500 tracking-tighter italic uppercase leading-none">
-                    Experience Tribe
-                </h1>
-                <p class="text-zinc-500 text-xs uppercase tracking-[0.3em] font-bold mt-2">
-                    Training Academy
-                </p>
-            </div>
+            ......
 
-        <div class="space-y-4">
-            <input type="text" id="userInput" placeholder="Username" class="w-full px-5 py-4 bg-black/50 border border-zinc-700 rounded-xl text-white text-center outline-none focus:border-blue-500">
-            <input type="password" id="passwordInput" placeholder="Password" class="w-full px-5 py-4 bg-black/50 border border-zinc-700 rounded-xl text-white text-center outline-none focus:border-blue-500">
-            <button onclick="checkAccesso()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl uppercase tracking-widest text-sm transition-all">
-                Entra nell'Academy
-            </button>
-        </div>
+<div class="space-y-4">
+    <input type="text" id="userInput" placeholder="Username" class="w-full px-5 py-4 bg-black/50 border border-zinc-700 rounded-xl text-white text-center outline-none focus:border-blue-500">
+    <input type="password" id="passwordInput" placeholder="Password" class="w-full px-5 py-4 bg-black/50 border border-zinc-700 rounded-xl text-white text-center outline-none focus:border-blue-500">
+    <button onclick="checkAccesso()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl uppercase tracking-widest text-sm transition-all">
+        Entra nell'Academy
+    </button>
+</div>
 
             <div class="mt-8">
                 <p class="text-zinc-600 text-[10px] uppercase tracking-widest">
@@ -288,9 +279,9 @@
         ];
         
         const HERO_VIDEO = {
-            id: "https://www.dropbox.com/scl/fi/ao48vnfnpclskbsm7a59r/ATTIVARE-IL-CONSULENTE-2026.mp4?rlkey=b8v71lc5oiyqc7tes7qccbxg4&st=zj9xb4br&raw=1",
-            title: "ATTIVARE IL CONSULENTE",
-            desc: "Zoom in cui viene presentato il processo di attivazione del consulente, con spiegazione dei passaggi per entrare nel network e iniziare l’attività."
+            id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&raw=1",
+            title: "I 7 LADRI DEL TEMPO",
+            desc: "Scopri i sabotatori invisibili della tua produttività e impara a gestire il tuo tempo come un vero leader."
         };
 
         const categories = [
@@ -475,69 +466,69 @@
             document.getElementById('heroPlayer').innerHTML = `<video controls playsinline class="w-full h-full object-cover"><source src="${HERO_VIDEO.id}" type="video/mp4"></video>`;
         }
 
-        function renderVideos(search = "") {
-            const container = document.getElementById('categoriesContainer');
-            const heroSection = document.getElementById('heroSection');
-            container.innerHTML = "";
+function renderVideos(search = "") {
+    const container = document.getElementById('categoriesContainer');
+    const heroSection = document.getElementById('heroSection');
+    container.innerHTML = "";
+
+    // Gestione visibilità Hero
+    if (search.trim().length > 0) {
+        heroSection.classList.add('hidden');
+        const heroVideo = heroSection.querySelector('video');
+        if (heroVideo) heroVideo.pause();
+    } else {
+        const catalogSection = document.getElementById('catalogSection');
+        if (catalogSection && catalogSection.classList.contains('hidden')) {
+            heroSection.classList.remove('hidden');
+        }
+    }
+
+    categories.forEach((cat, idx) => {
+        const filtered = cat.videos.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
+        if (filtered.length === 0) return;
+
+        const rowId = `row-${idx}`;
+        const section = document.createElement('div');
         
-            // Gestione visibilità Hero
-            if (search.trim().length > 0) {
-                heroSection.classList.add('hidden');
-                const heroVideo = heroSection.querySelector('video');
-                if (heroVideo) heroVideo.pause();
-            } else {
-                const catalogSection = document.getElementById('catalogSection');
-                if (catalogSection && catalogSection.classList.contains('hidden')) {
-                    heroSection.classList.remove('hidden');
-                }
-            }
+        // Creiamo le card
+        const videoCardsHTML = filtered.map(v => {
+            let cleanUrl = v.id.includes('raw=1') ? v.id : v.id.replace('dl=0', 'raw=1');
+            const finalUrl = `${cleanUrl}#t=0.5`;
         
-            categories.forEach((cat, idx) => {
-                const filtered = cat.videos.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
-                if (filtered.length === 0) return;
-        
-                const rowId = `row-${idx}`;
-                const section = document.createElement('div');
-                
-                // Creiamo le card
-                const videoCardsHTML = filtered.map(v => {
-                    let cleanUrl = v.id.includes('raw=1') ? v.id : v.id.replace('dl=0', 'raw=1');
-                    const finalUrl = `${cleanUrl}#t=0.5`;
-                
-                    return `
-                        <div class="video-card group">
-                            <div class="aspect-video bg-black relative overflow-hidden rounded-t-3xl">
-                                <video 
-                                    preload="metadata" 
-                                    playsinline 
-                                    webkit-playsinline
-                                    class="w-full h-full object-cover cursor-pointer" 
-                                    onclick="if(this.paused) { this.play(); this.controls=true; } else { this.pause(); }"
-                                    poster="favicon.png">
-                                    <source src="${finalUrl}" type="video/mp4">
-                                </video>
-                            </div>
+            return `
+                <div class="video-card group">
+                    <div class="aspect-video bg-black relative overflow-hidden rounded-t-3xl">
+                        <video 
+                            preload="metadata" 
+                            playsinline 
+                            webkit-playsinline
+                            class="w-full h-full object-cover cursor-pointer" 
+                            onclick="if(this.paused) { this.play(); this.controls=true; } else { this.pause(); }"
+                            poster="favicon.png">
+                            <source src="${finalUrl}" type="video/mp4">
+                        </video>
+                    </div>
+                    
+                    <div class="p-4 flex flex-col gap-3">
+                        
+                        <h3 class="text-[11px] font-bold uppercase text-zinc-100 line-clamp-2 leading-tight">${v.title}</h3>
+                        
+                        <div class="flex justify-between items-center pt-1 border-t border-zinc-800/50">
                             
-                            <div class="p-4 flex flex-col gap-3">
-                                
-                                <h3 class="text-[11px] font-bold uppercase text-zinc-100 line-clamp-2 leading-tight">${v.title}</h3>
-                                
-                                <div class="flex justify-between items-center pt-1 border-t border-zinc-800/50">
-                                    
-                                    <div class="flex items-center gap-1.5">
-                                        <div class="w-1 h-1 bg-blue-500 rounded-full"></div>
-                                        <span class="text-[8px] text-zinc-500 uppercase tracking-[0.2em] font-medium">Academy</span>
-                                    </div>
-                
-                                    <div class="text-zinc-600/80 group-hover:text-yellow-500 transition-colors duration-300">
-                                        <i class="fas fa-bolt text-[10px]"></i>
-                                    </div>
-                
-                                </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-1 h-1 bg-blue-500 rounded-full"></div>
+                                <span class="text-[8px] text-zinc-500 uppercase tracking-[0.2em] font-medium">Academy</span>
                             </div>
+        
+                            <div class="text-zinc-600/80 group-hover:text-yellow-500 transition-colors duration-300">
+                                <i class="fas fa-bolt text-[10px]"></i>
+                            </div>
+        
                         </div>
-                    `;
-                }).join('');
+                    </div>
+                </div>
+            `;
+        }).join('');
 
         
         section.innerHTML = `
