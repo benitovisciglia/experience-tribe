@@ -102,6 +102,23 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
+
+        #heroPlayer, .aspect-video {
+    position: relative !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+    /* Questa riga è il segreto: crea un nuovo contesto di rendering */
+    isolation: isolate !important;
+    /* La maschera ritaglia anche i controlli del video che "scappano" */
+    -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+    mask-image: radial-gradient(white, black) !important;
+}
+
+#heroPlayer video, .aspect-video video {
+    border-radius: 24px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
         
     </style>
 </head>
