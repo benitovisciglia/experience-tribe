@@ -136,14 +136,28 @@
             max-width: 340px !important;
         }
         
-        /* I Pulsanti VIDEO e CATALOGHI */
+        /* --- UNICO BLOCCO PER I PULSANTI --- */
         #tabVideo, #tabCataloghi {
-            width: 95px !important; /* Spazio sufficiente per "CATALOGHI" */
+            /* Larghezza fissa identica per entrambi per evitare spostamenti */
+            width: 105px !important; 
+            min-width: 105px !important;
+            max-width: 105px !important;
+            
+            /* Allineamento */
             text-align: center;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            
+            /* Estetica testo */
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 9px;
-            flex-shrink: 0;
+            font-size: 9px !important;
+            letter-spacing: 0.5px;
+            flex-shrink: 0 !important;
+            
+            /* Padding verticale per l'altezza del tasto */
+            padding: 8px 0 !important;
         }
         
         /* --- REGOLE SPECIFICHE PER DESKTOP (Computer) --- */
@@ -176,14 +190,6 @@
                 max-width: 340px !important;
                 padding: 6px 8px !important; /* Riduciamo leggermente il padding interno */
             }
-        
-            #tabVideo, #tabCataloghi {
-                /* Blocchiamo i pulsanti a una misura che non faccia scoppiare la barra */
-                width: 90px !important; 
-                min-width: 90px !important;
-                font-size: 8px !important; /* Testo leggermente più piccolo per sicurezza su schermi stretti */
-            }
-        }
         
             h1 { font-size: 15px !important; } /* Titolo Experience Tribe più piccolo */
             header p { display: none; } /* Nasconde Training Academy su mobile */
