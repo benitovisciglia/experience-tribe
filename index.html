@@ -134,6 +134,30 @@
             header { padding: 10px !important; }
         }
         
+        /* Limita la barra di ricerca su schermi grandi */
+        #headerSearchContainer {
+            max-width: 300px !important; /* Regola questo valore per farla più o meno lunga */
+            transition: all 0.3s ease;
+        }
+        
+        /* Effetto focus: si allarga leggermente quando ci clicchi dentro */
+        #headerSearchContainer:focus-within {
+            max-width: 400px !important;
+            border-color: #3b82f6;
+        }
+        
+        /* Ottimizzazione specifica per iPhone */
+        @media (max-width: 640px) {
+            #headerSearchContainer {
+                max-width: 140px !important; /* Molto compatta su mobile */
+                margin: 0 5px !important;
+            }
+            
+            /* Nascondi il testo "Training Academy" su mobile per recuperare spazio */
+            header p { display: none; }
+        }
+
+        
     </style>
 </head>
 <body class="bg-black min-h-screen"> <div id="loginPage" class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat" 
