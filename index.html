@@ -579,41 +579,31 @@ function renderVideos(search = "") {
         
         // Creiamo le card
         const videoCardsHTML = filtered.map(v => {
-            let cleanUrl = v.id.includes('raw=1') ? v.id : v.id.replace('dl=0', 'raw=1');
-            const finalUrl = `${cleanUrl}#t=0.5`;
-        
-            return `
-                <div class="video-card group">
-                    <div class="aspect-video bg-black relative overflow-hidden rounded-t-3xl">
-                        <video 
-                            preload="metadata" 
-                            playsinline 
-                            webkit-playsinline
-                            class="w-full h-full object-cover cursor-pointer" 
-                            onclick="if(this.paused) { this.play(); this.controls=true; } else { this.pause(); }"
-                            poster="favicon.png">
-                            <source src="${finalUrl}" type="video/mp4">
-                        </video>
-                    </div>
+    const finalUrl = v.id.replace("dl=0", "raw=1");
+
+    return `
+        <div class="video-card group">
+            <div class="aspect-video bg-black relative overflow-hidden rounded-t-3xl">
+                
+                <video 
+                    preload="auto"
+                    controls
+                    playsinline 
+                    class="w-full h-full object-cover"
+                    poster="favicon.png">
                     
-                    <div class="p-4 flex flex-col gap-3">
-                        
-                        <h3 class="text-[11px] font-bold uppercase text-zinc-100 line-clamp-2 leading-tight">${v.title}</h3>
-                        
-                        <div class="flex justify-between items-center pt-1 border-t border-zinc-800/50">
-                            
-                            <div class="flex items-center gap-1.5">
-                                <div class="w-1 h-1 bg-blue-500 rounded-full"></div>
-                                <span class="text-[8px] text-zinc-500 uppercase tracking-[0.2em] font-medium">Academy</span>
-                            </div>
-        
-                            <div class="text-zinc-600/80 group-hover:text-yellow-500 transition-colors duration-300">
-                                <i class="fas fa-bolt text-[10px]"></i>
-                            </div>
-        
-                        </div>
-                    </div>
-                </div>
+                    <source src="${finalUrl}" type="video/mp4">
+                
+                </video>
+
+            </div>
+
+            <div class="p-4 flex flex-col gap-3">
+                <h3 class="text-[11px] font-bold uppercase text-zinc-100 line-clamp-2 leading-tight">
+                    ${v.title}
+                </h3>
+            </div>
+        </div>
             `;
         }).join('');
 
