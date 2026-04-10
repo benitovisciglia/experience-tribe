@@ -47,6 +47,13 @@
             }
         });
 
+        document.addEventListener('keypress', function (e) {
+            const loginPage = document.getElementById('loginPage');
+            if (!loginPage.classList.contains('hidden') && e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', () => {
             const pwdInput = document.getElementById('passwordInput');
             if (pwdInput) {
@@ -129,7 +136,7 @@
 
     <div id="mainContent" class="hidden">
         
-<header class="p-4 md:p-6 flex justify-between items-center border-b border-zinc-900 bg-black sticky top-0 z-[100]">
+<header class="p-4 md:px-8 md:py-6 flex flex-wrap lg:flex-nowrap justify-between items-center gap-4 border-b border-zinc-900 bg-black sticky top-0 z-[100]">
     
     <div class="flex items-center gap-4 cursor-pointer shrink-0" onclick="location.reload()">
         <img src="ET Monogram bianco.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain">
@@ -143,32 +150,34 @@
         </div>
     </div>
 
-    <div class="hidden lg:flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full max-w-md w-full mx-8">
+    <div class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full flex-grow max-w-xl mx-2">
         <div class="flex items-center gap-1 shrink-0">
-            <button id="tabVideo" onclick="switchSection('video')" class="px-5 py-2 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all">VIDEO</button>
-            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-5 py-2 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white transition-all">CATALOGHI</button>
+            <button id="tabVideo" onclick="switchSection('video')" class="px-4 md:px-6 py-2 rounded-full bg-blue-600 text-white font-bold text-[9px] md:text-[10px] uppercase tracking-widest transition-all">VIDEO</button>
+            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-4 md:px-6 py-2 rounded-full text-zinc-500 font-bold text-[9px] md:text-[10px] uppercase tracking-widest hover:text-white transition-all">CATALOGHI</button>
         </div>
-        <div class="w-[1px] h-4 bg-zinc-800 mx-2"></div>
+        
+        <div class="w-[1px] h-4 bg-zinc-800 mx-1 md:mx-2"></div>
+        
         <div class="relative flex-grow">
-            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 text-xs"></i>
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 text-[10px] md:text-xs"></i>
             <input type="text" id="searchInput" placeholder="Cerca..." 
-                class="w-full bg-transparent border-none pl-9 pr-2 py-1 text-xs text-white placeholder-zinc-600 outline-none">
+                class="w-full bg-transparent border-none pl-9 pr-2 py-1 text-xs text-white placeholder-zinc-600 outline-none focus:ring-0">
         </div>
     </div>
 
-    <div class="flex items-center gap-4 md:gap-6">
-        <div class="flex flex-col items-end leading-none">
+    <div class="flex items-center gap-3 md:gap-5 shrink-0">
+        <div class="hidden sm:flex flex-col items-end leading-none pr-3 border-r border-zinc-800">
             <span class="text-[8px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto</span>
             <span id="userNameDisplay" class="text-blue-500 text-[11px] font-black italic uppercase tracking-tighter">
                 </span>
         </div>
 
-        <div class="flex items-center gap-4 border-l border-zinc-800 pl-4">
-            <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-400 hover:text-[#26A5E4] transition-all text-xl"><i class="fab fa-telegram"></i></a>
-            <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-400 hover:text-[#E4405F] transition-all text-xl"><i class="fab fa-instagram"></i></a>
+        <div class="flex items-center gap-3">
+            <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-400 hover:text-[#26A5E4] transition-all text-lg"><i class="fab fa-telegram"></i></a>
+            <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-400 hover:text-[#E4405F] transition-all text-lg"><i class="fab fa-instagram"></i></a>
         </div>
 
-        <button onclick="logout()" class="nav-btn text-zinc-400 hover:text-white transition-colors">
+        <button onclick="logout()" class="nav-btn text-zinc-400 hover:text-white transition-colors ml-2">
             <i class="fas fa-sign-out-alt"></i>
         </button>
     </div>
@@ -196,6 +205,16 @@
 </div>
 
     <script>
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value;
+            // Se cerchi, ti riporto ai video
+            if (term.length > 0) {
+                switchSection('video');
+            }
+            renderVideos(term);
+        });
+        
         const utentiAutorizzati = [
             { username: "mario.rossi", password: "ET_MARIO_2026", nome: "Mario" },
             { username: "admin", password: "ETR35B712", nome: "Boss" },
