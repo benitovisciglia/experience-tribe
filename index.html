@@ -74,16 +74,29 @@
         .video-row::-webkit-scrollbar { display: none; }
         .video-card { flex: 0 0 280px; background: #111; border: 1px solid #222; border-radius: 12px !important; overflow: hidden; transition: all 0.3s ease; }
         .video-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-       .video-card .aspect-video {
-            border-top-left-radius: 12px !important;
-            border-top-right-radius: 12px !important;
-            overflow: hidden !important; /* Taglia il video perfettamente */
+        .video-card .aspect-video { border-top-left-radius: 12px !important; border-top-right-radius: 12px !important; overflow: hidden !important; mask-image: radial-gradient(white, black); -webkit-mask-image: -webkit-radial-gradient(white, black); }
+        /* Questa classe va applicata al div che contiene il video */
+        .video-wrapper-fix {
+            position: relative;
+            border-radius: 24px !important; /* Arrotondamento deciso */
+            overflow: hidden !important;
             
-            /* Applichiamo il trucco della maschera per forzare Safari/Chrome */
-            mask-image: radial-gradient(white, black); 
+            /* Forza il browser a creare un nuovo contesto di rendering per il ritaglio */
+            isolation: isolate;
+            transform: translateZ(0);
+            
+            /* La maschera magica che taglia gli angoli retti del player */
             -webkit-mask-image: -webkit-radial-gradient(white, black);
+            mask-image: radial-gradient(white, black);
         }
-
+        
+        /* Assicura che il tag video riempia tutto lo spazio senza sbordare */
+        .video-wrapper-fix video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 24px !important;
+        }
         .video-card video {
             border-top-left-radius: 12px !important;
             border-top-right-radius: 12px !important;
