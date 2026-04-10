@@ -458,7 +458,10 @@ function renderHero() {
     const heroDesc = document.getElementById('heroDesc');
     const heroPlayer = document.getElementById('heroPlayer');
 
-        heroPlayer.innerHTML = `
+    if (heroTitle) heroTitle.innerText = HERO_VIDEO.title;
+    if (heroDesc) heroDesc.innerText = HERO_VIDEO.desc;
+
+    heroPlayer.innerHTML = `
         <div class="hero-video-wrapper">
             <video 
                 controls 
@@ -468,29 +471,6 @@ function renderHero() {
             </video>
         </div>
     `;
-    
-    if (heroTitle) heroTitle.innerText = HERO_VIDEO.title;
-    if (heroDesc) heroDesc.innerText = HERO_VIDEO.desc;
-    
-    if (heroPlayer) {
-        // 1. Applichiamo il ritaglio forzato al contenitore
-        heroPlayer.style.borderRadius = "24px";
-        heroPlayer.style.overflow = "hidden";
-        heroPlayer.style.isolation = "isolate"; // Crea un nuovo contesto di rendering
-        
-        // 2. La maschera magica: taglia fisicamente tutto ciò che esce dagli angoli
-        heroPlayer.style.webkitMaskImage = "-webkit-radial-gradient(white, black)";
-        heroPlayer.style.maskImage = "radial-gradient(white, black)";
-
-        // 3. Inseriamo il video con display block per togliere lo spazio bianco sotto
-        heroPlayer.innerHTML = `
-            <video 
-                controls 
-                playsinline 
-                style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 24px;">
-                <source src="${HERO_VIDEO.id}" type="video/mp4">
-            </video>`;
-    }
 }
 
 function renderVideos(search = "") {
