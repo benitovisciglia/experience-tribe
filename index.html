@@ -87,50 +87,11 @@
         .fa-instagram:hover { filter: drop-shadow(0 0 8px #E4405F); }
         #videoSection { padding-top: 2rem; }
 
-        /* Animazione di comparsa */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); }to { opacity: 1; transform: translateY(0); }}
+        .animate-fade-in {animation: fadeIn 0.8s ease-out forwards;}
         /* Effetto Glassmorphism */
-        .glass {
-            background: rgba(17, 17, 17, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+        .glass { background: rgba(17, 17, 17, 0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.05); }        
 
-
-
-        /* Il contenitore esterno (la Card dell'Hero) */
-        #heroSection .relative.max-w-6xl {
-            border-radius: 20px !important; /* Riduciamo leggermente per farla più elegante */
-            overflow: hidden !important;
-            border: 1px solid #27272a;
-        }
-        
-        /* Il contenitore del Player */
-        #heroPlayer {
-            border-radius: 18px !important; /* Leggermente meno del padre per incastrarsi bene */
-            overflow: hidden !important;
-            isolation: isolate;
-            -webkit-mask-image: -webkit-radial-gradient(white, black);
-        }
-        
-        /* Il Video vero e proprio */
-        #heroPlayer video {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
-            display: block !important;
-            border-radius: 18px !important; /* Deve copiare il padre heroPlayer */
-        }
-        
-
-        /* 1. Il contenitore (la card) decide la forma */
         #heroPlayer, .aspect-video {
             border-radius: 24px !important; /* La stessa curvatura della card */
             overflow: hidden !important;
@@ -139,20 +100,12 @@
             -webkit-mask-image: -webkit-radial-gradient(white, black);
         }
         
-        /* 2. Il video deve solo ADATTARSI, senza aggiungere altri bordi */
         #heroPlayer video, .aspect-video video {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important; /* Fondamentale per non lasciare spazi neri */
-            display: block !important;
-            /* Ereditiamo l'arrotondamento dal padre */
-            border-radius: inherit !important; 
+            border-radius: 12px 12px 0 0 !important;
         }
         
-        /* 3. Se vuoi che le miniature abbiano il fondo dritto (per unirsi al testo sotto) */
         .video-card .aspect-video {
-            border-bottom-left-radius: 0 !important;
-            border-bottom-right-radius: 0 !important;
+            border-radius: 12px 12px 0 0 !important;
         }
         
     </style>
