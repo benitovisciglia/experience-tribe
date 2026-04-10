@@ -209,6 +209,30 @@
         text-align: center;
     }
 }
+
+            /* Fix per iPhone/Mobile */
+@media (max-width: 767px) {
+    #headerSearchContainer {
+        margin: 0 auto !important; /* Forza la centratura orizzontale */
+        padding-top: 5px;
+    }
+
+    #headerSearchContainer > div {
+        margin: 0 auto !important; /* Centra il pillolo dentro il div w-full */
+        width: 340px !important;   /* Dimensione fissa per far stare 'CATALOGHI' */
+        min-width: 340px !important;
+    }
+}
+
+/* Fix per Desktop */
+@media (min-width: 768px) {
+    #headerSearchContainer {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto !important;
+    }
+}
         
     </style>
 </head>
