@@ -155,24 +155,35 @@
             }
         }
         
-        /* --- REGOLE SPECIFICHE PER IPHONE / MOBILE --- */
+        /* --- REGOLE SPECIFICHE PER IPHONE / MOBILE (CORRETTE) --- */
         @media (max-width: 767px) {
             header {
-                flex-wrap: wrap !important; /* Permette al menu di andare sotto */
+                flex-wrap: wrap !important;
             }
         
             #headerSearchContainer {
-                width: 100% !important; /* Occupa tutta la riga sotto il logo */
-                order: 3; /* Lo mette dopo logo e benvenuto */
+                width: 100% !important;
+                order: 3;
                 margin-top: 12px;
+                display: flex !important;
+                justify-content: center !important; /* Forza la centratura totale */
             }
         
             #headerSearchContainer .bg-zinc-900\/50 {
-                /* Leggermente più stretto su iPhone per sicurezza */
-                width: 320px !important;
-                min-width: 320px !important;
-                max-width: 320px !important;
+                /* Aumentiamo a 340px anche qui per far stare CATALOGHI senza problemi */
+                width: 340px !important;
+                min-width: 340px !important;
+                max-width: 340px !important;
+                padding: 6px 8px !important; /* Riduciamo leggermente il padding interno */
             }
+        
+            #tabVideo, #tabCataloghi {
+                /* Blocchiamo i pulsanti a una misura che non faccia scoppiare la barra */
+                width: 90px !important; 
+                min-width: 90px !important;
+                font-size: 8px !important; /* Testo leggermente più piccolo per sicurezza su schermi stretti */
+            }
+        }
         
             h1 { font-size: 15px !important; } /* Titolo Experience Tribe più piccolo */
             header p { display: none; } /* Nasconde Training Academy su mobile */
