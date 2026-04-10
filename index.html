@@ -148,49 +148,49 @@
 
     <div id="mainContent" class="hidden">
         
-<header class="p-4 md:px-8 md:py-6 flex flex-row justify-between items-center gap-2 md:gap-4 border-b border-zinc-900 bg-black sticky top-0 z-[100] overflow-hidden">
+<header class="p-3 md:px-8 md:py-6 flex flex-row justify-between items-center gap-2 border-b border-zinc-900 bg-black sticky top-0 z-[100]">
     
-    <div class="flex items-center gap-3 md:gap-4 cursor-pointer shrink-0" onclick="location.reload()">
-        <img src="ET Monogram bianco.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain">
-        <div class="hidden xs:flex flex-col">
-            <h1 class="text-lg md:text-2xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">
+    <div class="flex items-center gap-3 shrink-0 cursor-pointer" onclick="location.reload()">
+        <img src="ET Monogram bianco.png" alt="Logo" class="w-9 h-9 md:w-12 md:h-12 object-contain">
+        <div class="flex flex-col">
+            <h1 class="text-sm md:text-2xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">
                 EXPERIENCE TRIBE
             </h1>
-            <p class="text-zinc-500 text-[8px] md:text-[10px] uppercase tracking-[0.3em] font-bold mt-1">
+            <p class="text-zinc-500 text-[7px] md:text-[10px] uppercase tracking-[0.2em] font-bold mt-0.5">
                 Training Academy
             </p>
         </div>
     </div>
 
-    <div class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1 md:p-1.5 rounded-full flex-grow max-w-[180px] xs:max-w-xs md:max-w-xl mx-1 md:mx-4">
-        <div class="hidden md:flex items-center gap-1 shrink-0">
-            <button id="tabVideo" onclick="switchSection('video')" class="px-3 md:px-6 py-2 rounded-full bg-blue-600 text-white font-bold text-[8px] md:text-[10px] uppercase tracking-widest transition-all">VIDEO</button>
-            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-3 md:px-6 py-2 rounded-full text-zinc-500 font-bold text-[8px] md:text-[10px] uppercase tracking-widest hover:text-white transition-all">CATALOGHI</button>
+    <div class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1 md:p-1.5 rounded-full flex-grow max-w-xs md:max-w-xl mx-2">
+        <div class="flex items-center gap-1 shrink-0">
+            <button id="tabVideo" onclick="switchSection('video')" class="px-2 md:px-6 py-1.5 rounded-full bg-blue-600 text-white font-bold text-[8px] md:text-[10px] uppercase transition-all">VIDEO</button>
+            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-2 md:px-6 py-1.5 rounded-full text-zinc-500 font-bold text-[8px] md:text-[10px] uppercase hover:text-white transition-all">CATALOGHI</button>
         </div>
         
-        <div class="hidden md:block w-[1px] h-4 bg-zinc-800 mx-1 md:mx-2"></div>
+        <div class="w-[1px] h-4 bg-zinc-800"></div>
         
         <div class="relative flex-grow">
-            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 text-[10px] md:text-xs"></i>
+            <i class="fas fa-search absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-600 text-[10px]"></i>
             <input type="text" id="searchInput" placeholder="Cerca..." 
-                class="w-full bg-transparent border-none pl-8 md:pl-9 pr-2 py-1 text-[10px] md:text-xs text-white placeholder-zinc-600 outline-none focus:ring-0">
+                class="w-full bg-transparent border-none pl-7 md:pl-9 pr-2 py-1 text-[10px] md:text-xs text-white placeholder-zinc-600 outline-none focus:ring-0">
         </div>
     </div>
 
-    <div class="flex items-center gap-3 md:gap-5 shrink-0 ml-auto">
-        <div class="flex flex-col items-end leading-none pr-3 border-r border-zinc-800">
+    <div class="flex items-center gap-2 md:gap-5 shrink-0">
+        <div class="flex flex-col items-end leading-none pr-2 md:pr-3 border-r border-zinc-800">
             <span class="text-[7px] md:text-[8px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto</span>
             <span id="userNameDisplay" class="text-blue-500 text-[10px] md:text-[11px] font-black italic uppercase tracking-tighter">
                 CARICAMENTO...
             </span>
         </div>
 
-        <div class="hidden sm:flex items-center gap-3">
-            <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-400 hover:text-[#26A5E4] transition-all text-lg"><i class="fab fa-telegram"></i></a>
-            <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-400 hover:text-[#E4405F] transition-all text-lg"><i class="fab fa-instagram"></i></a>
+        <div class="flex items-center gap-2 md:gap-3">
+            <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-400 hover:text-[#26A5E4] text-base md:text-lg"><i class="fab fa-telegram"></i></a>
+            <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-400 hover:text-[#E4405F] text-base md:text-lg"><i class="fab fa-instagram"></i></a>
         </div>
 
-        <button onclick="logout()" class="nav-btn text-zinc-400 hover:text-white transition-colors">
+        <button onclick="logout()" class="text-zinc-400 hover:text-white ml-1">
             <i class="fas fa-sign-out-alt"></i>
         </button>
     </div>
