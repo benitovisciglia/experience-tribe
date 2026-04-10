@@ -7,8 +7,7 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
+    
         tailwind.config = {
             theme: {
                 extend: {
@@ -692,6 +691,40 @@ function renderVideos(search = "") {
         function logout() { localStorage.removeItem('et_auth'); location.reload(); }
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
         if (localStorage.getItem('et_auth') === 'true') loadApp();
+
+        // --- FUNZIONE DI RICERCA ---
+function filterVideos() {
+    const input = document.getElementById('searchInput');
+    const grid = document.getElementById('videoGrid');
+    
+    // Se non trova l'input o la griglia, esce silenziosamente senza rompere il sito
+    if (!input || !grid) return;
+
+    const term = input.value.toLowerCase();
+    const cards = grid.getElementsByClassName('video-card');
+    const hero = document.getElementById('heroSection');
+
+    // 1. Gestione Sezione: se scrivi, assicurati di essere su 'video'
+    if (term.length > 0) {
+        const vSec = document.getElementById('videoSection');
+        if (vSec && vSec.classList.contains('hidden')) {
+            switchSection('video');
+        }
+        if (hero) hero.style.display = 'none'; // Nasconde il video grande per far spazio
+    } else {
+        if (hero) hero.style.display = 'block'; // Mostra di nuovo il video grande se cancelli
+    }
+
+    // 2. Filtro reale sulle card
+    for (let i = 0; i < cards.length; i++) {
+        const title = cards[i].querySelector('h3');
+        if (title) {
+            const text = title.innerText.toLowerCase();
+            // Se il testo contiene la ricerca, mostra la card, altrimenti nascondila
+            cards[i].style.display = text.includes(term) ? "" : "none";
+        }
+    }
+}
     </script>
 
     <footer class="w-full bg-black border-t border-zinc-900 p-6 mt-10">
