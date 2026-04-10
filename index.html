@@ -114,27 +114,25 @@
             border-radius: 12px 12px 0 0 !important;
         }
 
-        @media (max-width: 640px) {
-        header {
-            padding: 0.75rem !important;
-            gap: 0.5rem !important;
+        /* Gestione Mobile iPhone */
+        @media (max-width: 1023px) {
+            header {
+                /* Permette agli elementi di disporsi su più righe */
+                flex-wrap: wrap; 
+            }
+            
+            /* Forza la barra di ricerca a prendersi tutta la larghezza sotto il logo */
+            header div.w-full {
+                order: 3; /* La sposta sotto */
+                margin-top: 5px;
+            }
         }
         
-        /* Riduce il logo per guadagnare spazio */
-        header img { width: 32px !important; height: 32px !important; }
-        
-        /* Nasconde il sottotitolo "Training Academy" su iPhone per salvare spazio */
-        header p { display: none; }
-        
-        /* Riduce la barra di ricerca al minimo su iPhone */
-        header .max-w-xs, header .max-w-xl {
-            max-width: 120px !important;
-            margin: 0 0.25rem !important;
+        /* Nasconde le icone social su mobile per pulizia, se preferisci lasciarle: */
+        @media (max-width: 480px) {
+            h1 { font-size: 14px !important; }
+            header { padding: 10px !important; }
         }
-    
-        /* Rende il testo del benvenuto minuscolo ma leggibile */
-        #userNameDisplay { font-size: 9px !important; }
-    }
         
     </style>
 </head>
@@ -170,51 +168,37 @@
 
     <div id="mainContent" class="hidden">
         
-<header class="p-3 md:px-8 md:py-6 flex flex-row justify-between items-center gap-2 border-b border-zinc-900 bg-black sticky top-0 z-[100]">
+<header class="p-3 md:px-8 md:py-4 flex flex-wrap items-center justify-between gap-y-3 border-b border-zinc-900 bg-black sticky top-0 z-[100]">
     
-    <div class="flex items-center gap-3 shrink-0 cursor-pointer" onclick="location.reload()">
-        <img src="ET Monogram bianco.png" alt="Logo" class="w-9 h-9 md:w-12 md:h-12 object-contain">
-        <div class="flex flex-col">
-            <h1 class="text-sm md:text-2xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">
-                EXPERIENCE TRIBE
-            </h1>
-            <p class="text-zinc-500 text-[7px] md:text-[10px] uppercase tracking-[0.2em] font-bold mt-0.5">
-                Training Academy
-            </p>
-        </div>
+    <div class="flex items-center gap-2 shrink-0 cursor-pointer" onclick="location.reload()">
+        <img src="ET Monogram bianco.png" alt="Logo" class="w-8 h-8 md:w-12 md:h-12 object-contain">
+        <h1 class="text-base md:text-2xl font-black text-blue-500 tracking-tighter uppercase italic">
+            EXPERIENCE TRIBE
+        </h1>
     </div>
 
-    <div class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1 md:p-1.5 rounded-full flex-grow max-w-xs md:max-w-xl mx-2">
+    <div class="flex items-center gap-3 ml-auto order-2 lg:order-3">
+        <div class="flex flex-col items-end leading-none pr-3 border-r border-zinc-800">
+            <span class="text-[7px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto</span>
+            <span id="userNameDisplay" class="text-blue-500 text-[10px] md:text-[11px] font-black italic uppercase">CARICAMENTO...</span>
+        </div>
+        <button onclick="logout()" class="text-zinc-400 hover:text-white">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+
+    <div class="w-full lg:w-auto lg:flex-grow flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full order-3 lg:order-2 lg:mx-8">
         <div class="flex items-center gap-1 shrink-0">
-            <button id="tabVideo" onclick="switchSection('video')" class="px-2 md:px-6 py-1.5 rounded-full bg-blue-600 text-white font-bold text-[8px] md:text-[10px] uppercase transition-all">VIDEO</button>
-            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-2 md:px-6 py-1.5 rounded-full text-zinc-500 font-bold text-[8px] md:text-[10px] uppercase hover:text-white transition-all">CATALOGHI</button>
+            <button id="tabVideo" onclick="switchSection('video')" class="px-3 md:px-5 py-1.5 rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase transition-all">VIDEO</button>
+            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-3 md:px-5 py-1.5 rounded-full text-zinc-500 font-bold text-[9px] uppercase hover:text-white transition-all">CATALOGHI</button>
         </div>
-        
-        <div class="w-[1px] h-4 bg-zinc-800"></div>
-        
+        <div class="w-[1px] h-4 bg-zinc-800 mx-1"></div>
         <div class="relative flex-grow">
-            <i class="fas fa-search absolute left-2.5 top-1/2 -translate-y-1/2 text-zinc-600 text-[10px]"></i>
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 text-[10px]"></i>
             <input type="text" id="searchInput" placeholder="Cerca..." 
-                class="w-full bg-transparent border-none pl-7 md:pl-9 pr-2 py-1 text-[10px] md:text-xs text-white placeholder-zinc-600 outline-none focus:ring-0">
+                class="w-full bg-transparent border-none pl-8 pr-2 py-1 text-[11px] text-white outline-none">
         </div>
     </div>
-
-<div class="flex items-center gap-2 sm:gap-4 shrink-0 ml-auto">
-    
-    <div class="flex flex-col items-end leading-none pr-2 border-r border-zinc-800">
-        <span class="text-[6px] md:text-[8px] text-zinc-500 uppercase font-bold tracking-widest mb-0.5">Benvenuto</span>
-        <span id="userNameDisplay" class="text-blue-500 text-[9px] md:text-[11px] font-black italic uppercase tracking-tighter"></span>
-    </div>
-
-    <div class="hidden xs:flex items-center gap-2">
-        <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-400 text-base"><i class="fab fa-telegram"></i></a>
-        <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-400 text-base"><i class="fab fa-instagram"></i></a>
-    </div>
-
-    <button onclick="logout()" class="text-zinc-400 hover:text-white transition-colors">
-        <i class="fas fa-sign-out-alt text-sm"></i>
-    </button>
-</div>
 </header>
 
 <div id="videoSection">
