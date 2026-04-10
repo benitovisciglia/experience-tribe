@@ -334,7 +334,7 @@
                 
             // Cerca l'utente nel database
             const trovato = utentiAutorizzati.find(u => u.username === userIn && u.password === passIn);
-            
+            alert("Login ok! Nome salvato: " + trovato.nome);
             if (trovato) {
                 localStorage.setItem('et_auth', 'true');
                 localStorage.setItem('et_user_nome', trovato.nome); // Salviamo il nome reale (es: "Boss")
@@ -369,7 +369,7 @@
             // 2. RECUPERA E MOSTRA IL NOME
             const nomeSalvato = localStorage.getItem('et_user_nome');
             const displayNome = document.getElementById('userNameDisplay');
-            console.log("Nome trovato nel browser:", nomeSalvato);
+            displayNome.innerText = "TEST FUNZIONA";
             
             if (displayNome) {
                 if (nomeSalvato && nomeSalvato !== "undefined") {
