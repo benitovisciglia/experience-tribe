@@ -103,6 +103,33 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+
+
+        /* Il contenitore esterno (la Card dell'Hero) */
+        #heroSection .relative.max-w-6xl {
+            border-radius: 20px !important; /* Riduciamo leggermente per farla più elegante */
+            overflow: hidden !important;
+            border: 1px solid #27272a;
+        }
+        
+        /* Il contenitore del Player */
+        #heroPlayer {
+            border-radius: 18px !important; /* Leggermente meno del padre per incastrarsi bene */
+            overflow: hidden !important;
+            isolation: isolate;
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
+        }
+        
+        /* Il Video vero e proprio */
+        #heroPlayer video {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+            border-radius: 18px !important; /* Deve copiare il padre heroPlayer */
+        }
+        
+
         /* 1. Il contenitore (la card) decide la forma */
         #heroPlayer, .aspect-video {
             border-radius: 24px !important; /* La stessa curvatura della card */
