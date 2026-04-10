@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Experience Tribe | Academy</title>
+<title>Experience Tribe PRO</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -11,8 +11,9 @@
 body{background:#050505;color:#fff;font-family:Inter,sans-serif}
 .hidden{display:none}
 .video-row{display:flex;overflow-x:auto;gap:1rem;padding:1rem 0}
-.video-card{min-width:260px;background:#111;border-radius:14px;overflow:hidden;transition:.3s;border:1px solid #222}
+.video-card{min-width:260px;background:#111;border-radius:14px;overflow:hidden;transition:.3s;border:1px solid #222;position:relative}
 .video-card:hover{transform:translateY(-6px);border-color:#3b82f6;box-shadow:0 0 20px rgba(59,130,246,.3)}
+.progress{position:absolute;bottom:0;left:0;height:3px;background:#3b82f6;width:0}
 .hero video{width:100%;border-radius:20px}
 </style>
 </head>
@@ -22,7 +23,7 @@ body{background:#050505;color:#fff;font-family:Inter,sans-serif}
 <!-- LOGIN -->
 <div id="loginPage" class="fixed inset-0 flex items-center justify-center bg-black">
 <div class="bg-zinc-900 p-8 rounded-2xl w-full max-w-sm text-center">
-<h1 class="text-3xl font-black text-blue-500">Experience Tribe</h1>
+<h1 class="text-3xl font-black text-blue-500">Experience Tribe PRO</h1>
 <input id="userInput" placeholder="Username" class="w-full mt-4 p-3 bg-black border border-zinc-700 rounded">
 <input id="passwordInput" type="password" placeholder="Password" class="w-full mt-2 p-3 bg-black border border-zinc-700 rounded">
 <button onclick="login()" class="w-full mt-4 p-3 bg-blue-600 rounded font-bold">Entra</button>
@@ -36,6 +37,9 @@ body{background:#050505;color:#fff;font-family:Inter,sans-serif}
 <h1 class="text-xl font-bold text-blue-500">Academy</h1>
 <input id="search" placeholder="Cerca..." class="p-2 bg-black border border-zinc-700 rounded">
 </header>
+
+<!-- CONTINUA A GUARDARE -->
+<div id="continue" class="p-6"></div>
 
 <!-- HERO -->
 <div class="p-6 hero">
@@ -52,25 +56,16 @@ body{background:#050505;color:#fff;font-family:Inter,sans-serif}
 
 const USERS=[{u:"admin",p:"1234",n:"Boss"}];
 
-const HERO={
-title:"I 7 Ladri del Tempo",
-url:"https://www.w3schools.com/html/mov_bbb.mp4"
-};
+const HERO={title:"I 7 Ladri del Tempo",url:"https://www.w3schools.com/html/mov_bbb.mp4"};
 
 const DATA=[
-{
-name:"Formazione Base",
-videos:[
+{name:"Formazione Base",videos:[
 {title:"Introduzione",url:"https://www.w3schools.com/html/mov_bbb.mp4"},
 {title:"Mentalità",url:"https://www.w3schools.com/html/movie.mp4"}
-]
-},
-{
-name:"Social",
-videos:[
+]},
+{name:"Social",videos:[
 {title:"TikTok Strategy",url:"https://www.w3schools.com/html/mov_bbb.mp4"}
-]
-}
+]}
 ];
 
 function login(){
@@ -87,11 +82,29 @@ loginPage.classList.add("hidden");
 app.classList.remove("hidden");
 loadHero();
 render();
+renderContinue();
 }
 
-function loadHero(){
-heroVideo.src=HERO.url;
-heroTitle.innerText=HERO.title;
+function loadHero(){heroVideo.src=HERO.url;heroTitle.innerText=HERO.title;}
+
+function saveProgress(title,time,duration){
+const data=JSON.parse(localStorage.getItem("progress")||"{}");
+data[title]={time,duration};
+localStorage.setItem("progress",JSON.stringify(data));
+}
+
+function getProgress(title){
+const data=JSON.parse(localStorage.getItem("progress")||"{}");
+return data[title]||null;
+}
+
+function renderContinue(){
+const data=JSON.parse(localStorage.getItem("progress")||"{}");
+continue.innerHTML="<h2 class='mb-2 text-sm text-zinc-400 uppercase'>Continua a guardare</h2>";
+
+Object.keys(data).forEach(t=>{
+continue.innerHTML+=`<div class='text-xs text-blue-400 mb-1'>${t}</div>`;
+});
 }
 
 function render(filter=""){
@@ -105,11 +118,18 @@ const row=document.createElement("div");
 row.innerHTML=`
 <h2 class="text-sm text-zinc-400 uppercase mb-2">${cat.name}</h2>
 <div class="video-row">
-${vids.map(v=>`
+${vids.map(v=>{
+const prog=getProgress(v.title);
+const percent=prog? (prog.time/prog.duration)*100:0;
+return `
 <div class="video-card">
-<video src="${v.url}" controls class="w-full"></video>
+<video src="${v.url}" class="w-full" controls
+onloadedmetadata="if(getProgress('${v.title}')) this.currentTime=getProgress('${v.title}').time"
+ontimeupdate="saveProgress('${v.title}',this.currentTime,this.duration)">
+</video>
+<div class="progress" style="width:${percent}%"></div>
 <div class="p-3 text-sm">${v.title}</div>
-</div>`).join("")}
+</div>`}).join("")}
 </div>`;
 
 categories.appendChild(row);
