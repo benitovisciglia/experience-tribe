@@ -223,37 +223,36 @@
 
     <div id="mainContent" class="hidden">
         
-<header class="p-3 md:px-8 md:py-4 flex flex-row justify-between items-center border-b border-zinc-900 bg-black sticky top-0 z-[100]">
+<header class="p-3 md:px-8 md:py-4 flex flex-wrap items-center justify-between border-b border-zinc-900 bg-black sticky top-0 z-[100] gap-y-4">
     
-    <div class="flex items-center gap-3 shrink-0 cursor-pointer" onclick="location.reload()">
+    <div class="flex items-center gap-2 cursor-pointer shrink-0" onclick="location.reload()">
         <img src="ET Monogram bianco.png" alt="Logo" class="w-8 h-8 md:w-11 md:h-11 object-contain">
-        <div class="flex flex-col">
-            <h1 class="text-sm md:text-xl font-black text-blue-500 tracking-tighter uppercase italic leading-none">EXPERIENCE TRIBE</h1>
-            <p class="text-[7px] md:text-[9px] text-zinc-500 uppercase tracking-widest mt-1">Training Academy</p>
-        </div>
+        <h1 class="text-sm md:text-xl font-black text-blue-500 tracking-tighter uppercase italic">EXPERIENCE TRIBE</h1>
     </div>
 
-    <div id="headerSearchContainer" class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full flex-grow mx-4">
-        <div class="flex items-center gap-1 shrink-0">
-            <button id="tabVideo" onclick="switchSection('video')" class="px-3 md:px-4 py-1 rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase transition-all">VIDEO</button>
-            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-3 md:px-4 py-1 rounded-full text-zinc-500 font-bold text-[9px] uppercase hover:text-white transition-all">CATALOGHI</button>
-        </div>
-        <div class="w-[1px] h-3 bg-zinc-800"></div>
-        <div class="relative flex-grow">
-            <i class="fas fa-search absolute left-2 top-1/2 -translate-y-1/2 text-zinc-600 text-[10px]"></i>
-            <input type="text" id="searchInput" placeholder="Cerca..." 
-                class="w-full bg-transparent border-none pl-6 pr-2 py-0.5 text-[10px] md:text-xs text-white outline-none">
-        </div>
-    </div>
-
-    <div class="flex items-center gap-3 shrink-0">
+    <div class="flex items-center gap-3 shrink-0 ml-auto">
         <div class="flex flex-col items-end leading-none pr-3 border-r border-zinc-800">
             <span class="text-[7px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto</span>
-            <span id="userNameDisplay" class="text-blue-500 text-[10px] md:text-[11px] font-black italic uppercase">CARICAMENTO...</span>
+            <span id="userNameDisplay" class="text-blue-500 text-[10px] md:text-[11px] font-black italic uppercase">BENITO</span>
         </div>
-        <button onclick="logout()" class="text-zinc-400 hover:text-white">
+        <button onclick="logout()" class="text-zinc-400">
             <i class="fas fa-sign-out-alt"></i>
         </button>
+    </div>
+
+    <div id="headerSearchContainer" class="w-full md:w-auto flex justify-center items-center md:order-none">
+        <div class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full w-full max-w-[340px] md:max-w-[400px]">
+            <div class="flex items-center gap-1 shrink-0">
+                <button id="tabVideo" onclick="switchSection('video')" class="px-3 py-1.5 rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase transition-all">VIDEO</button>
+                <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-3 py-1.5 rounded-full text-zinc-500 font-bold text-[9px] uppercase transition-all">CATALOGHI</button>
+            </div>
+            <div class="w-[1px] h-3 bg-zinc-800 mx-1"></div>
+            <div class="relative flex-grow flex items-center">
+                <i class="fas fa-search text-zinc-600 text-[10px] mr-2"></i>
+                <input type="text" id="searchInput" placeholder="Cerca..." 
+                    class="w-full bg-transparent border-none py-0.5 text-[10px] text-white outline-none focus:ring-0">
+            </div>
+        </div>
     </div>
 </header>
 
