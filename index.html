@@ -74,29 +74,16 @@
         .video-row::-webkit-scrollbar { display: none; }
         .video-card { flex: 0 0 280px; background: #111; border: 1px solid #222; border-radius: 12px !important; overflow: hidden; transition: all 0.3s ease; }
         .video-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-        .video-card .aspect-video { border-top-left-radius: 12px !important; border-top-right-radius: 12px !important; overflow: hidden !important; mask-image: radial-gradient(white, black); -webkit-mask-image: -webkit-radial-gradient(white, black); }
-        /* Questa classe va applicata al div che contiene il video */
-        .video-wrapper-fix {
-            position: relative;
-            border-radius: 24px !important; /* Arrotondamento deciso */
-            overflow: hidden !important;
+       .video-card .aspect-video {
+            border-top-left-radius: 12px !important;
+            border-top-right-radius: 12px !important;
+            overflow: hidden !important; /* Taglia il video perfettamente */
             
-            /* Forza il browser a creare un nuovo contesto di rendering per il ritaglio */
-            isolation: isolate;
-            transform: translateZ(0);
-            
-            /* La maschera magica che taglia gli angoli retti del player */
+            /* Applichiamo il trucco della maschera per forzare Safari/Chrome */
+            mask-image: radial-gradient(white, black); 
             -webkit-mask-image: -webkit-radial-gradient(white, black);
-            mask-image: radial-gradient(white, black);
         }
-        
-        /* Assicura che il tag video riempia tutto lo spazio senza sbordare */
-        .video-wrapper-fix video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 24px !important;
-        }
+
         .video-card video {
             border-top-left-radius: 12px !important;
             border-top-right-radius: 12px !important;
@@ -233,24 +220,26 @@
     </div>
 </header>
 
-<section id="heroSection" class="px-6 md:px-12 mb-12">
-    <div class="relative w-full max-w-6xl mx-auto shadow-2xl">
-        
-        <div id="heroPlayer" 
-             class="aspect-video w-full overflow-hidden" 
-             style="border-radius: 24px; border: 1px solid #27272a; isolation: isolate; -webkit-mask-image: -webkit-radial-gradient(white, black);">
-        </div>
-        
-        <div class="absolute bottom-0 left-0 w-full p-8 hero-gradient pointer-events-none z-10">
-            <div class="flex items-center gap-2 mb-2">
-                <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                <span class="text-blue-500 text-[10px] font-black uppercase tracking-widest">In Evidenza</span>
+<div id="videoSection">
+    <section id="heroSection" class="px-6 md:px-12 mb-12">
+<div class="relative w-full max-w-6xl mx-auto rounded-3xl border border-zinc-800 bg-black shadow-2xl">
+    <div id="heroPlayer" class="aspect-video w-full rounded-[24px] overflow-hidden"></div>
+            <div class="absolute bottom-0 left-0 w-full p-8 hero-gradient pointer-events-none">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                    <span class="text-blue-500 text-[10px] font-black uppercase tracking-widest">In Evidenza</span>
+                </div>
+                <h2 id="heroTitle" class="text-2xl md:text-3xl font-black uppercase tracking-tighter"></h2>
+                <p id="heroDesc" class="text-zinc-400 text-xs mt-2 max-w-2xl italic"></p>
             </div>
-            <h2 id="heroTitle" class="text-2xl md:text-3xl font-black uppercase tracking-tighter text-white"></h2>
-            <p id="heroDesc" class="text-zinc-400 text-xs mt-2 max-w-2xl italic"></p>
         </div>
-    </div>
-</section>
+    </section>
+    <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
+</div>
+
+        <div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="catalogGrid"></div>
+</div>
 
     <script>
 
@@ -451,14 +440,8 @@
 
         function renderHero() {
             document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
-            // Applichiamo la classe 'video-wrapper-fix' al contenitore
-            const playerContainer = document.getElementById('heroPlayer');
-            playerContainer.className = "aspect-video video-wrapper-fix"; 
-        
-              playerContainer.innerHTML = `
-                <video controls playsinline>
-                    <source src="${HERO_VIDEO.id}" type="video/mp4">
-                </video>`;
+            document.getElementById('heroDesc').innerText = HERO_VIDEO.desc;
+            document.getElementById('heroPlayer').innerHTML = `<video controls playsinline class="w-full h-full object-cover"><source src="${HERO_VIDEO.id}" type="video/mp4"></video>`;
         }
 
 function renderVideos(search = "") {
