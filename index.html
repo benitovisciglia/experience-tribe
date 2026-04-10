@@ -46,6 +46,17 @@
                 return false;
             }
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const pwdInput = document.getElementById('passwordInput');
+            if (pwdInput) {
+                pwdInput.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        checkPassword();
+                    }
+                });
+            }
+        });
         
     </script>
     
@@ -118,41 +129,48 @@
 
     <div id="mainContent" class="hidden">
         
-        <header class="p-4 md:p-6 flex justify-between items-center border-b border-zinc-900 bg-black sticky top-0 z-[100]">
-    <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="location.reload()">
-        <img src="ET Monogram bianco.png" alt="Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain">
-        <div class="hidden sm:block">
-            <h1 class="text-lg font-black text-blue-500 tracking-tighter leading-none uppercase italic">TRIBE</h1>
+<header class="p-4 md:p-6 flex justify-between items-center border-b border-zinc-900 bg-black sticky top-0 z-[100]">
+    
+    <div class="flex items-center gap-4 cursor-pointer shrink-0" onclick="location.reload()">
+        <img src="ET Monogram bianco.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain">
+        <div class="flex flex-col">
+            <h1 class="text-xl md:text-2xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">
+                EXPERIENCE TRIBE
+            </h1>
+            <p class="text-zinc-500 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold mt-1">
+                Training Academy
+            </p>
         </div>
     </div>
 
-    <div class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full max-w-md w-full mx-4">
+    <div class="hidden lg:flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full max-w-md w-full mx-8">
         <div class="flex items-center gap-1 shrink-0">
-            <button id="tabVideo" onclick="switchSection('video')" class="px-4 py-1.5 rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase tracking-widest transition-all">VIDEO</button>
-            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-4 py-1.5 rounded-full text-zinc-500 font-bold text-[9px] uppercase tracking-widest hover:text-white transition-all">CATALOGHI</button>
+            <button id="tabVideo" onclick="switchSection('video')" class="px-5 py-2 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest transition-all">VIDEO</button>
+            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-5 py-2 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white transition-all">CATALOGHI</button>
         </div>
-        
-        <div class="w-[1px] h-4 bg-zinc-800 mx-1"></div>
-
+        <div class="w-[1px] h-4 bg-zinc-800 mx-2"></div>
         <div class="relative flex-grow">
-            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 text-[10px]"></i>
-            <input type="text" id="searchInput" placeholder="Cerca video..." 
-                class="w-full bg-transparent border-none pl-8 pr-2 py-1 text-[10px] text-white placeholder-zinc-600 outline-none focus:ring-0">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 text-xs"></i>
+            <input type="text" id="searchInput" placeholder="Cerca..." 
+                class="w-full bg-transparent border-none pl-9 pr-2 py-1 text-xs text-white placeholder-zinc-600 outline-none">
         </div>
     </div>
 
-    <div class="flex items-center gap-4 shrink-0">
-        <div class="hidden lg:flex items-center gap-3 pr-4 border-r border-zinc-800">
-             <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-500 hover:text-blue-400 transition-all text-sm"><i class="fab fa-telegram"></i></a>
-             <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-500 hover:text-pink-500 transition-all text-sm"><i class="fab fa-instagram"></i></a>
+    <div class="flex items-center gap-4 md:gap-6">
+        <div class="flex flex-col items-end leading-none">
+            <span class="text-[8px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto</span>
+            <span id="userNameDisplay" class="text-blue-500 text-[11px] font-black italic uppercase tracking-tighter">
+                </span>
         </div>
-        
-        <div class="flex items-center gap-3">
-            <span id="userNameDisplay" class="hidden md:block text-blue-500 text-[9px] font-black italic uppercase"></span>
-            <button onclick="logout()" class="nav-btn text-zinc-500 hover:text-white transition-colors">
-                <i class="fas fa-sign-out-alt text-xs"></i>
-            </button>
+
+        <div class="flex items-center gap-4 border-l border-zinc-800 pl-4">
+            <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-400 hover:text-[#26A5E4] transition-all text-xl"><i class="fab fa-telegram"></i></a>
+            <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-400 hover:text-[#E4405F] transition-all text-xl"><i class="fab fa-instagram"></i></a>
         </div>
+
+        <button onclick="logout()" class="nav-btn text-zinc-400 hover:text-white transition-colors">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
     </div>
 </header>
 
@@ -296,25 +314,31 @@
 
 
         function checkPassword() {
-            if (document.getElementById('passwordInput').value === THE_PASSWORD) {
+            const passInserita = document.getElementById('passwordInput').value;
+            
+            // Cerchiamo se la password esiste nel nostro database
+            const utente = utentiAutorizzati.find(u => u.password === passInserita);
+        
+            if (utente) {
                 localStorage.setItem('et_auth', 'true');
+                localStorage.setItem('et_user_nome', utente.nome); // Salviamo il nome per l'header
                 loadApp();
-            } else { alert("Password Errata"); }
+            } else {
+                alert("Password Errata");
+                document.getElementById('passwordInput').value = ""; // Pulisce il campo se sbagliata
+            }
         }
-
-        document.getElementById('passwordInput').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        checkPassword();
-    }
-});
         
         function loadApp() {
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
-            
-            // Mostra il nome
-            const nome = localStorage.getItem('et_user_nome') || "User";
-            document.getElementById('userNameDisplay').innerText = nome;
+        
+            // Recupera il nome e lo stampa nell'header
+            const nomeSalvato = localStorage.getItem('et_user_nome') || "Membro Tribe";
+            const displayElement = document.getElementById('userNameDisplay');
+            if (displayElement) {
+                displayElement.innerText = nomeSalvato;
+            }
         
             setTimeout(() => {
                 renderHero();
