@@ -453,6 +453,18 @@
 
         function renderHero() {
             document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
+            // Applichiamo la classe 'video-wrapper-fix' al contenitore
+            const playerContainer = document.getElementById('heroPlayer');
+            playerContainer.className = "aspect-video video-wrapper-fix"; 
+        
+              playerContainer.innerHTML = `
+                <video controls playsinline>
+                    <source src="${HERO_VIDEO.id}" type="video/mp4">
+                </video>`;
+        }
+
+        function renderHero() {
+            document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
             document.getElementById('heroDesc').innerText = HERO_VIDEO.desc;
             document.getElementById('heroPlayer').innerHTML = `<video controls playsinline class="w-full h-full object-cover"><source src="${HERO_VIDEO.id}" type="video/mp4"></video>`;
         }
