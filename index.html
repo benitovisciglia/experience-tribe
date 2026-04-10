@@ -369,9 +369,14 @@
             // 2. RECUPERA E MOSTRA IL NOME
             const nomeSalvato = localStorage.getItem('et_user_nome');
             const displayNome = document.getElementById('userNameDisplay');
+            console.log("Nome trovato nel browser:", nomeSalvato);
             
-            if (displayNome && nomeSalvato) {
-                displayNome.innerText = nomeSalvato;
+            if (displayNome) {
+                if (nomeSalvato && nomeSalvato !== "undefined") {
+                    displayNome.innerText = nomeSalvato.toUpperCase();
+                } else {
+                    displayNome.innerText = "OSPITE"; 
+                }
             }
         
             // 3. Avvia i video (con il fix degli angoli che abbiamo fatto)
