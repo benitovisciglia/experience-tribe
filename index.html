@@ -72,8 +72,29 @@
         body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; user-select: none; }
         .video-row { display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 1.5rem; padding: 1rem 0 2rem 0; scrollbar-width: none; }
         .video-row::-webkit-scrollbar { display: none; }
-        .video-card { flex: 0 0 280px; background: #111; border: 1px solid #222; border-radius: 12px; overflow: hidden; transition: all 0.3s ease; }
+        .video-card { flex: 0 0 280px; background: #111; border: 1px solid #222; border-radius: 12px !important; overflow: hidden; transition: all 0.3s ease; }
         .video-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+       .video-card .aspect-video {
+    border-top-left-radius: 12px !important;
+    border-top-right-radius: 12px !important;
+    overflow: hidden !important; /* Taglia il video perfettamente */
+    
+    /* Applichiamo il trucco della maschera per forzare Safari/Chrome */
+    mask-image: radial-gradient(white, black); 
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+/* 3. Assicuriamoci che il tag <video> interno erediti l'arrotondamento */
+.video-card video {
+    border-top-left-radius: 12px !important;
+    border-top-right-radius: 12px !important;
+}
+
+/* Rimuoviamo eventuali arrotondamenti Tailwind che creano conflitto */
+.rounded-t-3xl {
+    border-top-left-radius: 12px !important;
+    border-top-right-radius: 12px !important;
+}
         .category-header { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
         .category-title { font-size: 0.85rem; font-weight: 800; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 10px; }
         .nav-btn { width: 36px; height: 36px; background: #18181b; border: 1px solid #27272a; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: all 0.2s; }
