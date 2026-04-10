@@ -547,33 +547,6 @@
             }
         }
 
-        ----------------
-            
-        function filterVideos() {
-                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-                const videoGrid = document.getElementById('videoGrid'); // Il contenitore delle card video
-                const videoCards = videoGrid.getElementsByClassName('video-card'); // Assicurati che le card abbiano questa classe
-                const heroSection = document.getElementById('heroSection'); // L'ID del video grande in alto
-            
-                // Se l'utente inizia a scrivere, forziamo il passaggio alla sezione Video
-                if (searchTerm.length > 0) {
-                    switchSection('video');
-                    if (heroSection) heroSection.classList.add('hidden'); // Nascondiamo l'hero per vedere meglio i risultati
-                } else {
-                    if (heroSection) heroSection.classList.remove('hidden'); // Se cancella la ricerca, torna l'hero
-                }
-            
-                // Ciclo di filtraggio
-                for (let i = 0; i < videoCards.length; i++) {
-                    const title = videoCards[i].querySelector('h3').innerText.toLowerCase();
-                    if (title.includes(searchTerm)) {
-                        videoCards[i].style.display = ""; // Mostra
-                    } else {
-                        videoCards[i].style.display = "none"; // Nascondi
-                    }
-                }
-            }
-
         function renderHero() {
             document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
             document.getElementById('heroDesc').innerText = HERO_VIDEO.desc;
