@@ -1,617 +1,83 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Experience Tribe | Academy</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Experience Tribe | Academy</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            blue: '#3b82f6', // Il blu del tuo pulsante attuale
-                            dark: '#050505',
-                        }
-                    },
-                    backgroundImage: {
-                        'login-pattern': "linear-gradient(to bottom, rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.95)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop')", // Immagine di team scura da Unsplash
-                    }
-                }
-            }
-        }
-
-        // 1. Disabilita il tasto destro (Menu contestuale)
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        
-        // 2. Disabilita le scorciatoie da tastiera comuni per lo sviluppo
-        document.addEventListener('keydown', function(e) {
-            // F12 (Ispeziona)
-            if (e.key === "F12") {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+Shift+I (Ispeziona) o Ctrl+Shift+J (Console) o Ctrl+U (Sorgente pagina)
-            if (e.ctrlKey && (e.shiftKey && (e.key === 'I' || e.key === 'J') || e.key === 'U')) {
-                e.preventDefault();
-                return false;
-            }
-            // Ctrl+S (Salva pagina)
-            if (e.ctrlKey && e.key === 's') {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        document.addEventListener('keypress', function (e) {
-            const loginPage = document.getElementById('loginPage');
-            if (!loginPage.classList.contains('hidden') && e.key === 'Enter') {
-                checkPassword();
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const pwdInput = document.getElementById('passwordInput');
-            if (pwdInput) {
-                pwdInput.addEventListener('keypress', function (e) {
-                    if (e.key === 'Enter') {
-                        checkPassword();
-                    }
-                });
-            }
-        });
-        
-    </script>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; user-select: none; }
-        .video-row { display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 1.5rem; padding: 1rem 0 2rem 0; scrollbar-width: none; }
-        .video-row::-webkit-scrollbar { display: none; }
-        .video-card { flex: 0 0 280px; background: #111; border: 1px solid #222; border-radius: 12px !important; overflow: hidden; transition: all 0.3s ease; }
-        .video-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-        .video-card .aspect-video {
-            border-top-left-radius: 12px !important;
-            border-top-right-radius: 12px !important;
-            overflow: hidden !important; /* Taglia il video perfettamente */
-            
-            /* Applichiamo il trucco della maschera per forzare Safari/Chrome */
-            mask-image: radial-gradient(white, black); 
-            -webkit-mask-image: -webkit-radial-gradient(white, black);
-        }
-
-        .video-card video {
-            border-top-left-radius: 12px !important;
-            border-top-right-radius: 12px !important;
-        }
-        
-        /* Rimuoviamo eventuali arrotondamenti Tailwind che creano conflitto */
-            .rounded-t-3xl {
-                border-top-left-radius: 12px !important;
-                border-top-right-radius: 12px !important;
-            }
-                .category-header { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
-                .category-title { font-size: 0.85rem; font-weight: 800; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 10px; }
-                .nav-btn { width: 36px; height: 36px; background: #18181b; border: 1px solid #27272a; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: all 0.2s; }
-                .nav-btn:hover { background: #3b82f6; border-color: #3b82f6; }
-                .search-container { position: relative; }
-                .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #52525b; font-size: 0.9rem; }
-                .search-input { width: 100%; background: #111; border: 1px solid #222; padding: 10px 15px 10px 40px; border-radius: 99px; font-size: 0.85rem; color: white; outline: none; }
-                .hero-gradient { background: linear-gradient(to bottom, transparent, rgba(5,5,5,1)); }
-                .hidden { display: none !important; }
-                .fa-telegram:hover { filter: drop-shadow(0 0 8px #26A5E4); }
-                .fa-instagram:hover { filter: drop-shadow(0 0 8px #E4405F); }
-                #videoSection { padding-top: 2rem; }
-        
-                /* Animazione di comparsa */
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(-20px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-                .animate-fade-in {
-                    animation: fadeIn 0.8s ease-out forwards;
-                }
-                /* Effetto Glassmorphism */
-                .glass {
-                    background: rgba(17, 17, 17, 0.6);
-                    backdrop-filter: blur(10px);
-                    -webkit-backdrop-filter: blur(10px);
-                    border: 1px solid rgba(255, 255, 255, 0.05);
-                }
-
-                /* Forza l'arrotondamento totale sul contenitore dell'Hero */
-                #heroPlayer {
-            border-radius: 24px;
-            overflow: hidden;
-            position: relative;
-        }
-
-
-        .hero-video-wrapper video::-webkit-media-controls-enclosure {
-            border-radius: 24px;
-            overflow: hidden;
-        }
-        
-        .hero-video-wrapper {
-            width: 100%;
-            height: 100%;
-            border-radius: 24px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* VIDEO */
-        .hero-video-wrapper video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        
-            /* 🔥 FIX CRITICO */
-            border-radius: 24px;
-            clip-path: inset(0 round 24px);
-        }
-        
-    </style>
+<style>
+body { background:#050505; color:white; font-family:Inter, sans-serif; }
+.video-row { display:flex; overflow-x:auto; gap:1rem; padding:1rem 0; }
+.video-card { min-width:260px; background:#111; border-radius:12px; overflow:hidden; transition:.3s; }
+.video-card:hover { transform:translateY(-5px); border:1px solid #3b82f6; }
+.hidden { display:none }
+</style>
 </head>
-<body class="bg-black min-h-screen"> <div id="loginPage" class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat" 
-         style="background-image: linear-gradient(to bottom, rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.95)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1920&auto=format&fit=crop');">
-        
-        <div class="glass p-8 md:p-10 rounded-3xl w-full max-w-md shadow-2xl border border-zinc-800 text-center backdrop-blur-md bg-zinc-900/60">
-            
-            <div class="mb-10">
-                <h1 class="text-3xl md:text-4xl font-black text-blue-500 tracking-tighter italic uppercase leading-none">
-                    Experience Tribe
-                </h1>
-                <p class="text-zinc-500 text-xs uppercase tracking-[0.3em] font-bold mt-2">
-                    Training Academy
-                </p>
-            </div>
 
-<div class="space-y-4">
-    <input type="text" id="userInput" placeholder="Username" class="w-full px-5 py-4 bg-black/50 border border-zinc-700 rounded-xl text-white text-center outline-none focus:border-blue-500">
-    <input type="password" id="passwordInput" placeholder="Password" class="w-full px-5 py-4 bg-black/50 border border-zinc-700 rounded-xl text-white text-center outline-none focus:border-blue-500">
-    <button onclick="checkAccesso()" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl uppercase tracking-widest text-sm transition-all">
-        Entra nell'Academy
-    </button>
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="fixed inset-0 flex items-center justify-center bg-black">
+<div class="bg-zinc-900 p-8 rounded-2xl w-full max-w-sm text-center">
+<h1 class="text-2xl font-bold text-blue-500">Experience Tribe</h1>
+<input id="userInput" placeholder="Username" class="w-full mt-4 p-3 bg-black border border-zinc-700">
+<input id="passwordInput" type="password" placeholder="Password" class="w-full mt-2 p-3 bg-black border border-zinc-700">
+<button onclick="login()" class="w-full mt-4 p-3 bg-blue-600">Login</button>
+</div>
 </div>
 
-            <div class="mt-8">
-                <p class="text-zinc-600 text-[10px] uppercase tracking-widest">
-                    Area Riservata &copy; 2026
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div id="mainContent" class="hidden">
-        
-<header class="p-4 md:px-8 md:py-6 flex flex-wrap lg:flex-nowrap justify-between items-center gap-4 border-b border-zinc-900 bg-black sticky top-0 z-[100]">
-    
-    <div class="flex items-center gap-4 cursor-pointer shrink-0" onclick="location.reload()">
-        <img src="ET Monogram bianco.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain">
-        <div class="flex flex-col">
-            <h1 class="text-xl md:text-2xl font-black text-blue-500 tracking-tighter leading-none uppercase italic">
-                EXPERIENCE TRIBE
-            </h1>
-            <p class="text-zinc-500 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold mt-1">
-                Training Academy
-            </p>
-        </div>
-    </div>
-
-    <div class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full flex-grow max-w-xl mx-2">
-        <div class="flex items-center gap-1 shrink-0">
-            <button id="tabVideo" onclick="switchSection('video')" class="px-4 md:px-6 py-2 rounded-full bg-blue-600 text-white font-bold text-[9px] md:text-[10px] uppercase tracking-widest transition-all">VIDEO</button>
-            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-4 md:px-6 py-2 rounded-full text-zinc-500 font-bold text-[9px] md:text-[10px] uppercase tracking-widest hover:text-white transition-all">CATALOGHI</button>
-        </div>
-        
-        <div class="w-[1px] h-4 bg-zinc-800 mx-1 md:mx-2"></div>
-        
-        <div class="relative flex-grow">
-            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600 text-[10px] md:text-xs"></i>
-            <input type="text" id="searchInput" placeholder="Cerca..." 
-                class="w-full bg-transparent border-none pl-9 pr-2 py-1 text-xs text-white placeholder-zinc-600 outline-none focus:ring-0">
-        </div>
-    </div>
-
-    <div class="flex items-center gap-4 shrink-0">
-        <div class="flex flex-col items-end leading-none border-r border-zinc-800 pr-4">
-            <span class="text-[8px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto</span>
-            <span id="userNameDisplay" class="text-blue-500 text-[11px] font-black italic uppercase tracking-tighter"></span>
-        </div>
-        <div class="flex items-center gap-3">
-            <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-400 hover:text-[#26A5E4] transition-all text-lg"><i class="fab fa-telegram"></i></a>
-            <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-400 hover:text-[#E4405F] transition-all text-lg"><i class="fab fa-instagram"></i></a>
-        </div>
-
-        <button onclick="logout()" class="nav-btn text-zinc-400 hover:text-white transition-colors ml-2">
-            <i class="fas fa-sign-out-alt"></i>
-        </button>
-    </div>
-</header>
-
-<div id="videoSection">
-    <section id="heroSection" class="px-6 md:px-12 mb-12">
-<div class="relative w-full max-w-6xl mx-auto rounded-3xl border border-zinc-800 bg-black shadow-2xl">
-    <div id="heroPlayer" class="aspect-video w-full rounded-[24px] overflow-hidden"></div>
-            <div class="absolute bottom-0 left-0 w-full p-8 hero-gradient pointer-events-none">
-                <div class="flex items-center gap-2 mb-2">
-                    <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                    <span class="text-blue-500 text-[10px] font-black uppercase tracking-widest">In Evidenza</span>
-                </div>
-                <h2 id="heroTitle" class="text-2xl md:text-3xl font-black uppercase tracking-tighter"></h2>
-                <p id="heroDesc" class="text-zinc-400 text-xs mt-2 max-w-2xl italic"></p>
-            </div>
-        </div>
-    </section>
-    <div id="categoriesContainer" class="px-6 md:px-12 pb-20"></div>
+<!-- APP -->
+<div id="app" class="hidden p-6">
+<input id="search" placeholder="Cerca..." class="mb-6 p-2 bg-black border">
+<div id="videos"></div>
 </div>
 
-        <div id="catalogSection" class="hidden px-6 md:px-12 max-w-6xl mx-auto pb-20">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="catalogGrid"></div>
-</div>
+<script>
 
-    <script>
+const users = [
+{u:"admin",p:"1234",n:"Admin"}
+];
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const term = e.target.value;
-            // Se cerchi, ti riporto ai video
-            if (term.length > 0) {
-                switchSection('video');
-            }
-            renderVideos(term);
-        });
-        
-        const utentiAutorizzati = [
-            { username: "mario.rossi", password: "ET_MARIO_2026", nome: "Mario" },
-            { username: "admin", password: "ETR35B712", nome: "Boss" },
-            { username: "team.tribe", password: "tribe_power", nome: "Tribù" }
-        ];
-        
-        const HERO_VIDEO = {
-            id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&raw=1",
-            title: "I 7 LADRI DEL TEMPO",
-            desc: "Scopri i sabotatori invisibili della tua produttività e impara a gestire il tuo tempo come un vero leader."
-        };
+const videos = [
+{title:"Video Test",url:"https://www.w3schools.com/html/mov_bbb.mp4"}
+];
 
-        const categories = [
-                    { name: "PRIMA FORMAZIONE NUOVO CONSULENTE", videos: [
-                        // ESEMPIO DROPBOX: Incolla qui il link di Dropbox (DL=0)
-                        { id: "https://www.dropbox.com/scl/fi/a0lswxi350isedvhqvds5/ESEMPIO-CHIAMATA-per-appuntamento-consigli-vari.mp4?rlkey=5jy4isxa0enbpv8mqwei08m1q&st=nvskybgz&dl=0", title: "ESEMPIO CHIAMATA per appuntamento", poster: "img/Gestione-del-tempo-priorità.png" },
-                        { id: "https://www.dropbox.com/scl/fi/4fp5xqoyvnbv8j3is1t4s/I-PRIIMI-PASSI-FOLLOW-UP-CONSULENTE.mp4?rlkey=px2tsn949ee0z3m6tr80vjl9y&st=jqcjvfgi&dl=0", title: "I PRIMI PASSI FOLLOW UP CONSULENTE" },
-                        { id: "https://www.dropbox.com/scl/fi/0kmg63wtf8eax3n3sxbag/I-PRIMI-PASSI-BENVENUTO.mp4?rlkey=x9zf0f4w1yr436fvw4s7m7pzc&st=ldls1rp6&dl=0", title: "I PRIMI PASSI BENVENUTO" },
-                        { id: "https://www.dropbox.com/scl/fi/pu07lqfkqoqxyhbeky6ou/PRIMA-FORMAZIONE-NUOVO-CONSULENTE.mp4?rlkey=9rxdp0i2h6umivr464zl3s2zi&st=5136ln4b&dl=0", title: "PRIMA FORMAZIONE NUOVO CONSULENTE" }
-                    ]},
-                    { name: "90 DAYS RUN", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/7r2mtsn8x7jepuwf829fc/90-DAYS-RUN-LA-CORSA-DEI-90-GIORNI.mp4?rlkey=znj2hr4a31dg1ykafv5l1p6xq&st=3vz7uccn&dl=0", title: "90 DAYS RUN LA CORSA DEI 90 GIORNI" },
-                        { id: "https://www.dropbox.com/scl/fi/itdtev5mdn0wuq8uzxbfn/PREP-KICK-OFF-MONACO.mp4?rlkey=cb58bxfzo6k8ylorgkrf781od&st=53ed14af&dl=0", title: "PREP KICK OFF MONACO" }
-                    ] },
-                    { name: "ATTIVARE IL CONSULENTE", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/qzvthm70uq7j9wf87nrwt/ATTIVARE-IL-CONSULENTE.mp4?rlkey=48jxercszh19v1zr883wvyd88&st=1t8ve0co&dl=0", title: "ATTIVARE IL CONSULENTE" },
-                        { id: "https://www.dropbox.com/scl/fi/zvbz9iyjvk5glbp1g59of/IL-CICLO-DI-VITA-DEL-CONSULENTE.mp4?rlkey=ovtutmyv7evndgh43akjtzzaj&st=nvplwbtw&dl=0", title: "IL CICLO DI VITA DEL CONSULENTE" }
-                    ] },
-                    // ... le altre categorie restano vuote ma pronte
-                    { name: "COME AVERE RISULTATI CONCRETI NEL NETWORK", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/b1wdb95pg7dm9pu0ms8lb/COME-AVERE-RISULTATI-CONCRETI.mp4?rlkey=qe3couw16dnts7kkcajdgy87f&st=h4m1a012&dl=0", title: "COME AVERE RISULTATI CONCRETI" },
-                    ] },
-                    { name: "FORMAZIONE 2026", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/jiyhdv1vccdtt91jhayeh/I-7-LADRI-DEL-TEMPO-COME-AVERE-PIU-TEMPO.mp4?rlkey=f54pge4noisyqir5jj5u561nk&st=7givwfa7&dl=0", title: "I 7 LADRI DEL TEMPO - COME AVERE PIU' TEMPO" },
-                        { id: "https://www.dropbox.com/scl/fi/q4iyap1gnnj2bpsjm7ll0/END-OF-MONTH-CALL.mp4?rlkey=dzk5wrkm65kxflgecjwrfsvm9&st=siu4s76m&dl=0", title: "END OF MONTH CALL" },
-                        { id: "https://www.dropbox.com/scl/fi/8v6nuv2dx506p4wsy1543/VINCENZO-AMATULLI-FORMAZIONE-E-TESTIMONIANZA.mp4?rlkey=4zay3d0fx62zywyot48v1qywf&st=x2igpfki&dl=0", title: "VINCENZO AMATULLI FORMAZIONE E TESTIMONIANZA" },
-                        { id: "https://www.dropbox.com/scl/fi/h4hgjbggp4lsa99husd2c/NOVITA-CHOGAN-MARZO-2026.mp4?rlkey=n5golm2h0ciu2j4s3uctok7wc&st=jevemisw&dl=0", title: "NOVITA' CHOGAN MARZO 2026" },
-                        { id: "https://www.dropbox.com/scl/fi/080dq5char3anks58euex/STRATEGIE-DI-COMUNICAZIONE.mp4?rlkey=gzlq63bsu114qbah8hhfndj71&st=ef705fw4&dl=0", title: "STRATEGIE DI COMUNICAZIONE" },
-                        { id: "https://www.dropbox.com/scl/fi/re7t2onn4pe16h0zjd49e/LASCIA-IL-TUO-LAVORO-IN-90-GIORNI-2026.mp4?rlkey=cqbcg3ib4yje2lkjh0jbsoagi&st=9zc1uux4&dl=0", title: "LASCIA IL TUO LAVORO IN 90 GIORNI 2026" },         
-                    ] },
-                    { name: "FORMAZIONE DI BASE", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/0pbktidktqcgyg4a72p78/I-PRIMI-PASSI.mp4?rlkey=56trbs2davw5160ujbo7dnlwa&st=i9rtpyml&dl=0", title: "I PRIMI PASSI" },
-                        { id: "https://www.dropbox.com/scl/fi/n41760d6k5n0yza9e5il7/formazione-importante-NUOVO-CONSULENTE.mp4?rlkey=pqk53jg77j58dtc8v2e2ya3k1&st=xs5y78y9&dl=0", title: "formazione importante NUOVO CONSULENTE" },
-                        { id: "https://www.dropbox.com/scl/fi/424p52ak47vevrksyxkdl/Gestione-del-tempo-TIME-MANAGEMENT2024.mp4?rlkey=emof54utt9dzvj6idussk6pn6&st=rqpfl76i&dl=0", title: "Gestione del tempo TIME MANAGEMENT 2024" },
-                        { id: "https://www.dropbox.com/scl/fi/fii3pms27ddgu91nlczno/HOME-PARTY-Come-svolgerlo.mp4?rlkey=hv0h1rrh92mnxb12xf0kux6gc&st=9j8veigk&dl=0", title: "HOME PARTY - Come svolgerlo!" },
-                        { id: "https://www.dropbox.com/scl/fi/vlw1k6lzzyf0pnh2ew0au/IL-PRINCIPIO-DEL-MLM.mp4?rlkey=mbr4t4c4ycxygns3tg1f65kbd&st=ou40lhvo&dl=0", title: "IL PRINCIPIO DEL MLM" },
-                    ] },
-                    { name: "FORMAZIONE PRODOTTI", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/z9roorws9stwyfg22updr/BENESSERE-con-i-nostri-prodotti-Marco-Casciaro.mp4?rlkey=y2i6ihm8n7bbpfrm8qitqge4c&st=g63hfmhw&dl=0", title: "BENESSERE con i nostri prodotti (Marco Casciaro)" },
-                        { id: "https://www.dropbox.com/scl/fi/93fb23jjreu8qma8g5j1c/PRODOTTI-Problema-SOLUZIONE.mp4?rlkey=ki1n0xx3gzkoorvlvi0ov60ml&st=fuobhcz5&dl=0", title: "PRODOTTI Problema - SOLUZIONE!" },
-                        { id: "https://www.dropbox.com/scl/fi/5iz22r6mpa4ggs872yi4r/E-STATE-al-TOP-prodotti-per-l-estate.mp4?rlkey=kjgn16pcx8t46o1c8a6htdpek&st=svfhuhul&dl=0", title: "E-STATE al TOP prodotti per l'estate" },
-                    ] },
-                    { name: "FORMAZIONE SOCIAL", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/n2xv3i9junwmna1o3qjr1/Sponsorizzare-sui-social.mp4?rlkey=v5gwcjv8t3l27ohh9rii77iv4&st=zmdnle4z&dl=0", title: "Sponsorizzare sui social" },
-                        { id: "https://www.dropbox.com/scl/fi/75c1zc8rhqnfn4btgajbh/COME-FARE-LE-LIVE.mp4?rlkey=ix6tphfruazj8dio74y4uoh9j&st=o82o0i5z&dl=0", title: "COME FARE LE LIVE" },
-                        { id: "https://www.dropbox.com/scl/fi/n77p37quj4llpw1qm400s/whatsapp-party.mp4?rlkey=d84s94znqnhl6epvjzl732nw9&st=95bzr5c6&dl=0", title: "WHATSAPP PARTY" },
-                        { id: "https://www.dropbox.com/scl/fi/cgfw9pl8vzrd7c2azu7xj/Social-strategy-tik-tok-1-parte.mp4?rlkey=6e5h0acwjmbamarffryuk642h&st=v5au5iyf&dl=0", title: "SOCIAL STRATEGY TIKTOK - PARTE 1" },
-                        { id: "https://www.dropbox.com/scl/fi/xtgv69j92ybjv9sz3np0r/Social-strategy-tik-tok-2-piano-compensi.mp4?rlkey=0wb71kgkm6261exekwfdc3o99&st=zjip2srq&dl=0", title: "SOCIAL STRATEGY TIKTOK - PARTE 1 + PIANO COMPENSI" },
-                        { id: "https://www.dropbox.com/scl/fi/w9nx4oa1b7gleunyoacny/REALIZZARE-VIDEO-PER-TIK-TOK.mp4?rlkey=g8j04g64fccqfxc2khmbvb6sj&st=fmbjxpwe&dl=0", title: "REALIZZARE VIDEO PER TIKTOK" },
-                    ] },
-                    { name: "FORMAZIONE SPONSOR", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/ho5qlbz7xcydmzvmjqr4m/I-COMPITI-E-LE-FUNZIONI-DELLO-SPONSOR.mp4?rlkey=harpk85lacqzwnyxmjf9uogi0&st=0tox6cq8&dl=0", title: "I COMPITI E LE FUNZIONI DELLO SPONSOR" },
-                        { id: "https://www.dropbox.com/scl/fi/q5nr677i35qjrrn73ping/PRESENTARE-IL-BUSINESS.mp4?rlkey=tl2s6g8fnazpcpwhk15pyv182&st=8e2z3cfs&dl=0", title: "PRESENTARE IL BUSINESS" },
-                        { id: "https://www.dropbox.com/scl/fi/wcz95dqvys8sqpigud5v9/ESEMPIO-CHIAMATA-per-appuntamento-consigli-vari.mp4?rlkey=fuiij4satkqgbz72q8iyteqs0&st=obozzguy&dl=0", title: "ESEMPIO CHIAMATA PER APPUNTAMENTO & CONSIGLI VARI" },
-                        { id: "https://www.dropbox.com/scl/fi/mxw2ix7u1zhv5xttgn9mc/MINDSET-GRATITUDINE-.VALORI-NEL-NM.mp4?rlkey=n917f0ohuz5xuffiplkbrzm1b&st=2w8q4z4w&dl=0", title: "MINDSET & GRATITUDINE - VALORI NEL NETWORK MARKETING" },
-                    ] },
-                    { name: "FUNZIONI AVANZATE", videos: [
-                        { id: "https://www.dropbox.com/scl/fi/l493k4km91fhh3f30zrvl/RIATTIVARE-UN-CONSULENTE-CON-CAMBIO-SPONSOR.mp4?rlkey=ybcqno0nz9vpq0m7a97k64ny5&st=y1tm0c21&dl=0", title: "RIATTIVARE UN CONSULENTE CON CAMBIO SPONSOR" },
-                        { id: "https://www.dropbox.com/scl/fi/doieiugbdz9f4rc6d3xmg/Cambio-mail-e-funzioni-di-convalida-nuovo-consulente.mp4?rlkey=vzclbac0k48b27la49udzaad4&st=z6l0uus1&dl=0", title: "CAMBIO MAIL E FUNZIONI DI CONVALIDA NUOVO CONSULENTE" },
-                        { id: "https://www.dropbox.com/scl/fi/z7njqlo9ht8jfkaug7i6d/FUNZIONE-KPI.mp4?rlkey=700uskzrqt0miabh6ow2klb8s&st=hs9qv28t&dl=0", title: "FUNZIONE KPI" },
-                    ] },
-                    { name: "11 - LEADERSHIP", videos: [] },
-                    { name: "12 - OBIETTIVI MENSILI", videos: [] },
-                    { name: "13 - SETTIMANA 1", videos: [] },
-                    { name: "14 - SETTIMANA 2", videos: [] },
-                    { name: "15 - SETTIMANA 3", videos: [] },
-                    { name: "16 - SETTIMANA 4", videos: [] },
-                    { name: "17 - STORYTELLING", videos: [] },
-                    { name: "18 - CHIUSURA CLIENTI", videos: [] },
-                    { name: "19 - FOLLOW UP AVANZATO", videos: [] },
-                    { name: "20 - RECLUTAMENTO", videos: [] },
-                    { name: "21 - PERSONAL BRANDING", videos: [] },
-                    { name: "22 - STRUMENTI DIGITALI", videos: [] },
-                    { name: "23 - CALL DI SQUADRA", videos: [] },
-                    { name: "24 - TESTIMONIANZE", videos: [] },
-                    { name: " Domande Frequenti", videos: [] },
-                    { name: "26 - ARCHIVIO 2024", videos: [] },
-                    { name: "27 - ARCHIVIO 2025", videos: [] },
-                    { name: "28 - LANCI SPECIALI", videos: [] },
-                    { name: "29 - BONUS TRACKS", videos: [] },
-                    { name: "30 - AREA ADMIN", videos: [] }
-                ];
-
-        const catalogs = [
-            { title: "Manuale Operativo 2026", icon: "📚", link: "#", desc: "La guida completa al metodo Tribe" },
-            { title: "Piano Provvigioni", icon: "💰", link: "#", desc: "Piano compensi dettagliato" },
-            { title: "Catalogo Prodotti", icon: "🛍️", link: "#", desc: "Gamma completa aggiornata" },
-            { title: "Listino Prezzi", icon: "🏷️", link: "#", desc: "Aggiornato Marzo 2026" },
-            { title: "Presentazione Aziendale", icon: "📈", link: "#", desc: "Slide ufficiali Experience Tribe" },
-            { title: "Codice Etico", icon: "🤝", link: "#", desc: "Regolamento e comportamento" }
-        ];
-
-        function checkAccesso() {
-            const userIn = document.getElementById('userInput').value.trim();
-            const passIn = document.getElementById('passwordInput').value;
-                
-            // Cerca l'utente nel database
-            const trovato = utentiAutorizzati.find(u => u.username === userIn && u.password === passIn);
-            
-            if (trovato) {
-                localStorage.setItem('et_auth', 'true');
-                localStorage.setItem('et_user_nome', trovato.nome); // Salviamo il nome reale (es: "Boss")
-                loadApp();
-            } else {
-                alert("Credenziali non valide");
-            }
-        }
-
-
-        function checkPassword() {
-            const passInserita = document.getElementById('passwordInput').value;
-            
-            // Cerchiamo se la password esiste nel nostro database
-            const utente = utentiAutorizzati.find(u => u.password === passInserita);
-        
-            if (utente) {
-                localStorage.setItem('et_auth', 'true');
-                localStorage.setItem('et_user_nome', utente.nome); // Salviamo il nome per l'header
-                loadApp();
-            } else {
-                alert("Password Errata");
-                document.getElementById('passwordInput').value = ""; // Pulisce il campo se sbagliata
-            }
-        }
-        
-        function loadApp() {
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
-        
-            // Recupera il nome dal localStorage
-            const nomeSalvato = localStorage.getItem('et_user_nome');
-            console.log("Nome recuperato:", nomeSalvato); // Verifica in console se lo legge
-        
-            if (nomeSalvato) {
-                const display = document.getElementById('userNameDisplay');
-                if (display) {
-                    display.innerText = nomeSalvato;
-                }
-            }
-        
-            setTimeout(() => {
-                renderHero();
-                renderVideos();
-            }, 100);
-        }
-
-        function switchSection(type) {
-            const videoSection = document.getElementById('videoSection'); // Il contenitore che include l'Hero
-            const catalogSection = document.getElementById('catalogSection');
-            const btnV = document.getElementById('tabVideo');
-            const btnC = document.getElementById('tabCataloghi');
-            const heroVideo = document.querySelector('#heroPlayer video');
-        
-            if (type === 'video') {
-                videoSection.classList.remove('hidden');
-                catalogSection.classList.add('hidden');
-                
-                // Stile bottoni header
-                btnV.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
-                btnC.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
-            } else {
-                // Nascondiamo TUTTA la sezione video (Hero incluso)
-                videoSection.classList.add('hidden');
-                catalogSection.classList.remove('hidden');
-                
-                // Stoppiamo il video se sta andando
-                if (heroVideo) heroVideo.pause();
-        
-                // Stile bottoni header
-                btnC.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
-                btnV.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
-                
-                renderCatalogs();
-            }
-        }
-
-function renderHero() {
-    const heroTitle = document.getElementById('heroTitle');
-    const heroDesc = document.getElementById('heroDesc');
-    const heroPlayer = document.getElementById('heroPlayer');
-
-    if (heroTitle) heroTitle.innerText = HERO_VIDEO.title;
-    if (heroDesc) heroDesc.innerText = HERO_VIDEO.desc;
-
-    heroPlayer.innerHTML = `
-        <div class="hero-video-wrapper">
-            <video 
-                controls 
-                playsinline 
-                preload="metadata"
-                src="${HERO_VIDEO.id}">
-            </video>
-        </div>
-    `;
+function login(){
+const u = userInput.value;
+const p = passwordInput.value;
+const user = users.find(x=>x.u===u && x.p===p);
+if(user){
+localStorage.setItem("auth","1");
+start();
+}else alert("Errore");
 }
 
-function renderVideos(search = "") {
-    const container = document.getElementById('categoriesContainer');
-    const heroSection = document.getElementById('heroSection');
-    container.innerHTML = "";
-
-    // Gestione visibilità Hero
-    if (search.trim().length > 0) {
-        heroSection.classList.add('hidden');
-        const heroVideo = heroSection.querySelector('video');
-        if (heroVideo) heroVideo.pause();
-    } else {
-        const catalogSection = document.getElementById('catalogSection');
-        if (catalogSection && catalogSection.classList.contains('hidden')) {
-            heroSection.classList.remove('hidden');
-        }
-    }
-
-    categories.forEach((cat, idx) => {
-        const filtered = cat.videos.filter(v => v.title.toLowerCase().includes(search.toLowerCase()));
-        if (filtered.length === 0) return;
-
-        const rowId = `row-${idx}`;
-        const section = document.createElement('div');
-        
-        // Creiamo le card
-        const videoCardsHTML = filtered.map(v => {
-            let cleanUrl = v.id.includes('raw=1') ? v.id : v.id.replace('dl=0', 'raw=1');
-            const finalUrl = `${cleanUrl}#t=0.5`;
-        
-            return `
-                <div class="video-card group">
-                    <div class="aspect-video bg-black relative overflow-hidden rounded-t-3xl">
-                        <video 
-                            preload="metadata" 
-                            playsinline 
-                            webkit-playsinline
-                            class="w-full h-full object-cover cursor-pointer" 
-                            onclick="if(this.paused) { this.play(); this.controls=true; } else { this.pause(); }"
-                            poster="favicon.png">
-                            <source src="${finalUrl}" type="video/mp4">
-                        </video>
-                    </div>
-                    
-                    <div class="p-4 flex flex-col gap-3">
-                        
-                        <h3 class="text-[11px] font-bold uppercase text-zinc-100 line-clamp-2 leading-tight">${v.title}</h3>
-                        
-                        <div class="flex justify-between items-center pt-1 border-t border-zinc-800/50">
-                            
-                            <div class="flex items-center gap-1.5">
-                                <div class="w-1 h-1 bg-blue-500 rounded-full"></div>
-                                <span class="text-[8px] text-zinc-500 uppercase tracking-[0.2em] font-medium">Academy</span>
-                            </div>
-        
-                            <div class="text-zinc-600/80 group-hover:text-yellow-500 transition-colors duration-300">
-                                <i class="fas fa-bolt text-[10px]"></i>
-                            </div>
-        
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-        
-        section.innerHTML = `
-            <div class="category-header">
-                <h2 class="category-title"><i class="fas fa-play text-blue-500 text-[8px]"></i> ${cat.name}</h2>
-                <div class="nav-controls flex gap-2">
-                    <button class="nav-btn" onclick="scrollRow('${rowId}', -1)"><i class="fas fa-chevron-left"></i></button>
-                    <button class="nav-btn" onclick="scrollRow('${rowId}', 1)"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
-            <div id="${rowId}" class="video-row">
-                ${videoCardsHTML}
-            </div>
-        `;
-        container.appendChild(section);
-    });
+function start(){
+loginPage.classList.add("hidden");
+app.classList.remove("hidden");
+render();
 }
 
-        function renderCatalogs() {
-            const container = document.getElementById('catalogGrid');
-            if (!container) return;
-        
-            // Puliamo il contenitore prima di riempirlo
-            container.innerHTML = "";
-        
-            // Usiamo 'catalogs' (il nome della tua costante)
-            catalogs.forEach(c => {
-                const card = document.createElement('div');
-                
-                // Stile: Card scura, bordo sottile, layout verticale
-                card.className = "bg-zinc-900/50 border border-zinc-800 p-6 rounded-3xl flex flex-col justify-between min-h-[160px] hover:border-blue-500/50 transition-all group cursor-pointer relative";
-                
-                // Link al click
-                card.onclick = () => window.open(c.link, '_blank');
-                
-                card.innerHTML = `
-                   <div class="flex justify-between items-start gap-4">
-                <div class="flex-1 text-left">
-                    <div class="flex items-center gap-2 mb-1">
-                        <i class="fas fa-file-pdf text-lg text-blue-500/70"></i>
-                        <span class="text-[9px] text-zinc-500 uppercase tracking-widest font-medium">Documento PDF</span>
-                    </div>
-                    <h3 class="text-white font-bold uppercase tracking-tighter text-base group-hover:text-blue-400 transition-colors leading-tight">
-                        ${c.title}
-                    </h3>
-                </div>
-                
-                <div class="mt-4">
-                    <i class="fas fa-arrow-alt-circle-down text-zinc-600 group-hover:text-blue-500 text-xl transition-all transform group-hover:scale-110"></i>
-                </div>
-            </div>
-        
-                    <div class="flex justify-between items-center pt-3 border-t border-zinc-800/50 mt-4">
-                        
-                        <div class="flex items-center gap-1.5">
-                            <div class="w-1 h-1 bg-blue-600 rounded-full"></div>
-                            <span class="text-[8px] text-blue-500 uppercase tracking-[0.2em] font-black italic">Academy</span>
-                        </div>
-        
-                        <div class="text-zinc-600 group-hover:text-yellow-500 transition-colors duration-300">
-                            <i class="fas fa-bolt text-[10px]"></i>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
+function render(filter=""){
+videos.innerHTML = videosData()
+.filter(v=>v.title.toLowerCase().includes(filter.toLowerCase()))
+.map(v=>`
+<div class="video-card">
+<video src="${v.url}" controls class="w-full"></video>
+<div class="p-2 text-sm">${v.title}</div>
+</div>
+`).join("");
+}
 
-        window.scrollRow = (id, dir) => {
-            const row = document.getElementById(id);
-            row.scrollBy({ left: dir * 300, behavior: 'smooth' });
-        };
+function videosData(){ return videos }
 
-        function logout() { localStorage.removeItem('et_auth'); location.reload(); }
-        document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
-        if (localStorage.getItem('et_auth') === 'true') loadApp();
-    </script>
+search.addEventListener("input",e=>render(e.target.value));
+
+if(localStorage.getItem("auth")) start();
+
+</script>
+
 </body>
 </html>
