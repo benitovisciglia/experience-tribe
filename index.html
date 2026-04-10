@@ -75,53 +75,70 @@
         .video-card { flex: 0 0 280px; background: #111; border: 1px solid #222; border-radius: 12px !important; overflow: hidden; transition: all 0.3s ease; }
         .video-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
        .video-card .aspect-video {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
-    overflow: hidden !important; /* Taglia il video perfettamente */
-    
-    /* Applichiamo il trucco della maschera per forzare Safari/Chrome */
-    mask-image: radial-gradient(white, black); 
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
-}
-
-/* 3. Assicuriamoci che il tag <video> interno erediti l'arrotondamento */
-.video-card video {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
-}
-
-/* Rimuoviamo eventuali arrotondamenti Tailwind che creano conflitto */
-.rounded-t-3xl {
-    border-top-left-radius: 12px !important;
-    border-top-right-radius: 12px !important;
-}
-        .category-header { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
-        .category-title { font-size: 0.85rem; font-weight: 800; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 10px; }
-        .nav-btn { width: 36px; height: 36px; background: #18181b; border: 1px solid #27272a; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: all 0.2s; }
-        .nav-btn:hover { background: #3b82f6; border-color: #3b82f6; }
-        .search-container { position: relative; }
-        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #52525b; font-size: 0.9rem; }
-        .search-input { width: 100%; background: #111; border: 1px solid #222; padding: 10px 15px 10px 40px; border-radius: 99px; font-size: 0.85rem; color: white; outline: none; }
-        .hero-gradient { background: linear-gradient(to bottom, transparent, rgba(5,5,5,1)); }
-        .hidden { display: none !important; }
-        .fa-telegram:hover { filter: drop-shadow(0 0 8px #26A5E4); }
-        .fa-instagram:hover { filter: drop-shadow(0 0 8px #E4405F); }
-        #videoSection { padding-top: 2rem; }
-
-        /* Animazione di comparsa */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            border-top-left-radius: 12px !important;
+            border-top-right-radius: 12px !important;
+            overflow: hidden !important; /* Taglia il video perfettamente */
+            
+            /* Applichiamo il trucco della maschera per forzare Safari/Chrome */
+            mask-image: radial-gradient(white, black); 
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
         }
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+
+        .video-card video {
+            border-top-left-radius: 12px !important;
+            border-top-right-radius: 12px !important;
         }
-        /* Effetto Glassmorphism */
-        .glass {
-            background: rgba(17, 17, 17, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        
+        /* Rimuoviamo eventuali arrotondamenti Tailwind che creano conflitto */
+            .rounded-t-3xl {
+                border-top-left-radius: 12px !important;
+                border-top-right-radius: 12px !important;
+            }
+                .category-header { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
+                .category-title { font-size: 0.85rem; font-weight: 800; color: #a1a1aa; text-transform: uppercase; letter-spacing: 0.1em; display: flex; align-items: center; gap: 10px; }
+                .nav-btn { width: 36px; height: 36px; background: #18181b; border: 1px solid #27272a; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; transition: all 0.2s; }
+                .nav-btn:hover { background: #3b82f6; border-color: #3b82f6; }
+                .search-container { position: relative; }
+                .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #52525b; font-size: 0.9rem; }
+                .search-input { width: 100%; background: #111; border: 1px solid #222; padding: 10px 15px 10px 40px; border-radius: 99px; font-size: 0.85rem; color: white; outline: none; }
+                .hero-gradient { background: linear-gradient(to bottom, transparent, rgba(5,5,5,1)); }
+                .hidden { display: none !important; }
+                .fa-telegram:hover { filter: drop-shadow(0 0 8px #26A5E4); }
+                .fa-instagram:hover { filter: drop-shadow(0 0 8px #E4405F); }
+                #videoSection { padding-top: 2rem; }
+        
+                /* Animazione di comparsa */
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(-20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .animate-fade-in {
+                    animation: fadeIn 0.8s ease-out forwards;
+                }
+                /* Effetto Glassmorphism */
+                .glass {
+                    background: rgba(17, 17, 17, 0.6);
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.05);
+                }
+
+                /* Forza l'arrotondamento totale sul contenitore dell'Hero */
+        #heroPlayer {
+            border-radius: 24px !important; /* Deve corrispondere alla card */
+            overflow: hidden !important;
+            -webkit-mask-image: -webkit-radial-gradient(white, black); /* Forza il clip su Chrome/Safari */
+            mask-image: radial-gradient(white, black);
+        }
+        
+        /* Applica il ritaglio a qualsiasi elemento interno generato dal player (video, iframe, div) */
+        #heroPlayer * {
+            border-radius: 24px !important;
+        }
+        
+        /* Se il video ha una barra dei comandi che "sborda" in basso */
+        video::-webkit-media-controls-enclosure {
+            border-radius: 24px !important;
         }
         
     </style>
