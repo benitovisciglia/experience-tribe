@@ -163,10 +163,30 @@
             /* Nascondi il testo "Training Academy" su mobile per recuperare spazio */
             header p { display: none; }
         }
-        
+            
+        /* 1. Blocca il 'Pillolo' blu alle dimensioni esatte che desideri */
+        #headerSearchContainer .bg-zinc-900\/50 {
+            width: 280px !important;    /* Forza la larghezza identica in ogni sezione */
+            min-width: 280px !important;
+            max-width: 280px !important;
+            flex-grow: 0 !important;    /* Impedisce di allungarsi se c'è spazio */
+            margin: 0 auto !important;   /* Lo tiene centrato */
+        }
+
+        /* 2. Assicurati che i pulsanti all'interno non spingano i bordi */
         #tabVideo, #tabCataloghi {
-            min-width: 70px !important;
+            width: 80px !important;     /* Larghezza fissa per i pulsanti */
             text-align: center;
+            flex-shrink: 0 !important;
+        }
+
+        /* 3. Regolazione specifica per iPhone (per non farlo uscire dai bordi) */
+        @media (max-width: 640px) {
+            #headerSearchContainer .bg-zinc-900\/50 {
+                width: 240px !important; /* Leggermente più stretto su iPhone */
+                min-width: 240px !important;
+                max-width: 240px !important;
+            }
         }
         
     </style>
@@ -216,7 +236,7 @@
     <div id="headerSearchContainer" class="flex items-center gap-2 bg-zinc-900/50 border border-zinc-800 p-1.5 rounded-full flex-grow mx-4">
         <div class="flex items-center gap-1 shrink-0">
             <button id="tabVideo" onclick="switchSection('video')" class="px-3 md:px-4 py-1 rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase transition-all">VIDEO</button>
-            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-3 md:px-4 py-1 rounded-full text-zinc-500 font-bold text-[9px] uppercase hover:text-white transition-all">CAT</button>
+            <button id="tabCataloghi" onclick="switchSection('cataloghi')" class="px-3 md:px-4 py-1 rounded-full text-zinc-500 font-bold text-[9px] uppercase hover:text-white transition-all">CATALOGHI</button>
         </div>
         <div class="w-[1px] h-3 bg-zinc-800"></div>
         <div class="relative flex-grow">
