@@ -442,7 +442,7 @@
         }
 
         function switchSection(type) {
-            const videoSection = document.getElementById('videoSection'); // Il contenitore che include l'Hero
+            const videoSection = document.getElementById('videoSection');
             const catalogSection = document.getElementById('catalogSection');
             const btnV = document.getElementById('tabVideo');
             const btnC = document.getElementById('tabCataloghi');
@@ -452,20 +452,18 @@
                 videoSection.classList.remove('hidden');
                 catalogSection.classList.add('hidden');
                 
-                // Stile bottoni header
-                btnV.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
-                btnC.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
+                // Applichiamo solo classi di stile, NON di dimensione
+                btnV.className = "rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase transition-all";
+                btnC.className = "rounded-full text-zinc-500 font-bold text-[9px] uppercase hover:text-white transition-all";
             } else {
-                // Nascondiamo TUTTA la sezione video (Hero incluso)
                 videoSection.classList.add('hidden');
                 catalogSection.classList.remove('hidden');
                 
-                // Stoppiamo il video se sta andando
                 if (heroVideo) heroVideo.pause();
         
-                // Stile bottoni header
-                btnC.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest";
-                btnV.className = "flex-1 md:flex-none px-8 py-2.5 rounded-full text-zinc-500 font-bold text-[10px] uppercase tracking-widest hover:text-white";
+                // Applichiamo solo classi di stile, NON di dimensione
+                btnC.className = "rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase transition-all";
+                btnV.className = "rounded-full text-zinc-500 font-bold text-[9px] uppercase hover:text-white transition-all";
                 
                 renderCatalogs();
             }
