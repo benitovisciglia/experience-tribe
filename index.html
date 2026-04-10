@@ -166,13 +166,11 @@
         </div>
     </div>
 
-    <div class="flex items-center gap-3 md:gap-5 shrink-0">
-        <div class="hidden sm:flex flex-col items-end leading-none pr-3 border-r border-zinc-800 min-w-[80px]">
+    <div class="flex items-center gap-4 shrink-0">
+        <div class="flex flex-col items-end leading-none border-r border-zinc-800 pr-4">
             <span class="text-[8px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto</span>
             <span id="userNameDisplay" class="text-blue-500 text-[11px] font-black italic uppercase tracking-tighter"></span>
         </div>
-        </div>
-
         <div class="flex items-center gap-3">
             <a href="https://t.me/experiencetribe" target="_blank" class="text-zinc-400 hover:text-[#26A5E4] transition-all text-lg"><i class="fab fa-telegram"></i></a>
             <a href="https://instagram.com/experience_tribe" target="_blank" class="text-zinc-400 hover:text-[#E4405F] transition-all text-lg"><i class="fab fa-instagram"></i></a>
@@ -355,12 +353,15 @@
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
         
-            // Recupera il nome e lo stampa nell'header
-            const nomeSalvato = localStorage.getItem('et_user_nome') || "Membro Tribe";
-            const displayElement = document.getElementById('userNameDisplay');
-            
-            if (displayElement) {
-                displayElement.innerText = nomeSalvato;
+            // Recupera il nome dal localStorage
+            const nomeSalvato = localStorage.getItem('et_user_nome');
+            console.log("Nome recuperato:", nomeSalvato); // Verifica in console se lo legge
+        
+            if (nomeSalvato) {
+                const display = document.getElementById('userNameDisplay');
+                if (display) {
+                    display.innerText = nomeSalvato;
+                }
             }
         
             setTimeout(() => {
