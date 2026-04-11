@@ -93,6 +93,70 @@
             // Supponendo che la tua funzione principale si chiami loadDashboard o renderAll
             location.reload(); 
         }
+
+            const container = document.getElementById('categoriesContainer'); // Assicurati che l'ID sia corretto
+                container.innerHTML = '';
+                
+                // 2. SEZIONE PREFERITI
+                if (favorites.length > 0) {
+                    // Creiamo una lista piatta di tutti i video presenti in tutte le categorie
+                    const allVideos = categories.flatMap(cat => cat.videos);
+                    
+                    // Filtriamo solo quelli che sono stati salvati nei preferiti
+                    // Usiamo un Set per evitare duplicati se lo stesso video fosse in più categorie
+                    const favoriteVideos = allVideos.filter(v => favorites.includes(v.id || v.url));
+                    
+                    // Rimuoviamo eventuali duplicati
+                    const uniqueFavorites = Array.from(new Map(favoriteVideos.map(v => [v.id || v.url, v])).values());
+                
+                    if (uniqueFavorites.length > 0) {
+                        // Creiamo l'oggetto "categoria" per i preferiti
+                        const favCategory = {
+                            name: "I MIEI PREFERITI",
+                            videos: uniqueFavorites
+                        };
+                        
+                        // Chiamiamo la tua funzione che crea la riga (es. renderCategory o il codice che hai già)
+                        // Uso la logica che hai nel tuo script per mantenere lo stile
+                        renderCategory(favCategory, container, "favorites-row");
+                    }
+                }
+                
+                // 3. Ora procediamo con le categorie normali (il tuo codice originale)
+                categories.forEach(cat => {
+                    renderCategory(cat, container);
+                });
+            function renderCategory(cat, container, rowIdPrefix = "row") {
+                const rowId = `${rowIdPrefix}-${Math.random().toString(36).substr(2, 9)}`;
+                const section = document.createElement('section');
+                section.className = 'category-section mb-8';
+            
+                // Filtriamo i video della categoria (o usiamo tutti se è la sezione preferiti)
+                const filtered = cat.videos; 
+            
+                // Qui inserisci il tuo blocco .map che abbiamo aggiornato prima (quello col cuore)
+                const videoCardsHTML = filtered.map(v => {
+                    // ... tutta la logica della card video col cuore ...
+                }).join('');
+            
+                section.innerHTML = `
+                    <div class="category-header flex justify-between items-center mb-4 px-4">
+                        <h2 class="category-title text-white font-bold flex items-center gap-2">
+                            <i class="fas ${cat.name === 'I MIEI PREFERITI' ? 'fa-star text-yellow-500' : 'fa-play text-blue-500'} text-[10px]"></i>
+                            ${cat.name}
+                        </h2>
+                        <div class="nav-controls flex gap-2">
+                            <button class="nav-btn bg-zinc-800 p-2 rounded-full" onclick="scrollRow('${rowId}', -1)"><i class="fas fa-chevron-left text-white text-xs"></i></button>
+                            <button class="nav-btn bg-zinc-800 p-2 rounded-full" onclick="scrollRow('${rowId}', 1)"><i class="fas fa-chevron-right text-white text-xs"></i></button>
+                        </div>
+                    </div>
+                    <div id="${rowId}" class="video-row flex overflow-x-auto gap-4 px-4 no-scrollbar scroll-smooth">
+                        ${videoCardsHTML}
+                    </div>
+                `;
+                container.appendChild(section);
+            }
+        
     </script>
     
     <style>
