@@ -628,47 +628,49 @@
                 const section = document.createElement('div');
                 
                 // Creiamo le card
-                const videoCardsHTML = filtered.map(v => {
-                // 1. Recuperiamo l'URL originale dall'oggetto video 'v'
-                const originalUrl = v.url || ""; 
-                
-                // 2. Trasformiamo il link Dropbox per lo streaming diretto
-                // Sostituiamo sia ?dl=0 che eventuali link standard con la versione raw
-                let cleanUrl = originalUrl.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('?dl=0', '?raw=1');
-                
-                // 3. Aggiungiamo il timestamp per forzare il caricamento del primo frame
-                const finalUrl = cleanUrl.includes('?') ? `${cleanUrl}&t=0.5` : `${cleanUrl}#t=0.5`;
+               const videoCardsHTML = filtered.map(v => {
+    // 1. IMPORTANTE: Usiamo v.id perché i tuoi link sono lì
+    const originalUrl = v.id || v.url || ""; 
+    
+    // 2. Pulizia URL per Dropbox
+    // Cambiamo www in dl.dropboxusercontent e forziamo raw=1
+    let cleanUrl = originalUrl
+        .replace('www.dropbox.com', 'dl.dropboxusercontent.com')
+        .replace('dl=0', 'raw=1');
+    
+    // 3. Timestamp per l'anteprima (gestisce sia link con che senza parametri ?)
+    const finalUrl = cleanUrl.includes('?') ? `${cleanUrl}&t=0.5` : `${cleanUrl}#t=0.5`;
+
+    return `
+        <div class="video-card group">
+            <div class="aspect-video bg-black relative overflow-hidden rounded-t-3xl">
+                <video 
+                    preload="metadata" 
+                    playsinline 
+                    webkit-playsinline
+                    class="w-full h-full object-cover cursor-pointer" 
+                    onclick="if(this.paused) { this.play(); this.controls=true; } else { this.pause(); }"
+                    poster="favicon.png">
+                    <source src="${finalUrl}" type="video/mp4">
+                </video>
+            </div>
             
-                return `
-                    <div class="video-card group">
-                        <div class="aspect-video bg-black relative overflow-hidden rounded-t-3xl">
-                            <video 
-                                preload="metadata" 
-                                playsinline 
-                                webkit-playsinline
-                                class="w-full h-full object-cover cursor-pointer" 
-                                onclick="if(this.paused) { this.play(); this.controls=true; } else { this.pause(); }"
-                                poster="favicon.png">
-                                <source src="${finalUrl}" type="video/mp4">
-                            </video>
-                        </div>
-                        
-                        <div class="p-4 flex flex-col gap-3">
-                            <h3 class="text-[11px] font-bold uppercase text-zinc-100 line-clamp-2 leading-tight">${v.title}</h3>
-                            
-                            <div class="flex justify-between items-center pt-1 border-t border-zinc-800/50">
-                                <div class="flex items-center gap-1.5">
-                                    <div class="w-1 h-1 bg-blue-500 rounded-full"></div>
-                                    <span class="text-[8px] text-zinc-500 uppercase tracking-[0.2em] font-medium">Academy</span>
-                                </div>
-                                <div class="text-zinc-600/80 group-hover:text-yellow-500 transition-colors duration-300">
-                                    <i class="fas fa-bolt text-[10px]"></i>
-                                </div>
-                            </div>
-                        </div>
+            <div class="p-4 flex flex-col gap-3">
+                <h3 class="text-[11px] font-bold uppercase text-zinc-100 line-clamp-2 leading-tight">${v.title}</h3>
+                
+                <div class="flex justify-between items-center pt-1 border-t border-zinc-800/50">
+                    <div class="flex items-center gap-1.5">
+                        <div class="w-1 h-1 bg-blue-500 rounded-full"></div>
+                        <span class="text-[8px] text-zinc-500 uppercase tracking-[0.2em] font-medium">Academy</span>
                     </div>
-                `;
-            }).join('');
+                    <div class="text-zinc-600/80 group-hover:text-yellow-500 transition-colors duration-300">
+                        <i class="fas fa-bolt text-[10px]"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}).join('');
 
         
         section.innerHTML = `
