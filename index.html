@@ -361,10 +361,10 @@
         });
         
         const utentiAutorizzati = [
-            { username: "benito.visciglia", password: "BEN41E923", nome: "Benito" },
-            { username: "francesca.belloni", password: "FRA118B72", nome: "Francesca" },
-            { username: "irene.massaro", password: "IRD92A", nome: "Irene" },
-            { username: "ospite", password: "ETQUEST26", nome: "OSPITE" }
+            { username: "benito.visciglia", password: "BEN41E923", nome: "Benito", role:"admin" },
+            { username: "francesca.belloni", password: "FRA118B72", nome: "Francesca", role="admin" },
+            { username: "irene.massaro", password: "IRD92A", nome: "Irene", role="admin" },
+            { username: "ospite", password: "ETQUEST26", nome: "Ospite", role="zoom" }
         ];
         
         const HERO_VIDEO = {
@@ -540,11 +540,14 @@
             const userIn = document.getElementById('userInput').value.trim();
             const passIn = document.getElementById('passwordInput').value;
                 
-            // Cerca l'utente nel database
             const trovato = utentiAutorizzati.find(u => u.username === userIn && u.password === passIn);
+            
             if (trovato) {
                 localStorage.setItem('et_auth', 'true');
-                localStorage.setItem('et_user_nome', trovato.nome); // Salviamo il nome reale (es: "Boss")
+                localStorage.setItem('et_user_nome', trovato.nome);
+                // AGGIUNGI QUESTA RIGA QUI SOTTO:
+                localStorage.setItem('et_user_role', trovato.role || 'admin'); 
+                
                 loadApp();
             } else {
                 alert("Credenziali non valide");
@@ -569,15 +572,16 @@
         }
         
         function loadApp() {
-            // 1. Nascondi login e mostra contenuto
+            // 1. Recupera i dati salvati
+            const nomeSalvato = localStorage.getItem('et_user_nome');
+            const ruoloSalvato = localStorage.getItem('et_user_role'); // Recuperiamo il ruolo
+            
+            // 2. Nascondi login e mostra contenuto
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
         
-            // 2. RECUPERA E MOSTRA IL NOME
-            const nomeSalvato = localStorage.getItem('et_user_nome');
+            // 3. GESTIONE NOME UTENTE
             const displayNome = document.getElementById('userNameDisplay');
-            displayNome.innerText = "TEST FUNZIONA";
-            
             if (displayNome) {
                 if (nomeSalvato && nomeSalvato !== "undefined") {
                     displayNome.innerText = nomeSalvato.toUpperCase();
@@ -586,7 +590,36 @@
                 }
             }
         
-            // 3. Avvia i video (con il fix degli angoli che abbiamo fatto)
+            // --- 4. LOGICA DI ACCESSO LIMITATO (ZOOM) ---
+            if (ruoloSalvato === 'zoom') {
+                // Nascondiamo l'Hero e la griglia video per l'ospite
+                const hero = document.getElementById('heroSection'); // Assicurati che l'ID sia corretto
+                const videos = document.getElementById('videoSection'); // Assicurati che l'ID sia corretto
+                if (hero) hero.classList.add('hidden');
+                if (videos) videos.classList.add('hidden');
+        
+                // Inseriamo il messaggio e il tasto Zoom in un contenitore dedicato (es: mainContent o un div interno)
+                // Creiamo un div per il messaggio se non lo hai già
+                document.getElementById('categoriesContainer').innerHTML = `
+                    <div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
+                        <div class="bg-blue-600/10 p-6 rounded-full mb-6">
+                            <i class="fas fa-video text-blue-500 text-4xl animate-pulse"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Area Live Meeting</h2>
+                        <p class="text-zinc-400 mb-8 max-w-sm">Ciao ${nomeSalvato}, clicca il tasto qui sotto per collegarti direttamente alla sessione Zoom.</p>
+                        
+                        <a href="IL_TUO_LINK_ZOOM_QUI" target="_blank" 
+                           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-2xl transition-all hover:scale-105 shadow-lg shadow-blue-900/20 flex items-center gap-3">
+                           <i class="fas fa-external-link-alt"></i>
+                           ENTRA NELLA ZOOM ORA
+                        </a>
+                    </div>
+                `;
+                
+                return; // BLOCCA TUTTO QUI: renderHero e renderVideos non verranno eseguiti
+            }
+        
+            // 5. Se l'utente è ADMIN (ruolo !== 'zoom'), avvia i video normalmente
             renderHero();
             renderVideos();
         }
