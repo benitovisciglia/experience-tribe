@@ -72,6 +72,22 @@
         };
         
     </script>
+
+    <script>
+        document.addEventListener("visibilitychange", function() {
+    const tuttiIVideo = document.querySelectorAll('video');
+    
+    if (document.hidden) {
+        // Se la pagina viene nascosta (smartphone bloccato o cambio app)
+        tuttiIVideo.forEach(video => {
+            if (!video.paused) {
+                // Un piccolo trucco: aspettiamo un millisecondo e forziamo il play
+                setTimeout(() => video.play(), 50);
+            }
+        });
+    }
+});
+    </scipt>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
