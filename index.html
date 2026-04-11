@@ -314,7 +314,7 @@
 
     <div class="flex items-center gap-3 shrink-0 min-w-[120px] md:min-w-[200px] justify-end">
         <div class="flex flex-col items-end leading-none pr-3 border-r border-zinc-800">
-            <span class="text-[7px] md:text-[8px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto</span>
+            <span class="text-[7px] md:text-[8px] text-zinc-500 uppercase font-bold tracking-widest mb-1">Benvenuto/a</span>
             <span id="userNameDisplay" class="text-blue-500 text-[10px] md:text-[11px] font-black italic uppercase">BENITO</span>
         </div>
         <button onclick="logout()" class="text-zinc-400 hover:text-white transition-colors">
@@ -470,7 +470,6 @@
                 
             // Cerca l'utente nel database
             const trovato = utentiAutorizzati.find(u => u.username === userIn && u.password === passIn);
-            alert("Login ok! Nome salvato: " + trovato.nome);
             if (trovato) {
                 localStorage.setItem('et_auth', 'true');
                 localStorage.setItem('et_user_nome', trovato.nome); // Salviamo il nome reale (es: "Boss")
