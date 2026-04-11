@@ -549,9 +549,27 @@
         }
 
         function renderHero() {
+            // 1. Definiamo e puliamo i link prima di usarli
+            const heroVideoUrl = HERO_VIDEO.id.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('dl=0', 'raw=1');
+            
+            // Puliamo anche il link della miniatura (poster)
+            const heroPosterUrl = (HERO_VIDEO.poster || "").replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('dl=0', 'raw=1');
+        
+            // 2. Assegniamo i testi
             document.getElementById('heroTitle').innerText = HERO_VIDEO.title;
             document.getElementById('heroDesc').innerText = HERO_VIDEO.desc;
-            document.getElementById('heroPlayer').innerHTML = `<video controls playsinline class="w-full h-full object-cover"><source src="${HERO_VIDEO.id}" type="video/mp4"></video>`;
+        
+            // 3. Generiamo l'HTML usando le variabili "pulite" (heroVideoUrl e heroPosterUrl)
+            document.getElementById('heroPlayer').innerHTML = `
+                <video 
+                    controls 
+                    playsinline 
+                    preload="metadata" 
+                    class="w-full h-full object-cover" 
+                    poster="${heroPosterUrl}">
+                    <source src="${heroVideoUrl}#t=0.5" type="video/mp4">
+                </video>
+            `;
         }
 
         function filterVideos() {
