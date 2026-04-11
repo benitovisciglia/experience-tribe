@@ -643,23 +643,6 @@
             `;
         }
 
-        function setupMediaSession(videoElement, title) {
-                if ('mediaSession' in navigator) {
-                    navigator.mediaSession.metadata = new MediaMetadata({
-                        title: title,
-                        artist: 'Experience Tribe',
-                        album: 'Academy',
-                        artwork: [
-                            { src: 'img/logo-tribe.png', sizes: '512x512', type: 'image/png' }
-                        ]
-                    });
-            
-                    // Permette al sistema di gestire i comandi dal blocco schermo
-                    navigator.mediaSession.setActionHandler('play', () => videoElement.play());
-                    navigator.mediaSession.setActionHandler('pause', () => videoElement.pause());
-                }
-            }
-
         function filterVideos() {
             // 1. Prendiamo l'input di ricerca e il termine inserito
             const searchInput = document.getElementById('searchInput');
