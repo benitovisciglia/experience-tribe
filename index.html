@@ -640,6 +640,7 @@
     
     // 3. Timestamp per l'anteprima (gestisce sia link con che senza parametri ?)
     const finalUrl = cleanUrl.includes('?') ? `${cleanUrl}&t=0.5` : `${cleanUrl}#t=0.5`;
+    const posterImageUrl = v.poster || 'img/default-cover.png';
 
     return `
         <div class="video-card group">
@@ -650,7 +651,7 @@
                     webkit-playsinline
                     class="w-full h-full object-cover cursor-pointer" 
                     onclick="if(this.paused) { this.play(); this.controls=true; } else { this.pause(); }"
-                    poster="favicon.png">
+                    poster="${posterImageUrl}">
                     <source src="${finalUrl}" type="video/mp4">
                 </video>
             </div>
