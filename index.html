@@ -536,23 +536,26 @@
             { title: "SUPPLEFIT", icon: "🤝", link: "https://www.dropbox.com/scl/fi/h30b08rhq0po5jk2clvfr/SUPPLEFIT-Novembre2025.pdf?rlkey=yaln7im54de3mfcm1nbwzhc2o&st=9oujeq4j&dl=0" }
         ];
 
-        function checkAccesso() {
-            const userIn = document.getElementById('userInput').value.trim();
-            const passIn = document.getElementById('passwordInput').value;
-                
-            const trovato = utentiAutorizzati.find(u => u.username === userIn && u.password === passIn);
-            
-            if (trovato) {
-                localStorage.setItem('et_auth', 'true');
-                localStorage.setItem('et_user_nome', trovato.nome);
-                // AGGIUNGI QUESTA RIGA QUI SOTTO:
-                localStorage.setItem('et_user_role', trovato.role || 'admin'); 
-                
-                loadApp();
-            } else {
-                alert("Credenziali non valide");
-            }
-        }
+function checkAccesso() {
+    const userIn = document.getElementById('userInput').value.trim();
+    const passIn = document.getElementById('passwordInput').value;
+    const trovato = utentiAutorizzati.find(u => u.username === userIn && u.password === passIn);
+    
+    if (trovato) {
+        localStorage.setItem('et_auth', 'true');
+        localStorage.setItem('et_user_nome', trovato.nome);
+        
+        // FORZIAMO IL SALVATAGGIO E CONTROLLIAMO
+        const ruoloDaSalvare = trovato.role;
+        localStorage.setItem('et_user_role', ruoloDaSalvare); 
+        
+        console.log("LOGIN OK! Nome:", trovato.nome, "Ruolo:", ruoloDaSalvare);
+        
+        loadApp();
+    } else {
+        alert("Credenziali non valide");
+    }
+}
 
 
         function checkPassword() {
