@@ -575,6 +575,10 @@ function checkAccesso() {
         }
         
         function loadApp() {
+            // SE L'UTENTE È ZOOM, NON FARE NULLA
+            if (localStorage.getItem('et_user_role') === 'zoom') return; 
+
+            const container = document.getElementById('categoriesContainer');
             // 1. Recupera i dati salvati
             const nomeSalvato = localStorage.getItem('et_user_nome');
             const ruoloSalvato = localStorage.getItem('et_user_role');
