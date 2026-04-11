@@ -742,6 +742,10 @@ function checkAccesso() {
         
 
         function renderVideos(search = "") {
+            // --- AGGIUNTA: Se l'utente è ZOOM, non renderizzare nulla e sparisci ---
+            const ruoloSalvato = localStorage.getItem('et_user_role');
+            if (ruoloSalvato === 'zoom') return; 
+        
             const container = document.getElementById('categoriesContainer');
             const heroSection = document.getElementById('heroSection');
             container.innerHTML = "";
