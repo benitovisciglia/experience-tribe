@@ -574,13 +574,14 @@
         function loadApp() {
             // 1. Recupera i dati salvati
             const nomeSalvato = localStorage.getItem('et_user_nome');
-            const ruoloSalvato = localStorage.getItem('et_user_role'); // Recuperiamo il ruolo
+            const ruoloSalvato = localStorage.getItem('et_user_role');
             
-            // 2. Nascondi login e mostra contenuto
+            // 2. Nascondi login e mostra il contenitore principale
             document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainContent').classList.remove('hidden');
+            const mainContent = document.getElementById('mainContent');
+            mainContent.classList.remove('hidden');
         
-            // 3. GESTIONE NOME UTENTE
+            // 3. GESTIONE NOME UTENTE NELLA NAVBAR
             const displayNome = document.getElementById('userNameDisplay');
             if (displayNome) {
                 if (nomeSalvato && nomeSalvato !== "undefined") {
@@ -592,38 +593,49 @@
         
             // --- 4. LOGICA DI ACCESSO LIMITATO (ZOOM) ---
             if (ruoloSalvato === 'zoom') {
-                // Nascondiamo l'Hero e la griglia video per l'ospite
-                const hero = document.getElementById('heroSection'); // Assicurati che l'ID sia corretto
-                const videos = document.getElementById('videoSection'); // Assicurati che l'ID sia corretto
+                // Nascondiamo l'Hero e la sezione video se presenti
+                const hero = document.getElementById('heroSection');
+                const videos = document.getElementById('videoSection');
                 if (hero) hero.classList.add('hidden');
                 if (videos) videos.classList.add('hidden');
         
-                // Inseriamo il messaggio e il tasto Zoom in un contenitore dedicato (es: mainContent o un div interno)
-                // Creiamo un div per il messaggio se non lo hai già
-                document.getElementById('categoriesContainer').innerHTML = `
-                    <div class="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-                        <div class="bg-blue-600/10 p-6 rounded-full mb-6">
-                            <i class="fas fa-video text-blue-500 text-4xl animate-pulse"></i>
+                // Svuotiamo il contenuto dei video e iniettiamo il tasto Zoom
+                // Usiamo categoriesContainer o mainContent in base a come è strutturato il tuo HTML
+                const targetContainer = document.getElementById('categoriesContainer') || mainContent;
+                
+                targetContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center min-h-[65vh] text-center px-4 bg-zinc-950/50 rounded-3xl border border-white/5 my-10">
+                        <div class="bg-blue-600/20 p-6 rounded-full mb-6 border border-blue-500/30">
+                            <i class="fas fa-video text-blue-500 text-5xl animate-pulse"></i>
                         </div>
-                        <h2 class="text-2xl font-bold text-white mb-2">Area Live Meeting</h2>
-                        <p class="text-zinc-400 mb-8 max-w-sm">Ciao ${nomeSalvato}, clicca il tasto qui sotto per collegarti direttamente alla sessione Zoom.</p>
+                        <h2 class="text-3xl font-bold text-white mb-2">Area Live Meeting</h2>
+                        <p class="text-zinc-400 mb-10 max-w-sm text-lg">Ciao ${nomeSalvato}, questa utenza è abilitata esclusivamente per il collegamento Zoom in diretta.</p>
                         
                         <a href="IL_TUO_LINK_ZOOM_QUI" target="_blank" 
-                           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-2xl transition-all hover:scale-105 shadow-lg shadow-blue-900/20 flex items-center gap-3">
+                           class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 px-12 rounded-2xl transition-all transform hover:scale-105 shadow-[0_0_25px_rgba(37,99,235,0.4)] flex items-center gap-4 text-xl">
                            <i class="fas fa-external-link-alt"></i>
                            ENTRA NELLA ZOOM ORA
                         </a>
+        
+                        <button onclick="logout()" class="mt-12 text-zinc-600 hover:text-white transition-colors underline text-sm tracking-widest">
+                            ESCI DAL PORTALE
+                        </button>
                     </div>
                 `;
                 
-                return; // BLOCCA TUTTO QUI: renderHero e renderVideos non verranno eseguiti
+                return; // IMPORTANTE: blocca tutto, non carica renderHero() e renderVideos()
             }
         
-            // 5. Se l'utente è ADMIN (ruolo !== 'zoom'), avvia i video normalmente
+            // --- 5. LOGICA ADMIN (ACCESSO TOTALE) ---
+            // Se torniamo come admin, assicuriamoci che l'Hero sia visibile
+            const hero = document.getElementById('heroSection');
+            const videos = document.getElementById('videoSection');
+            if (hero) hero.classList.remove('hidden');
+            if (videos) videos.classList.remove('hidden');
+        
             renderHero();
             renderVideos();
         }
-
         function switchSection(type) {
             const videoSection = document.getElementById('videoSection');
             const catalogSection = document.getElementById('catalogSection');
