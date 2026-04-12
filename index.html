@@ -76,6 +76,13 @@
                 loadApp();
             }
         };
+
+        function tornaSuSubito() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'instant' // 'instant' è meglio di 'smooth' qui, per dare l'idea di cambio pagina
+            });
+        }
         
     </script>
     
@@ -604,7 +611,9 @@
             renderVideos();
         }
 
-        function switchSection(type) {
+    function switchSection(type) {
+            window.scrollTo(0, 0);
+            
             const videoSection = document.getElementById('videoSection');
             const catalogSection = document.getElementById('catalogSection');
             const btnV = document.getElementById('tabVideo');
@@ -615,23 +624,30 @@
                 videoSection.classList.remove('hidden');
                 catalogSection.classList.add('hidden');
                 
-                // Applichiamo solo classi di stile, NON di dimensione
-                btnV.className = "rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase transition-all";
-                btnC.className = "rounded-full text-zinc-500 font-bold text-[9px] uppercase hover:text-white transition-all";
+                // Gestione stili TAB VIDEO (Attivo)
+                btnV.classList.add('bg-blue-600', 'text-white');
+                btnV.classList.remove('text-zinc-500');
+                
+                // Gestione stili TAB CATALOGHI (Inattivo)
+                btnC.classList.remove('bg-blue-600', 'text-white');
+                btnC.classList.add('text-zinc-500');
             } else {
                 videoSection.classList.add('hidden');
                 catalogSection.classList.remove('hidden');
                 
                 if (heroVideo) heroVideo.pause();
         
-                // Applichiamo solo classi di stile, NON di dimensione
-                btnC.className = "rounded-full bg-blue-600 text-white font-bold text-[9px] uppercase transition-all";
-                btnV.className = "rounded-full text-zinc-500 font-bold text-[9px] uppercase hover:text-white transition-all";
+                // Gestione stili TAB CATALOGHI (Attivo)
+                btnC.classList.add('bg-blue-600', 'text-white');
+                btnC.classList.remove('text-zinc-500');
+                
+                // Gestione stili TAB VIDEO (Inattivo)
+                btnV.classList.remove('bg-blue-600', 'text-white');
+                btnV.classList.add('text-zinc-500');
                 
                 renderCatalogs();
             }
         }
-
         function renderHero() {
             // 1. Definiamo e puliamo i link prima di usarli
             const heroVideoUrl = HERO_VIDEO.id.replace('www.dropbox.com', 'dl.dropboxusercontent.com').replace('dl=0', 'raw=1');
