@@ -357,26 +357,7 @@
 </div>
 
     <script>
-
-            const backToTopBtn = document.getElementById('backToTop');
-
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 300) { // Appare dopo 300px di scroll
-                        backToTopBtn.classList.remove('opacity-0', 'invisible');
-                        backToTopBtn.classList.add('opacity-100', 'visible');
-                    } else {
-                        backToTopBtn.classList.remove('opacity-100', 'visible');
-                        backToTopBtn.classList.add('opacity-0', 'invisible');
-                    }
-                });
-                
-                backToTopBtn.addEventListener('click', () => {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth' // Salita fluida
-                    });
-                });
-
+        
             document.getElementById('searchInput').addEventListener('input', (e) => {
         const term = e.target.value;
             // Se cerchi, ti riporto ai video
@@ -889,8 +870,5 @@
             </div>
         </div>
     </footer>
-       <button id="backToTop" class="fixed bottom-6 right-6 p-4 rounded-full bg-blue-600 text-white shadow-2xl shadow-blue-500/40 opacity-0 invisible transition-all duration-300 hover:bg-blue-700 hover:-translate-y-1 z-50">
-            <i class="fas fa-arrow-up"></i>
-</button> 
 </body>
 </html>
