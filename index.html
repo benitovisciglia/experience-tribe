@@ -358,8 +358,27 @@
 
     <script>
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const term = e.target.value;
+            const backToTopBtn = document.getElementById('backToTop');
+
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) { // Appare dopo 300px di scroll
+                        backToTopBtn.classList.remove('opacity-0', 'invisible');
+                        backToTopBtn.classList.add('opacity-100', 'visible');
+                    } else {
+                        backToTopBtn.classList.remove('opacity-100', 'visible');
+                        backToTopBtn.classList.add('opacity-0', 'invisible');
+                    }
+                });
+                
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' // Salita fluida
+                    });
+                });
+
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+        const term = e.target.value;
             // Se cerchi, ti riporto ai video
             if (term.length > 0) {
                 switchSection('video');
@@ -845,25 +864,6 @@
         function logout() { localStorage.removeItem('et_auth'); location.reload(); }
         document.getElementById('searchInput').addEventListener('input', (e) => renderVideos(e.target.value));
         if (localStorage.getItem('et_auth') === 'true') loadApp();
-
-        const backToTopBtn = document.getElementById('backToTop');
-
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) { // Appare dopo 300px di scroll
-                    backToTopBtn.classList.remove('opacity-0', 'invisible');
-                    backToTopBtn.classList.add('opacity-100', 'visible');
-                } else {
-                    backToTopBtn.classList.remove('opacity-100', 'visible');
-                    backToTopBtn.classList.add('opacity-0', 'invisible');
-                }
-            });
-            
-            backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth' // Salita fluida
-                });
-            });
         
     </script>
 
