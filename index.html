@@ -66,6 +66,12 @@
         });
 
         window.onload = function() {
+            if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        
+        window.scrollTo(0, 0);
+            
             if (localStorage.getItem('et_auth') === 'true') {
                 loadApp();
             }
